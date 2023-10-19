@@ -60785,3 +60785,4 @@ säurereduziert/A
 gewichtsreduziert/A
 schadstoffreduziert/A
 cholesterinreduziert/A
+Lennox-Gastaut-Syndrom/S
