@@ -239,14 +239,8 @@
         </dependency>
         <!-- grpc, used in BERT service -->
         <dependency>
-            <!-- fix compilation error:
-                cannot find symbol
-                [ERROR]   symbol:   class Generated
-                [ERROR]   location: package javax.annotation
-            see https://github.com/grpc/grpc-java/issues/3633, https://github.com/grpc/grpc-java/issues/4725 -->
-            <groupId>javax.annotation</groupId>
-            <artifactId>javax.annotation-api</artifactId>
-            <version>${javax.annotation.javax.annotation-api.version}</version>
+            <groupId>it.unimi.dsi</groupId>
+            <artifactId>fastutil-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>

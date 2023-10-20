@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,8 +19,7 @@
 package org.languagetool.tagging.de;
 
 import com.google.common.base.Suppliers;
-import gnu.trove.THashMap;
-import org.apache.commons.lang3.ArrayUtils;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
@@ -115,10 +114,12 @@ public class GermanTagger extends BaseTagger {
   }
 
   private static ExpansionInfos initExpansionInfos() {
-    Map<String, PrefixInfixVerb> verbInfos = new THashMap<>();
-    Map<String, NominalizedVerb> nominalizedVerbInfos = new THashMap<>();
-    Map<String, NominalizedGenitiveVerb> nominalizedGenVerbInfos = new THashMap<>();
-    List<String> spellingWords = new CachingWordListLoader().loadWords("de/hunspell/spelling.txt");
+    Map<String, PrefixInfixVerb> verbInfos = new Object2ObjectOpenHashMap<>();
+    Map<String, NominalizedVerb> nominalizedVerbInfos = new Object2ObjectOpenHashMap<>();
+    Map<String, NominalizedGenitiveVerb> nominalizedGenVerbInfos = new Object2ObjectOpenHashMap<>();
+    Map<String, List<AdjInfo>> adjInfos = new Object2ObjectOpenHashMap<>();
+    String filename = "de/hunspell/spelling.txt";
+    List<String> spellingWords = new CachingWordListLoader().loadWords(filename);
     for (String line : spellingWords) {
       if (!line.contains("_") || line.endsWith("_in")) {
         continue;
@@ -156,7 +157,7 @@ public class GermanTagger extends BaseTagger {
     }
     return result;
   }
-  
+
   //Removes the irrelevant part of dash-linked words (SSL-Zertifikat -> Zertifikat)
   private String sanitizeWord(String word) {
     String result = word;
@@ -397,7 +398,7 @@ public class GermanTagger extends BaseTagger {
                 } else {
                   word = compoundedWord.get(compoundedWord.size() - 1);
                 }
-                
+
                 List<TaggedWord> linkedTaggerTokens = addStem(getWordTagger().tag(word), wordStem); //Try to analyze the last part found
 
                 //Some words that are linked with a dash ('-') will be written in uppercase, even adjectives
@@ -407,11 +408,11 @@ public class GermanTagger extends BaseTagger {
                 }
 
                 word = wordOrig;
-                
+
                 boolean wordStartsUppercase = StringTools.startsWithUppercase(word);
                 if (linkedTaggerTokens.isEmpty()) {
                   /*
-                   *Verbs with certain prefixes (e. g. "ab", "ein", "zwischen") are always separable. 
+                   *Verbs with certain prefixes (e. g. "ab", "ein", "zwischen") are always separable.
                    *For better performance of rules, forms like 'einlädst' and 'lädst ein' should be tagged differently.
                    *einlädst [VER:2:SIN:PRÄ:NON:NEB] ('NEB' indicates that this form can only appear in a subordinate clause)
                    *lädst ein [VER:2:SIN:PRÄ:NON] + [ZUS]
