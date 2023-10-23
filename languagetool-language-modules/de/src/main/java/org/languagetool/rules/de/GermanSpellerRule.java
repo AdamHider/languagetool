@@ -1899,6 +1899,92 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Override
+  protected boolean ignorePotentiallyMisspelledWord(String word) throws IOException {
+    if (word.length() <= 5 || word.length() >= 40 || startsWithLowercase(word) || isProhibited(word)) {
+      // exclude weird/irrelevant cases (also the splitter can crash on VERY long words)
+      return false;
+    }
+    // Accept compounds with infix-s if both parts are known to the speller AND the first part
+    // ends with some specific chars, which indicate the need for the infix-s.
+    // Example: Müdigkeitsanzeichen = Müdigkeit + s + Anzeichen
+    // Deals with two-part compounds only and could be extended.
+    String wordNoDot = word.replaceFirst("\\.$", "");
+    List<String> parts = compoundTokenizer.tokenize(wordNoDot);
+    boolean nonStrictMode = false;
+    if (parts.size() == 1) {
+      parts = nonStrictCompoundTokenizer.tokenize(wordNoDot);
+      nonStrictMode = true;
+    }
+    String part1;
+    String part2;
+    boolean hasInfixS = false;
+    if (parts.size() == 2) {
+      part1 = parts.get(0);
+      part2 = parts.get(1);
+      if (nonStrictMode && part2.startsWith("s") && isMisspelled(part2) && !isMisspelled(uppercaseFirstChar(part2.substring(1)))) {
+        // nonStrictSplitter case, it splits like "[Priorität, sdings]", we fix that here to match the strict splitter case:
+        part1 = part1 + "s";
+        part2 = part2.substring(1);
+        hasInfixS = true;
+      }
+    } else if (parts.size() == 3 && parts.get(1).equals("s") && word.contains("-") && startsWithUppercase(parts.get(2))) {
+      // e.g. "Prioritäts-Dings" gets split like "Priorität", "s", "dings" -> treat it as if there was no "-":
+      part1 = parts.get(0) + "s";
+      part2 = lowercaseFirstChar(parts.get(2));
+      hasInfixS = true;
+    } else if (parts.size() == 3 && !word.contains("-")) {
+      // e.g. Hundefutterschachtel = Hunde, Futter, Schachtel
+      part1 = parts.get(0);
+      part2 = parts.get(1);
+      String compound1 = parts.get(0) + parts.get(1);
+      String compound1noS = compound1.replaceFirst("s$", "");
+      String compound2 = uppercaseFirstChar(parts.get(1)) + parts.get(2);
+      boolean compound1ok = false;
+      if (germanPrefixes.contains(part2)) {
+        compound1ok = 
+          (((!isMisspelled(part1) && !isMisspelled(part1+parts.get(2))) ||  // Weinkühlschrank gets split into Wein, kühl, schrank
+          ignorePotentiallyMisspelledWord(part1+parts.get(2))) &&
+          parts.get(2).length() >= 3) ||  //Vorraus --> Vor, rau, s
+          (!isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||   //Menschenrechtsdemos as 'rechts' is in germanPrefixes
+          !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS)); 
+      } else {
+        compound1ok =
+          !isMisspelled(compound1) || ignorePotentiallyMisspelledWord(compound1) ||
+          !isMisspelled(compound1noS) || ignorePotentiallyMisspelledWord(compound1noS);
+      }
+      boolean compound2ok =
+        !isMisspelled(compound2) || ignorePotentiallyMisspelledWord(compound2);
+      return compound1ok && compound2ok;
+    } else {
+      // more than three parts can be supported later
+      return false;
+    }
+    if (word.contains("-" + part2)) {
+      // don't accept e.g. "Implementierungs-pflicht"
+      return false;
+    }
+    // don't assume very short parts (like "Ei") are correct, these can easily be typos:
+    if ((hasInfixS || part1.endsWith("s")) && part1.length() >= 4 /* includes 's' */ && part2.length() >= 3 && startsWithLowercase(part2)) {
+      String part1noInfix = part1.substring(0, part1.length()-1);
+      String part2uc = uppercaseFirstChar(part2);
+      if ((part1.matches(".*(heit|keit|ion|ität|schaft|ung|tät)s") || wordsNeedingInfixS.contains(part1noInfix)) &&
+          isNoun(part2uc)) {
+        if (part1noInfix.matches("Action|Session|Champion|Jung|Wahrung") ||
+            part2uc.matches("First|Frist|Firsten|Fristen") ||  // too easy to mix up
+            part1.endsWith("schwungs") || part1.endsWith("sprungs") || isMisspelled(part1noInfix) || isMisspelled(part2uc)) {
+          return false;
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean isNoun(String part2uc) throws IOException {
+    return getTagger().tag(singletonList(part2uc)).stream().anyMatch(k -> k.hasPosTagStartingWith("SUB:"));
+  }
+
+  @Override
   protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
     List<String> suggestionsList = suggestions.stream()
       .map(SuggestedReplacement::getReplacement).collect(Collectors.toList());
