@@ -27477,6 +27477,158 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
+        <rulegroup id="COMILLAS_INCORRECTAS" name="Confusión comillas de apertura/apóstrofo" default="temp_off">
+            <short>Carácter incorrecto</short>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token><exception regexp="yes">[lnmtsd]'|[\(«“]</exception><exception postag="SENT_START"/></token>
+                        <token spacebefore="no">‘</token>
+                        <token spacebefore="no"/>
+                    </marker>
+                </pattern>
+                <message>El carácter de apertura de comillas simples no se usa como apóstrofo.</message>
+                <suggestion>\1’\3</suggestion>
+                <suggestion>\1'\3</suggestion>
+                <example correction="Sa’ūdiyyah|Sa'ūdiyyah">As-<marker>Sa‘ūdiyyah</marker>.</example>
+                <example correction="-’Arabiyyah|-'Arabiyyah">Al<marker>-‘Arabiyyah</marker>.</example>
+                <example>Los historiales clínicos (‘medical records’)</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token><exception regexp="yes">[lnmtsd]'|[\(«“]</exception><exception postag="SENT_START"/></token>
+                        <token spacebefore="no">‘</token>
+                    </marker>
+                </pattern>
+                <message>El carácter de apertura de comillas simples no se usa como apóstrofo.</message>
+                <suggestion>\1’</suggestion>
+                <suggestion>\1'</suggestion>
+                <example correction="Sa’|Sa'">As-<marker>Sa‘</marker>ūdiyyah.</example>
+                <example correction="-’|-'">Al<marker>-‘</marker>Arabiyyah.</example>
+                <example>Los historiales clínicos (‘medical records’)</example>
+            </rule>
+        </rulegroup>
+        <rule id="DOBLE_ESPACIO" name="doble espacio">
+            <regexp type="exact" mark="1">[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]([&nbsp; ]{2})[A-Za-záéíóúÁÉÍÓÚñÑ\p{P}]</regexp>
+            <!-- TODO: add "nnbsp" -->
+            <message>Sobra un espacio.</message>
+            <suggestion> </suggestion>
+            <example correction=" ">Esto es una<marker>  </marker>frase con dos espacios.</example>
+            <example correction=" ">Esto es una frase,<marker>  </marker>que tiene dos espacios.</example>
+        </rule>
+        <rulegroup id="ABREVIATURA_NUMERO" name="abreviatura de número">
+            <rule>
+                <pattern>
+                    <token regexp="yes">n.?°|nº</token>
+                </pattern>
+                <message>Abreviatura de 'número'.</message>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>.º</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>úm.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
+                <example correction="n.º|núm.|nro.">Diario de la República <marker>n°</marker> 18</example>
+                <example correction="n.º|núm.|nro.">Diario de la República <marker>nº</marker> 18</example>
+                <example>n.º</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(n.?°|nº)\d+</token>
+                </pattern>
+                <message>Abreviatura de 'número'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(n.?°|nº)(\d)" regexp_replace="n.º $2" case_conversion="preserve"/></suggestion>
+                <example correction="n.º 18">Diario de la República <marker>n°18</marker>.</example>
+                <example correction="n.º 18">Diario de la República <marker>nº18</marker>.</example>
+                <example>n.º</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">num|núm</token>
+                    </marker>
+                    <token><exception>.</exception></token>
+                </pattern>
+                <message>Abreviatura de 'número'.</message>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>úm.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>.º</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
+                <example correction="núm.|n.º|nro.">Diario de la República <marker>num</marker> 18.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>num</token>
+                        <token>.</token>
+                    </marker>
+                </pattern>
+                <message>Abreviatura de 'número'.</message>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>úm.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>.º</suggestion>
+                <suggestion><match no="1" regexp_match="^.*$" regexp_replace="n" case_conversion="preserve"/>ro.</suggestion>
+                <example correction="núm.|n.º|nro.">Diario de la República <marker>num.</marker> 18.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ABREVIATURA_PAGINA" name="abreviatura de página">
+            <rule>
+                <pattern>
+                    <token>pag</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de "página".</message>
+                <suggestion>pág.</suggestion>
+                <example correction="pág."> Está en la <marker>pag.</marker> 4.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>pag</token>
+                    </marker>
+                    <token><exception>.</exception></token>
+                </pattern>
+                <message>Abreviatura de "página".</message>
+                <suggestion>pág.</suggestion>
+                <example correction="pág."> Está en la <marker>pag</marker> 4.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ABREVIATURA_TELEFONO" name="abreviatura de teléfono">
+            <antipattern>
+                <token>tel</token>
+                <token min="0">-</token>
+                <token>aviv</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">tel|teléf|tfno</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">tel|teléf|tfno|telf|tlf</token>
+                    <token regexp="yes">[\.:]</token>
+                </pattern>
+                <message>Abreviatura de teléfono.</message>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>el.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>eléf.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>fno.</suggestion>
+                <example correction="tel.|teléf.|tfno.">Llama al <marker>telf.</marker> 666666.</example>
+                <example correction="Tel.|Teléf.|Tfno."><marker>TLF:</marker> 666666.</example>
+                <example>Llama al tel. 44444444.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">tel|teléf|tfno|telf|tlf</token>
+                    </marker>
+                    <token><exception regexp="yes">[\.:]</exception></token>
+                </pattern>
+                <message>Abreviatura de teléfono.</message>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>el.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>eléf.</suggestion>
+                <suggestion><match no="1" regexp_match="^.*" regexp_replace="t" case_conversion="preserve"/>fno.</suggestion>
+                <example correction="tel.|teléf.|tfno.">Llama al <marker>telf</marker> 666666.</example>
+                <example correction="Tel.|Teléf.|Tfno."><marker>TLF</marker> 666666.</example>
+                <example>Llama al tfno. 44444444.</example>
+                <example>Londres, Nueva York, Tel Aviv y Ámsterdam.</example>
+            </rule>
+        </rulegroup>
         <rule id="CUATRO_PUNTOS" name="más de tres puntos suspensivos">
             <antipattern>
                 <token>.</token>
