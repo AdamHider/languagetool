@@ -2857,7 +2857,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Ipads": return topMatch("iPads");
       case "ipad": return topMatch("iPad");
       case "ipads": return topMatch("iPads");
-      case "Adverben": return topMatch("Adverbien");
       case "letzlich": return topMatch("letztlich");
       case "Letzlich": return topMatch("Letztlich");
       case "gegebenfalls": return topMatch("gegebenenfalls");
