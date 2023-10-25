@@ -58,6 +58,58 @@ public class GermanSpellerRuleTest {
   //
   
   @Test
+  public void testIgnoreMisspelledWord() throws IOException {
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeber"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Arbeitsgeberverhandlungen"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Rechtlage"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Rechtextremismus"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Ausleihstelle"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Vorraus")); 
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Weinkühlschrank")); 
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Weinskühlschrank")); 
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Weinsskühlschrank"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Hundefutterschachtel")); 
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstest"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Nachuntersuchungstest"));  // needs extension in ExtendedGermanWordSplitter.extendedList (as of 2023-10-02)
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände"));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Robustheitsabstände."));  // triggers use of nonStrictSplitter (2023-09-18, might change...)
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Absenkungsvorgaben"));  // triggers use of nonStrictSplitter (2023-09-26, might change...)
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritätsdings"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritätsdings."));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Haltungsschäden"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings"));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Prioritäts-Dings."));
+    assertTrue(rule.ignorePotentiallyMisspelledWord("Haltungs-Schäden"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("haltungschäden"));  // lowercase
+    assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-schäden"));  // lowercase
+    assertFalse(rule.ignorePotentiallyMisspelledWord("haltungs-Schäden"));  // lowercase
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungschäden"));  // missing infix-s
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltung-Schäden"));  // missing infix-s
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Hultungsschäden"));  // misspelling in first word
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Hultungs-Schäden"));  // misspelling in first word
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungsscheden"));  // misspelling in second part
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungs-Scheden"));  // misspelling in second part
+    assertFalse(rule.ignorePotentiallyMisspelledWord("HaltungsSchäden"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungsei"));  // second part too short
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Haltungs-Ei"));  // second part too short
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsnach"));  // second part not a noun
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsgegangen."));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungsversuchstestnachweis"));  // 4 or more parts not yet supported
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistung"));  // not a compound
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Leistungs"));  // not a compound
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Anschauungswiese"));  // from prohibit.txt
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Fakultätsaal"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Implementierungs-pflicht"));
+    // special cases:
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Actionsspaß"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Jungsnamen"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Aufschwungsphase"));
+    assertFalse(rule.ignorePotentiallyMisspelledWord("Absprungsrate"));
+  }
+
+  @Test
   public void testArtig() throws IOException {
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     accept("zigarrenartig", rule);
