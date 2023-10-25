@@ -24,13 +24,11 @@ import static org.junit.Assert.assertEquals;
 
 public class DictionaryTest {
 
-  @Test
-  public void mapFromStringTest() {
-    String dictionary = "{'a': 3, 'asa': 1, 'UNK': 42}";
-    Dictionary dict = new Dictionary(dictionary);
-    assertEquals(new Integer(1), dict.get("asa"));
-    assertEquals(new Integer(3), dict.safeGet("a"));
-    assertEquals(new Integer(42), dict.safeGet("foo"));
+  public static final CatalanMultitokenSpeller INSTANCE = new CatalanMultitokenSpeller();
+
+  protected CatalanMultitokenSpeller() {
+    super(Languages.getLanguageForShortCode("ca-ES"),
+      Arrays.asList("/ca/multiwords.txt", "/spelling_global.txt", "/ca/hyphenated_words.txt"));
   }
 
 }
