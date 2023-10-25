@@ -8003,7 +8003,6 @@ Søren Sveistrup
 Tereza Cervenová
 Thierry Bolloré
 Théodore Géricault
-Victor Orbán
 Víctor Dalmau
 Vítor Constâncio
 Yeriyoli Pérez
@@ -10028,3 +10027,9 @@ Gaspar Cassadó
 Billy Wilder
 Robert Dean
 Tim Hill
+Google Labs
+Google Play Music
+Mad Max
+Pac-Man
+Sue Ellen Ewing
+Sue Ellen
