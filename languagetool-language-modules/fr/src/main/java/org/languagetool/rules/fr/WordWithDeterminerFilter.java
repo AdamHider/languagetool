@@ -18,6 +18,14 @@
  */
 package org.languagetool.rules.fr;
 
+import org.languagetool.*;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.synthesis.FrenchSynthesizer;
+import org.languagetool.tools.StringTools;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,15 +64,13 @@ public class WordWithDeterminerFilter extends RuleFilter {
   private static final List<String> exceptionsDeterminer =
     Arrays.asList("bels", "fols", "mols", "nouvels");
 
+  private static final String categoryToCheck = "CAT_ELISION";
+  private static final List<String> rulesToCheck = Arrays.asList("CET_CE", "CE_CET", "MA_VOYELLE", "MON_NFS", "VIEUX");
+
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) throws IOException {  
-    
-//    if (match.getSentence().getText().contains("plein Londres")) {
-//      int ii=0;
-//      ii++;
-//    }
-
+      AnalyzedTokenReadings[] patternTokens) throws IOException {
+    JLanguageTool lt = Languages.getLanguageForShortCode("fr").createDefaultJLanguageTool();
     String wordFrom = getRequired("wordFrom", arguments);
     String determinerFrom = getRequired("determinerFrom", arguments);
     int posWord = 0;
@@ -160,8 +166,7 @@ public class WordWithDeterminerFilter extends RuleFilter {
             String r = determiner + " " + word;
             r = r.replace("' ", "'");
             // remove suggestions with errors
-            List<RuleMatch> matches = lt.check(r);
-            if (matches.size() == 0 && !replacements.contains(r)) {
+            if (suggestionHasNoErrors(r, lt) && !replacements.contains(r)) {
               if (r.endsWith(atWord.getToken())) {
                 replacements.add(0, r);
               } else {
@@ -172,7 +177,6 @@ public class WordWithDeterminerFilter extends RuleFilter {
         }
       }
     }
-
     String message = match.getMessage();
     RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
         message, match.getShortMessage());
@@ -183,6 +187,19 @@ public class WordWithDeterminerFilter extends RuleFilter {
       ruleMatch.setSuggestedReplacements(replacements);
     }
     return ruleMatch;
+  }
+
+  private boolean suggestionHasNoErrors(String newSuggestion, JLanguageTool lt) throws IOException {
+    AnalyzedSentence analyzedSentence = lt.analyzeText(newSuggestion).get(0);
+    for (Rule r: lt.getAllActiveRules()) {
+      if (r.getCategory().getId().toString().equals(categoryToCheck) || rulesToCheck.contains(r.getId())) {
+        RuleMatch matches[] = r.match(analyzedSentence);
+        if (matches.length > 0) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   private AnalyzedToken getAnalyzedToken(AnalyzedTokenReadings aToken, Pattern pattern) {
