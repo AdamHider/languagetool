@@ -67,4 +67,10 @@ public class CheckCaseRule  extends AbstractCheckCaseRule {
     return NL_LOCALE;
   }
 
+  @Override
+  public boolean ignoreShortUppercaseWords() {
+    //does not override boolean
+    return false;
+  }
+
 }
