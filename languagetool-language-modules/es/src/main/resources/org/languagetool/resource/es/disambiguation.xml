@@ -1581,6 +1581,31 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="N.*"/>
         </rule>
     </rulegroup>
+    <rule id="lleno_no_nombre" name="lleno, llena (no nombre)">
+        <!--<antipattern>
+            <unify>
+                <feature id="genero"></feature>
+                <feature id="numero"></feature>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes">lleno|llena</token>
+            </unify>
+        </antipattern>-->
+        <pattern>
+            <marker>
+                <token postag="AQ.*" postag_regexp="yes" inflected="yes">lleno</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NC.*"/>
+    </rule>
+    <rule id="este_no_nombre" name="este (no nombre)">
+        <pattern>
+            <marker>
+                <token postag="DD0MS0">este</token>
+            </marker>
+            <token postag="NCMS000"/>
+        </pattern>
+        <disambig action="remove" postag="NCMS000"/>
+    </rule>
     <rule id="LEE_NOUN" name="lee + nombre">
         <pattern>
             <token>lee</token>
