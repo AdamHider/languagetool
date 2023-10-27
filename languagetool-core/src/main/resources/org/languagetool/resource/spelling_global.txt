@@ -11449,3 +11449,8 @@ Robert Owen
 Milovan Đilas
 Thomas Alva Edison
 Thomas Edison
+Yoshua Bengio
+Geoffrey Hinton
+Yann LeCun
+Ilya Sutskever
+Andrew Ng
