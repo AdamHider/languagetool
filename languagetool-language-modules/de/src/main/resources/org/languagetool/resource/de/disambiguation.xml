@@ -2077,6 +2077,147 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
+
+    <rule name="mords mäßig" id="IGNORE_MORDS_MAESSIG">
+        <pattern>
+            <token case_sensitive="yes">mords</token>
+            <token postag="ADJ.*" postag_regexp="yes" spacebefore="yes"/>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Morgenstund hat Gold im Mund" id="IGNORE_MORGENSTUND">
+        <pattern case_sensitive="yes">
+            <token>Morgenstund</token>
+            <token>hat</token>
+            <token>Gold</token>
+            <token>im</token>
+            <token>Mund</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="bei Hempels unterm Sofa" id="IGNORE_HEMPELS">
+        <pattern case_sensitive="yes">
+            <token>bei</token>
+            <token>Hempels</token>
+            <token>unterm</token>
+            <token>Sofa</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rulegroup name="Ofenbach Duo" id="OFENBACH"><!--Ofenbach ist ein französisches House-Duo aus Paris.-->
+        <rule><!--1-->
+            <pattern>
+                <token regexp="yes" skip="-1">Ofenbachs?</token>
+                <token regexp="yes">Duo|Musik.*|französisch(e[smnr]?)?|House.*|Paris|DJs?|Produzent(en)?|César|Laurent|Rummel|Dorian|Lauduique|Songs?|Be|Elektropop.*|Remix(er)?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!--2-->
+            <pattern>
+                <token skip="-1" regexp="yes">Duo|Musik.*|französisch(e[smnr]?)?|House.*|Paris|DJs?|Produzent(en)?|César|Laurent|Rummel|Dorian|Lauduique|Songs?|Be|Elektropop.*|Remix(er)?</token>
+                <token regexp="yes">Ofenbachs?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
+    <rule name="Acoustic (engl.)" id="IGNORE_ACOUSTIC"><!--Das sogenannte Acoustic Surface sorgt für klaren Sound.-->
+        <pattern case_sensitive="yes">
+            <token>Acoustic</token>
+            <token postag="UNKNOWN" regexp="yes">[A-Z].*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Acoustic (engl.) 2" id="IGNORE_ACOUSTIC2"><!--Wir nutzen eine Acoustic Software dafür.-->
+        <pattern case_sensitive="yes">
+            <token>Acoustic</token>
+            <token regexp="yes">Grand|Groove|Party|(Software|Combo|Tour|Festival|Album)s?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Acoustic (engl.) 3" id="IGNORE_ACOUSTIC3"><!--Für die musikalische Unterhaltung sorgt Modern Acoustic Four.-->
+        <pattern case_sensitive="yes">
+            <token postag="UNKNOWN" regexp="yes">[A-Z].*</token>
+            <token>Acoustic</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Acoustic (engl.) 3" id="IGNORE_ACOUSTIC4"><!--Für die musikalische Unterhaltung sorgt die Band Acoustic Four.-->
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Bands?|Impact</token>
+            <token>Acoustic</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="des Machens" id="IGNORE_DES_MACHENS"><!--Das ist alles eine Frage des (simplen) Machens.-->
+        <pattern case_sensitive="yes">
+            <token skip="1">des</token>
+            <token>Machens</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Telecommunications" id="TELECOMMUNICATIONS">
+        <pattern>
+            <token regexp="yes">International|Personal|FlexDSL</token>
+            <token regexp="yes">Telecommunications?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="x-Sitzer" id="X-SITZER">
+        <pattern>
+            <token regexp="yes">\d+-Sitzer[ns]?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Herr Müller senior" id="NAME_SENIOR">
+        <pattern>
+            <token postag="EIG.*" postag_regexp="yes"/>
+            <token case_sensitive="yes">senior</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Telecommunications_2" id="TELECOMMUNICATIONS_2">
+        <pattern>
+            <token regexp="yes">Telecommunications?</token>
+            <token min="0" regexp="yes">compan(y|ies)|standardization|services?|development|Orbiters?|AG</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Chai latte" id="CHAI_LATTE">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Chai|Fior</token>
+            <token min="0">di</token>
+            <token>latte</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Café crème" id="CAFÉ_CRÈME">
+        <pattern>
+            <token regexp="yes">Caff?[èéêe]</token>
+            <token min="0">con</token>
+            <token regexp="yes">crème|mélange|cortado|cheio|leche|latte|lungo|americano</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Espresso doppio" id="ESPRESSO_DOPPIO">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Espresso|Latte</token>
+            <token>doppio</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
         <pattern><!-- chrome://, ftp://, file:// -->
             <token regexp="yes">[a-z\-]+</token>
