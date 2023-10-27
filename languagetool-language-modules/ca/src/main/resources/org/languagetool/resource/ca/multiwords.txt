@@ -1,5 +1,18 @@
 #Catalan multiwords file used for chunking
 #separatorRegExp=[\t;]
+Javier Sádaba;NPMSSP0
+Nova York;NPFSG00
+Caja Castilla-La Mancha;NPFSO00
+Josep Maria Jaumà;NPMSSP0
+Lluís Maria Todó;NPMSSP0
+Josep Maria Junoy;NPMSSP0
+Trias de Bes;NPCNSP0
+Saint-Didier;NPMSG00
+Notre-Dame;NPCSG00
+Santa Maria;NPFSSP0
+Editorial Barcanova;NPFSO00
+Bel Olid;NPFSSP0
+Vicent Blasco Ibáñez;NPMSSP0
 Jon Sindreu;NPMSSP0
 Anna Kúrnikova;NPFSSP0
 Maria Xaràpova;NPFSSP0
