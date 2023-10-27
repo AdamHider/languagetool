@@ -167,7 +167,7 @@
         <guava.version>30.1-jre</guava.version>
         <jackson.version>2.13.2.1</jackson.version>
         <languagetool-ga-dicts.version>0.02</languagetool-ga-dicts.version>
-        <lombok.version>1.18.22</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
         <lucene.version>5.5.5</lucene.version>
         <morfologik.version>2.1.9</morfologik.version>
         <morfologik-ukrainian-lt.version>5.9.0</morfologik-ukrainian-lt.version>
