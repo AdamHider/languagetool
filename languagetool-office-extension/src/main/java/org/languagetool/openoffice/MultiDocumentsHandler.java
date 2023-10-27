@@ -194,8 +194,9 @@ public class MultiDocumentsHandler {
         langForShortName = getLanguage(locale);
         isSameLanguage = langForShortName.equals(docLanguage) && lt != null;
       }
-      if (!isSameLanguage || recheck) {
-        boolean initDocs = (lt == null || recheck);
+      if (!isSameLanguage || recheck || checkImpressDocument) {
+        boolean initDocs = (lt == null || recheck || checkImpressDocument);
+        checkImpressDocument = false;
         if (!isSameLanguage) {
           docLanguage = langForShortName;
           this.locale = locale;

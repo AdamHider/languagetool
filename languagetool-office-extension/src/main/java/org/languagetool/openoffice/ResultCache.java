@@ -40,7 +40,7 @@ import com.sun.star.linguistic2.SingleProofreadingError;
 class ResultCache implements Serializable {
 
   private static final long serialVersionUID = 2L;
-  private Map<Integer, CacheEntry> entries;
+  private final Map<Integer, SerialCacheEntry> entries = new HashMap<Integer, SerialCacheEntry>();
   
   private ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
   
@@ -70,10 +70,9 @@ class ResultCache implements Serializable {
   void replace(ResultCache cache) {
     rwLock.writeLock().lock();
     try {
-      if (cache == null || cache.entries == null) {
-        entries = new HashMap<>();
-      } else {
-        entries = cache.getMap();
+      entries.clear();
+      if (cache != null && !cache.entries.isEmpty()) {
+        entries.putAll(cache.getMap());
       }
     } finally {
       rwLock.writeLock().unlock();
@@ -116,12 +115,9 @@ class ResultCache implements Serializable {
     }
     rwLock.writeLock().lock();
     try {
-      for (int i = firstParagraph; i < lastParagraph - shift - 1; i++) {
-        entries.remove(i);
-      }
-      Map<Integer, CacheEntry> tmpEntries = entries;
-      entries = new HashMap<>();
-      if (shift > 0) {
+      Map<Integer, SerialCacheEntry> tmpEntries = new HashMap<Integer, SerialCacheEntry>(entries);
+      entries.clear();
+      if (shift < 0) {
         for (int i : tmpEntries.keySet()) {
           if (i >= firstParagraph) {
             entries.put(i + shift, tmpEntries.get(i));
@@ -196,10 +192,108 @@ class ResultCache implements Serializable {
   /**
    * get cache entry of paragraph
    */
+  int getNumberofNotNullEntries() {
+    rwLock.readLock().lock();
+    try {
+      int num = 0;
+      for (int n : entries.keySet()) {
+        if (entries.get(n) != null) {
+          num++;
+        }
+      }
+      return num;
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * get cache entry of paragraph
+   */
+  int getNumberofErrors() {
+    rwLock.readLock().lock();
+    try {
+      int num = 0;
+      for (int n : entries.keySet()) {
+        if (entries.get(n) != null) {
+          num += entries.get(n).errorArray.length;
+        }
+      }
+      return num;
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * get cache entry of paragraph
+   */
   CacheEntry getCacheEntry(int numberOfParagraph) {
     rwLock.readLock().lock();
     try {
-    return entries.get(numberOfParagraph);
+      SerialCacheEntry entry = entries.get(numberOfParagraph);
+      return entry == null ? null : new CacheEntry(entry);
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * get cache entry of paragraph without read lock 
+   */
+  CacheEntry getUnsafeCacheEntry(int numberOfParagraph) {
+    SerialCacheEntry entry = entries.get(numberOfParagraph);
+    return entry == null ? null : new CacheEntry(entry);
+  }
+
+  /**
+   * cache has an Error or has reached a limit of entries
+   */
+  boolean hasAnError(int limit) {
+    rwLock.readLock().lock();
+    try {
+      if (entries.size() >= limit) {
+        return true;
+      }
+      Set<Integer> paras = new HashSet<>(entries.keySet());
+      for (int n : paras) {
+        if (entries.get(n).errorArray.length > 0) {
+          return true;
+        }
+      }
+      return false;
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * get cache entry of paragraph
+   */
+  SerialCacheEntry getSerialCacheEntry(int numberOfParagraph) {
+    rwLock.readLock().lock();
+    try {
+      return entries.get(numberOfParagraph);
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+
+  /**
+   * get Proofreading errors of on paragraph from cache
+   * get an error array, if a prargrapherray exists
+   */
+  SingleProofreadingError[] getSafeMatches(int numberOfParagraph) {
+    rwLock.readLock().lock();
+    try {
+      SerialCacheEntry entry = entries.get(numberOfParagraph);
+      if (entry == null) {
+        return null;
+      }
+      if (entry.errorArray == null) {
+        return (new SingleProofreadingError[0]);
+      }
+      return entry.getErrorArray();
     } finally {
       rwLock.readLock().unlock();
     }
