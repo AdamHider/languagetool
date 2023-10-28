@@ -60832,6 +60832,7 @@ orthographisch/A
 periphrastisch/A
 perlokutiv/A
 plurizentrisch/A
+Leapfrogging
 satzgliedwertig/A
 semasiologisch/A
 transphrastisch/A
