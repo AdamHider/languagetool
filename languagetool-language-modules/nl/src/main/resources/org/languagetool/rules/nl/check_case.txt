@@ -453,23 +453,37 @@ Van Dale
 Dikke Van Dale
 middeleeuwen
 vo=Voortgezet onderwijs is zonder hoofdletters.
+voortgezet onderwijs
 overheid
+harte gefeliciteerd
 feng shui
 pc=De afkorting van personal computer hoort zonder hoofdletters.
+wc=Het toilet schrijf je zonder hoofdletters.
 apk
 ozb
+ufo
+pd=De plaats delict is zonder hoofdletter, de afkorting ook.
 islam
+hsl
+jr=Als je junior afkort is het geen naam, en daarom heeft het geen hoofdletter.
 ov
+medewerker (M/V)
 bso
+open source
+mdf
+earl grey
 hrm
 Amerikaans
 Amerikaanse
 havo=Schooltypen hebben geen hoofdletters
 vwo=Schooltypen hebben geen hoofdletters
+mbo=Schooltypen hebben geen hoofdletters
 vmbo=Schooltypen hebben geen hoofdletters
 mavo=Schooltypen hebben geen hoofdletters
 lts=Schooltypen hebben geen hoofdletters
+hts=schooltypen hebben geen hoofdletters.
 pdf=Hoofdletters zijn ongebruikelijk bij bestandstypen.
+allium
 png
 pk
 geen christen
@@ -498,6 +512,8 @@ De Telegraaf
 katholieke
 katholiek
 gsm
+sms
+pgb=Het persoonsgebonden budget mag zonder hoofdletters.
 zzp
 zzp'ers
 zzp'er
@@ -512,16 +528,21 @@ lcd
 bbl
 bbl-opleiding
 hr-manager
+hr-afdeling
 hr-team
 mkb'er
+naw-gegevens
 hbo-opleiding
 hr-medewerker
+high tea
 csv-bestand
 btw-aangifte
+aloë vera=Plantensoorten hebben geen hoofdletter.
 cv-ketel
 sociale media
 alv
 het ov
+a tot z
 SnowWorld
 KvK
 API
