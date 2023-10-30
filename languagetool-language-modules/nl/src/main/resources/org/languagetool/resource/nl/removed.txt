@@ -91813,3 +91813,4 @@ zwin-gebied	zwin-gebied	ZNW:EKV:HET
 Zwinlandschap	Zwinlandschap	ZNW:EKV
 zwitserland	zwitserland	ZNW:MRV:DE_
 Zwolle	Zwolle	ENM:PER:LST:NIX
+midden-oosten	midden-oosten	ZNW:MRV:DE_
