@@ -50,6 +50,19 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("leser", "eine Person, die liest", "leder", "aus Tierhaut gewonnenes Material"),
+          new Pair("panel", "ausgewählte Personengruppe", "paneel", "Platte für Wand- und Deckenverkleidungen"),
+          new Pair("nabe", "Mittelteil eines Rades", "narbe", "verheilende Wunde"),
+          new Pair("first", "höchste Kante an einem geneigten Dach", "frist", "spätester Zeitpunkt"),
+          new Pair("kisten", "Behälter", "kosten", "Ausgaben"),
+          new Pair("koma", "Zustand tiefer Bewusstlosigkeit", "komma", "Satzzeichen"),
+          new Pair("korn", "Getreide sowie dessen Frucht", "kron", "Vorsilbe z.B. in 'Kronkorken'"),
+          new Pair("bauten", "Form von 'Bau' (Bauwerk, Haus, ...)", "beuten", "Form von 'Beute'"),
+          new Pair("file", "engl. 'Datei'", "filet", "ein Stück Fleisch oder Fisch"),
+          new Pair("zecke", "blutsaugender Parasit", "zwecke", "Dativ von 'Zweck' (Ziel)"),
+          new Pair("frucht", "Teil einer Pflanze; Obst", "furcht", "Angst"),
+          new Pair("rate", "Verhältnis zwischen zwei Größen", "ratte", "Nagetier"),
+          new Pair("posten", "Arbeitsplatz, Wachposten", "posen", "Pose: betonte Körperhaltung"),
           new Pair("himmel", "Bereich über der Erde", "hummel", "Insekt"),
           new Pair("server", "Computer", "servier", "zu 'servieren'"),
           new Pair("ziege", "Tier", "ziegel", "Ziegelstein"),
