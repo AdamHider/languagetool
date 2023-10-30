@@ -1431,6 +1431,102 @@ class CaseRuleAntiPatterns {
       // Hashtags
       token("#"),
       new PatternTokenBuilder().tokenRegex("[A-Z].*").setIsWhiteSpaceBefore(false).build()
+    ),
+    Arrays.asList(
+      // Jetzt, wo Protestierende und Politiker sich streiten
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*NEU.*ADJ|(ADJ|PA[12]).*SIN.*NEU.*|UNKNOWN").csTokenRegex("(?!(Die|Diese|Alle|Eine|Jene|[DMSK]eine|Andere|Eure|Unse?re|Sonstige|Einige|Manche|Ohne|Welche|Viele|Solche))[A-ZÄÖÜ].+e").build(),
+      csRegex("und|oder|&"),
+      posRegex("SUB.*NOM.*PLU.*(MAS|FEM|NEU|NOG)")
+    ),
+    Arrays.asList(
+      // Hier ist Text. (Und dann schreibe ich etwas in Klammern.) Nach der Klammer möchte LT klein weiterschreiben.
+      csToken("."),
+      csToken(")"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // Wenn Sie Strg+Umschalt+I drücken
+      csRegex("Strg|STRG|Alt|ALT"),
+      csRegex("und|&|oder|\\+"),
+      csToken("Umschalt")
+    ),
+    Arrays.asList(
+      // Wenn Sie Strg+Umschalt+I drücken
+      csToken("Umschalt"),
+      csRegex("und|&|oder|\\+")
+    ),
+    Arrays.asList(
+      csRegex("[Ii]m"),
+      csRegex("Inneren|Äu(ss|ß)eren")
+    ),
+    Arrays.asList(
+      // denke aber, dass die das machen werden.
+      csRegex("ob|dass|weswegen|damit|sofern|wie|wann|wo|wozu|warum"),
+      csRegex("wir|[Ss]ie|ich|er|die|der|es|du|ihr"),
+      csToken("das"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
+      posRegex("KON.*"),
+      csRegex("wir|[Ss]ie|ich|er|die|der|es|du|ihr"),
+      csToken("das"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
+      csRegex("ob|dass|weswegen|damit|sofern|wie|wann|wo|wozu|warum"),
+      posRegex("EIG.*|UNKNOWN"),
+      csToken("das"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
+      posRegex("KON.*"),
+      posRegex("EIG.*|UNKNOWN"),
+      csToken("das"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
+      // Filme drehen muss mir Spaß machen, und das machen Organisation, Finanzierung, Logistik nicht, deswegen sind meine Filme nicht aufwändig.
+      csRegex("und|oder|&"),
+      csToken("das"),
+      posRegex("VER:INF.*"),
+      posRegex("SUB.*")
+    ),
+    Arrays.asList(
+      // Majid ergänzte: ”Vorläufigen Analysen der Terrakottaröhren aus Ardais liegen ...
+      csToken(":"),
+      csRegex("[\"”„»«]"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // "gibt ja auch viele Nutzer, die sich das wünschen"
+      csRegex("die|welche"),
+      csToken("sich"),
+      csToken("das"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
+      csRegex("Bolivarische[mnrs]?"),
+      csRegex("Republik(en)?|Verfassung(en)?|Revolution(en)?")
+    ),
+    Arrays.asList(
+      csRegex("Harmonisierte[mnr]?"),
+      csRegex("Verbraucherpreisindex(e[sn]?)?")
+    ),
+    Arrays.asList(
+      csRegex("Gro(ss|ß)e[n]?"),
+      csRegex("Koalition(en?)?")
+    ),
+    Arrays.asList(
+      csToken("Oval"),
+      csRegex("Offices?")
+    ),
+    Arrays.asList(
+      // "Er studierte an der Hebräischen Universität Jerusalem."
+      csRegex("Hebräischen?"),
+      csRegex("Universität|Bibel")
+    ),
+    Arrays.asList(
+      csRegex("[A-ZÄÖÜ].+stereotypen?")
     )
   );
 }
