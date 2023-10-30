@@ -326,6 +326,8 @@ abacterianas
 abacteriano
 abacterianos
 acid
+adicionalidad
+adicionalidades
 afro-abudabí
 afro-abudabíes
 afro-abudabís
@@ -21780,6 +21782,10 @@ kirguís
 kiribatí
 kiribatíes
 kiribatís
+laboradicta
+laboradictas
+laboradicto
+laboradictos
 lampedusiana
 lampedusianas
 lampedusiano
@@ -32803,8 +32809,14 @@ serbozambiana
 serbozambianas
 serbozambiano
 serbozambianos
+sexoadicta
+sexoadictas
+sexoadicto
+sexoadictos
 shampoo
 shampoos
+sinhogar
+sinhogares
 sobrecapacidad
 sobrecapacidades
 sobrecosto
@@ -34758,6 +34770,10 @@ tetrapartidismo
 tetrapartidismos
 tetrapartito
 tetrapartitos
+trabajoadicta
+trabajoadictas
+trabajoadicto
+trabajoadictos
 traductología
 traductologías
 trascámara
