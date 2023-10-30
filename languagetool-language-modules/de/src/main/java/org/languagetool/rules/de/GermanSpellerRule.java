@@ -3223,6 +3223,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Aquaplanning": return topMatch("Aquaplaning");
       case "Aquaplannings": return topMatch("Aquaplanings");
       case "Kibbutz": return topMatch("Kibbuz");
+      case "Strebergarten": return topMatch("Schrebergarten");
     }
     return Collections.emptyList();
   }
