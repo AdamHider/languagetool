@@ -67,6 +67,23 @@ public class JLanguageToolTest {
   @Test
   public void testMultitokenSpeller() throws IOException {
     Language lang = new Catalan();
+    assertEquals("[Nikolai Rimski-Kórsakov]", lang.getMultitokenSpeller().getSuggestions("Nicolai Rimski-Kórsakov").toString());
+    assertEquals("[Rimski-Kórsakov]", lang.getMultitokenSpeller().getSuggestions("Rimsky-Korsakov").toString());
+    assertEquals("[Johann Sebastian Bach]", lang.getMultitokenSpeller().getSuggestions("Johan Sebastián Bach").toString());
+    assertEquals("[Johann Sebastian Bach]", lang.getMultitokenSpeller().getSuggestions("Johan Sebastián Bach").toString());
+    assertEquals("[Johann Sebastian Bach]", lang.getMultitokenSpeller().getSuggestions("Johann Sebastián Bach").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Plantation Boy").toString());
+    assertEquals("[Woody Allen]", lang.getMultitokenSpeller().getSuggestions("Woodie Alen").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Eugenio Granjo").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Julia García").toString());
+    assertEquals("[Deutsche Bank]", lang.getMultitokenSpeller().getSuggestions("Deustche Bank").toString());
+    assertEquals("[Dmitri Mendeléiev]", lang.getMultitokenSpeller().getSuggestions("Dimitri Mendeleev").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Caralp Mariné").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Andrew Cyrille").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Alejandro Varón").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Alejandro Mellado").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Alejandro Erazo").toString());
+    assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Alberto Saoner").toString());
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("è più").toString());
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Josep Maria Jové").toString());
     assertEquals("[]", lang.getMultitokenSpeller().getSuggestions("Josep Maria Canudas").toString());
