@@ -287,6 +287,55 @@
                 <suggestion>“</suggestion>
                 <example correction="»|“">Er sagte "Tschüssi<marker>"</marker>.</example>
             </rule>
+            <rule><!-- [15] -->
+                <antipattern>
+                    <token regexp="yes">\d+[½¼¾]?</token>
+                    <token spacebefore="no">"</token>
+                    <token regexp="yes" spacebefore="no">-.*(Töner|Laufwerk|Felge|Granat(en)?werfer|Diskette|rad|platte|vinyl|Rohr|fernseher|Bildschirm).*</token>
+                    <example>16"-Stahlfelgen mit Radzierblenden</example>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+[½¼¾]?</token>
+                    <token spacebefore="no">"</token>
+                    <token regexp="yes" spacebefore="no" case_sensitive="yes">-.*(EP|TV).*</token>
+                    <example>(12"-Split-EP mit Lynrd's Innards und Slingshot Episode)</example>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token />
+                    <token spacebefore="no">"</token>
+                    <token regexp="yes" spacebefore="no">-.*</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">.*[a-z0-9äöüß].*</token>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">-[a-zäöüß].*</token>
+                </pattern>
+                <message>Möchten Sie ein schließendes typografisches Anführungszeichen verwenden?</message>
+                <suggestion>»</suggestion>
+                <suggestion>“</suggestion>
+                <example correction="»|“">Er klickte den "Gefällt mir<marker>"</marker>-Button.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>„</token>
+                </pattern>
+                <message>Im Schweizerischen werden standardmäßig die Guillemets (« ») gesetzt.</message>
+                <suggestion>«</suggestion>
+                <example correction="«"><marker>„</marker>Ich bin müde“, sagte er.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>“
+                        <exception scope="previous" postag="SENT_START"/>
+                    </token>
+                </pattern>
+                <message>Im Schweizerischen werden standardmäßig die Guillemets (« ») gesetzt.</message>
+                <suggestion>»</suggestion>
+                <example correction="»">„Ich bin müde<marker>“</marker>, sagte er.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="ANFUEHRUNGSZEICHEN_CH_FR" name="»wörtliche Rede« («wörtliche Rede»)" default="temp_off">
             <rule><!-- ANFUEHRUNGSZEICHEN_CH_FR[1] -->
