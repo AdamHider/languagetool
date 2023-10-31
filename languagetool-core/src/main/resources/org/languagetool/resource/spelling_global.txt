@@ -11552,8 +11552,5 @@ Golda Meir
 Adobe Express
 Ottorino Respighi
 Max Bruch
-<<<<<<< HEAD
-=======
 René-Robert Cavelier
 Robert Cavelier
->>>>>>> 6671aa30ab ([core] spelling global)
