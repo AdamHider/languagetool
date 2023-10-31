@@ -1,5 +1,15 @@
 #Catalan multiwords file used for chunking
 #separatorRegExp=[\t;]
+Martí Luter;NPMSSP0
+Dragon Khan;NPMSO00
+Josep Carner;NPMSSP0
+Eduard Punset;NPMSSP0
+Adán Martín;NPMSSP0
+Joan Massià;NPMSSP0
+Mohammed bin Salman;NPMSSP0
+bin Salman;NPCNSP0
+Saint-Séverin;NPCSG00
+Joan Carreras;NPMSSP0
 Torras i Bages;NPCNSP0
 Mañé i Flaquer;NPCNSP0
 Carles Buxadé;NPMSSP0
@@ -1653,7 +1663,15 @@ Antonio María	NPMSSP0
 Pedro María	NPMSSP0
 José Luis	NPMSSP0
 José Miguel	NPMSSP0
-Miguel Ángel	NPMSSP0
+Anna Maria	NPFSSP0
+Josep Maria	NPMSSP0
+Joan Maria	NPMSSP0
+Josep Antoni	NPMSSP0
+Joan Antoni	NPMSSP0
+Antoni Maria	NPMSSP0
+Pere Maria	NPMSSP0
+Josep Lluis	NPMSSP0
+Josep Miquel	NPMSSP0
 Miguel Bosé	NPMSSP0
 Miguel Delibes	NPMSSP0
 Antonio Machado	NPMSSP0
