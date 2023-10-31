@@ -5922,7 +5922,7 @@ Night Stalker
 Dušan Vlahović
 Günter Grass
 Thomas More
-John Calvin
+#John Calvin
 Little Rock
 L. L. Zamenhof
 L.L. Zamenhof
@@ -8699,6 +8699,7 @@ Tom Sharpe
 Paco Rabal
 Moon River
 Carmen Martín Gaite
+Martín Gaite
 Álvaro Pombo
 Josep Carreras
 Hey Jude
@@ -11450,7 +11451,6 @@ Dylan Thomas
 Robert Owen
 Milovan Đilas
 Thomas Alva Edison
-Thomas Edison
 Yoshua Bengio
 Geoffrey Hinton
 Yann LeCun
@@ -11479,15 +11479,12 @@ Frankfurt-Hahn
 George Mallory
 Peter Hillary
 Andrew Irvine
-Reinhold Messner
 Tom Bourdillon
 George Lowe
 Charles Evans
 Edward Abbey
 Luis Walter Alvarez
 Maurice Jarre
-Carmen Martín Gaite
-Martín Gaite
 Sankt Pauli
 Encyclopedia Americana
 Collier's Encyclopedia
@@ -11554,3 +11551,15 @@ Ottorino Respighi
 Max Bruch
 René-Robert Cavelier
 Robert Cavelier
+Google Keep
+Máximo Gómez
+Thomas Wayne
+Martha Wayne
+Damian Wayne
+Carl Humann
+José Martí Pérez
+Chicago Bears
+Las Vegas Raiders
+San Francisco 49ers
+Seattle Seahawks
+Washington Commanders
