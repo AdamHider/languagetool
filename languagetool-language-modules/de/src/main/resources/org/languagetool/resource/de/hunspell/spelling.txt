@@ -60939,3 +60939,30 @@ Alhamdulillah
 Ben-Gurion/S #name
 österr. #abk
 gemeindt. #abk
+Rügenwalder/N
+Außervollzugsetzung
+Außervollzugsetzungen
+Sperma #komp
+Spermaspur
+Spermaspuren
+Tropheus
+Treppenmuffel/NS
+MeinFernbus #name
+Menschenrechtsdemos
+rechtsoffen/A
+rechtsregulär/A
+linksregulär/A
+Völkerrechtssubjektes
+Inessiv/SE
+Adessiv/SE
+Pilawa/S #name
+Synergide/N
+Gehilfinnenzelle/N
+Embryosack/S
+tanzbereit/A
+Bon Jovi/S #name
+Goji
+Goji-Beere/N
+Schreberanlage/N
+ultrasaisonal/A
+megagesund/A
