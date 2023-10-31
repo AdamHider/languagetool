@@ -60937,45 +60937,5 @@ Altersgebrechlichkeit
 Arabischkenntnisse/N
 Alhamdulillah
 Ben-Gurion/S #name
-Illativ/SE
-Allativ/SE
-Essiv/SE
-Abessiv/SE
-Komitativ/SE
-langkörnig/A
-verbrauchsfertig/A
-Sühneriten
-Sühneritus
-Rügenwalder/N
-Außervollzugsetzung
-Außervollzugsetzungen
-Sperma #komp
-Spermaspur
-Spermaspuren
-instilliere/N
-instillierst
-instilliert/E
-instillierte/N
-instilliertest
-instilliertet
-Tropheus
-Treppenmuffel/NS
-MeinFernbus #name
-Menschenrechtsdemos
-rechtsoffen/A
-rechtsregulär/A
-linksregulär/A
-Völkerrechtssubjektes
-Inessiv/SE
-Adessiv/SE
-Pilawa/S #name
-Synergide/N
-Gehilfinnenzelle/N
-Embryosack/S
-tanzbereit/A
-Bon Jovi/S #name
-Goji
-Goji-Beere/N
-Schreberanlage/N
-ultrasaisonal/A
-megagesund/A
+österr. #abk
+gemeindt. #abk
