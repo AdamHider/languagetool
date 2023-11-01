@@ -1,12 +1,25 @@
 # Words that extend the spell checker. See ignore.txt for words that should be
 # completely ignored (i.e. not used to create suggestions).
 AEMET
+Al-Hàkam
 Amat-Piniella
 Asier
+Auden
+Echegaray
 Escalante
+Font-rúbia
+Garnier
+Hancock
+Hollande
+Moncton
+Moog
 Pac-Man
 Sala-Sanahuja
 Sanahuja
 friquisme
 friquismes
+gaziana
+gazianes
+gazians
+gazià
 omega-3

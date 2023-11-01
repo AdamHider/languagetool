@@ -15,6 +15,7 @@ Arrow
 Artadi
 Asier
 Atis
+Auden
 Azgour
 Azilal
 Bajmut
@@ -86,6 +87,7 @@ Félez
 GIMP
 Garajonay
 Gargallo
+Garnier
 Gescode
 Gewandhaus
 Gich
@@ -317,6 +319,7 @@ Wilde
 Woolf
 Yenny
 Yevgueni
+Yourcenar
 Youssoufia
 Zelandia
 Zemmour
