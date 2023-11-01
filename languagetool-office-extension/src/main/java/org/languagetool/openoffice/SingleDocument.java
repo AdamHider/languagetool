@@ -210,14 +210,15 @@ class SingleDocument {
       mDocHandler.setUseOriginalCheckDialog();
     }
 
-    if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT 
+    if (!hasSortedTextId && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT 
         && (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy() || docCache.isResetRunning())) {
       //  NOTE: LO blocks the read of information by document or view cursor tools till a PROOFINFO_GET_PROOFRESULT request is done
       //        This causes a hanging of LO when the request isn't answered immediately by a 0 matches result
-//      MessageHandler.printToLogFile("SingleDocument: getCheckResults: docCache Reset is running: return 0 errors");
-      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, fixedLanguage,
-          docLanguage, ignoredMatches, numParasToCheck, true, isMouseRequest, false);
-      paRes.aErrors = singleCheck.checkParaRules(paraText, locale, footnotePositions, -1, paRes.nStartOfSentencePosition, lt, 0, 0, false, false);
+      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage,
+          docLanguage, numParasToCheck, true, isMouseRequest, false);
+      paRes.aErrors = singleCheck.checkParaRules(paraText, locale, 
+                                    footnotePositions, -1, paRes.nStartOfSentencePosition, lt, 0, 0, false, false, errType);
+      closeDocumentCursor();
       return paRes;
     }
     if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {

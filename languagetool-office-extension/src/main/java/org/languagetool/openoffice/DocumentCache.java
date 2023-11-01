@@ -157,22 +157,19 @@ public class DocumentCache implements Serializable {
       MessageHandler.printToLogFile("DocumentCache:refresh: isReset == true: return");
       return;
     }
-//    MessageHandler.printToLogFile("DocumentCache: refresh: Number waiting: " + rwLock.getQueueLength());
-//    MessageHandler.printToLogFile("DocumentCache: refresh: " + rwLock.getWriteHoldCount() + " writer is writing: "+ Thread.currentThread().getName());
-    rwLock.writeLock().lock();
+    isReset = true;
     try {
-      isReset = true;
       if (debugMode) {
         MessageHandler.printToLogFile("DocumentCache: refresh: Called from: " + fromWhere);
       }
       if (docType != DocumentType.WRITER) {
         refreshImpressCalcCache(xComponent);
       } else {
-        refreshWriterCache(docCursor, flatPara, fixedLocale, docLocale, fromWhere);
+        refreshWriterCache(document, fixedLocale, docLocale, fromWhere);
       }
-      isReset = false;
+      setSingleParagraphsCacheToNull(document.getParagraphsCache());
     } finally {
-      rwLock.writeLock().unlock();
+      isReset = false;
     }
   }
 
