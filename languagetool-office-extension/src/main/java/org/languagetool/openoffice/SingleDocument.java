@@ -516,7 +516,7 @@ class SingleDocument {
    * read caches from file
    */
   void readCaches() {
-    if (numParasToCheck != 0) {
+    if (numParasToCheck != 0 && docType != DocumentType.CALC) {
       cacheIO = new CacheIO(xComponent);
       boolean cacheExist = cacheIO.readAllCaches(config, mDocHandler);
       if (cacheExist) {
@@ -534,7 +534,8 @@ class SingleDocument {
    * write caches to file
    */
   void writeCaches() {
-    if (numParasToCheck != 0 && !config.noBackgroundCheck()) {
+    if (numParasToCheck != 0 && !config.noBackgroundCheck() && docType != DocumentType.CALC) {
+      MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy DocumentCache");
       DocumentCache docCache = new DocumentCache(this.docCache);
       List<ResultCache> paragraphsCache = new ArrayList<ResultCache>();
       for (int i = 0; i < this.paragraphsCache.size(); i++) {
