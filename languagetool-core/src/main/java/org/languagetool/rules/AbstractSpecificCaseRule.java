@@ -18,19 +18,15 @@
  */
 package org.languagetool.rules;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
-
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.tools.StringTools;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * A rule that matches words which need a specific upper/lowercase spelling.
@@ -39,9 +35,8 @@ import org.languagetool.tools.StringTools;
 public abstract class AbstractSpecificCaseRule extends Rule {
   // a map that has as keys the special case phrases into lowercase
   // and as values the special case phrases properly spelled:
-  private static final Map<String,String> lcToProperSpelling = new Object2ObjectOpenHashMap<>();
-  // the phrases that will be detected by the rule:
-  private static Set<String> phrases;
+  // one for each subclass
+  private static final ConcurrentMap<Class, Map<String,String>> lcToProperSpelling = new ConcurrentHashMap<>();
   private static int maxLen;
   // used to speed up the server as the phrases are loaded in every initialization
   protected final CachingWordListLoader phrasesListLoader = new CachingWordListLoader();
@@ -86,25 +81,18 @@ public abstract class AbstractSpecificCaseRule extends Rule {
   /**
    * Initializes the phrases that will be detected from the rule by the given path
    */
-  private void loadPhrases() {
-    List<String> l = new ArrayList<>();
-    List<String> lines = phrasesListLoader.loadWords(getPhrasesPath());
-    for (String line : lines) {
-      int parts = line.split(" ").length;
-      maxLen = Math.max(parts, maxLen);
-      l.add(line.trim());
-    }
-    phrases = new ObjectOpenHashSet<>(l);
-    initializeLcToProperSpellingMap();
-  }
-
-  /**
-   * Initializes the <code>lcToProperSpelling</code> Map
-   */
-  synchronized static private void initializeLcToProperSpellingMap() {
-    for (String phrase : phrases) {
-      lcToProperSpelling.put(phrase.toLowerCase(), phrase);
-    }
+  private synchronized void loadPhrases() {
+    lcToProperSpelling.computeIfAbsent(this.getClass(), (clazz) -> {
+      Map<String, String> properSpelling = new Object2ObjectOpenHashMap<>();
+      List<String> lines = phrasesListLoader.loadWords(getPhrasesPath());
+      for (String line : lines) {
+        int parts = line.split(" ").length;
+        maxLen = Math.max(parts, maxLen);
+        String phrase = line.trim();
+        properSpelling.put(phrase.toLowerCase(), phrase);
+      }
+      return properSpelling;
+    });
   }
 
   @Override
@@ -121,6 +109,7 @@ public abstract class AbstractSpecificCaseRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> matches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    Map<String, String> properSpellingMap = lcToProperSpelling.get(this.getClass());
     for (int i = 0; i < tokens.length; i++) {
       List<String> l = new ArrayList<>();
       int j = 0;
@@ -129,7 +118,7 @@ public abstract class AbstractSpecificCaseRule extends Rule {
         j++;
         String phrase = String.join(" ", l);
         String lcPhrase = phrase.toLowerCase();
-        String properSpelling = lcToProperSpelling.get(lcPhrase);
+        String properSpelling = properSpellingMap.get(lcPhrase);
         if (properSpelling != null && !StringTools.isAllUppercase(phrase) && !phrase.equals(properSpelling)) {
           if (i > 0 && tokens[i-1].isSentenceStart() && !StringTools.startsWithUppercase(properSpelling)) {
             // avoid suggesting e.g. "vitamin C" at sentence start:
