@@ -37003,3 +37003,7 @@ inescutcheons
 Aktiengesellschaft
 pushrod
 pushrods
+calque
+calques
+calquing
+calqued
