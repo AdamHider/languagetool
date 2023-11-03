@@ -1,5 +1,7 @@
 #Catalan multiwords file used for chunking
 #separatorRegExp=[\t;]
+al-Mansur;NPCNSP0
+Segona Divisió;NPFSO00
 Josep Miquel Arenas;NPMSSP0
 Aleksandr Popov;NPMSS0
 Ibn al-Ahmar;NPMSSP0
