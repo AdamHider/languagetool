@@ -11146,3 +11146,5 @@ Kaulitz-Brüder*
 Kaulitz-Brüdern*
 Kolmogorow-Smirnow-Test*
 Kolmogorow-Smirnow-Tests*
+Internet-Meme$
+Internet-Memes$
