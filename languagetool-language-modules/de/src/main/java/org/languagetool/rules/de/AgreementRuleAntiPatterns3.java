@@ -574,6 +574,16 @@ class AgreementRuleAntiPatterns3 {
       token("vieles"),
       tokenRegex("Lust|Bock")
     ),
+    asList( // ob die Bock haben
+      token("die"),
+      token("Bock"),
+      tokenRegex("haben|hatten")
+    ),
+    asList( // dann haben die Bock
+      tokenRegex("haben|hatten"),
+      token("die"),
+      token("Bock")
+    ),
     asList( // Ich habe für vieles Zeit
       token("für"),
       token("vieles"),
