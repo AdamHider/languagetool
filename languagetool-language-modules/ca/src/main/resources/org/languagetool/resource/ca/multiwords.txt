@@ -1,14 +1,5 @@
 #Catalan multiwords file used for chunking
 #separatorRegExp=[\t;]
-Joan Martínez;NPMSSP0
-Carles Sanjosé;NPMSSP0
-Museu Jumex;NPMSO00
-Col·lecció Jumex;NFMSO00
-Banc Santander;NPMSO00
-Nassan Nasrallah;NPMSSP0
-Lluís de Milà;NPMSSP0
-al-Mansur;NPCNSP0
-Segona Divisió;NPFSO00
 Josep Miquel Arenas;NPMSSP0
 Aleksandr Popov;NPMSS0
 Ibn al-Ahmar;NPMSSP0
