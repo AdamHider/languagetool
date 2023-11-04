@@ -223,6 +223,10 @@ public class Catalan extends Language {
       case "CONCORDANCES_DET_NOM": return 5;
       case "DET_GN": return 5; // greater than DE_EL_S_APOSTROFEN
       case "VENIR_NO_REFLEXIU": return 5;
+      case "DEUS_SEUS": return 5;
+      case "SON_BONIC": return 5;
+      case "ACCENTUACIO": return 5;
+      case "CONTRACCIONS": return 0; // lesser than apostrophations
       case "CASING_START": return -5;
       case "ARTICLE_TOPONIM_MIN": return -10; // lesser than CONTRACCIONS, CONCORDANCES_DET_NOM 
       case "PEL_QUE": return -10; // lesser than PEL_QUE_FA
@@ -239,6 +243,7 @@ public class Catalan extends Language {
       case "EXIGEIX_ACCENTUACIO_VALENCIANA": return -120;
       case "PHRASE_REPETITION": return -150;
       case "SUBSTANTIUS_JUNTS": return -150;
+      case "REPETITION_ADJ_N_ADJ": return -155;
       case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "UPPERCASE_SENTENCE_START": return -500;
       case "MAJUSCULA_IMPROBABLE": return -500;
@@ -286,5 +291,90 @@ public class Catalan extends Language {
       newRuleMatches.add(newMatch);
     }
     return newRuleMatches;
+  }
+  
+  private String removeOldDiacritics(String s) {
+    return s.replace("dóna", "dona")
+        .replace("dónes", "dones")
+        .replace("sóc", "soc")
+        .replace("vénen", "venen")
+        .replace("véns", "véns")
+        .replace("fóra", "fora")
+        .replace("Dóna", "Dona")
+        .replace("Dónes", "Dones")
+        .replace("Sóc", "Soc")
+        .replace("Vénen", "Venen")
+        .replace("Véns", "Vens")
+        .replace("Fóra", "Fora");
+  }
+  
+  private static final Pattern CA_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(ls?)\\b");
+  private static final Pattern CA_APOSTROPHES1 = Pattern.compile("\\b([LDNSTMldnstm]['’]) ");
+  // exceptions: l'FBI, l'statu quo
+  private static final Pattern CA_APOSTROPHES2 = Pattern.compile("\\b([mtlsn])['’]([^1haeiouáàèéíòóúA-ZÀÈÉÍÒÓÚ“«\"])");
+  // exceptions: el iogurt, la essa
+  private static final Pattern CA_APOSTROPHES3 = Pattern.compile("\\be?([mtsldn])e? (h?[aeiouàèéíòóú])",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES4 = Pattern.compile("\\b(l)a ([aeoàúèéí][^ ])",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES5 = Pattern.compile("\\b([mts]e) (['’])",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern CA_APOSTROPHES6 = Pattern.compile("\\bs'e(ns|ls)\\b",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern POSSESSIUS_v = Pattern.compile("\\b([mtsMTS]e)v(a|es)\\b",
+      Pattern.UNICODE_CASE);
+  private static final Pattern POSSESSIUS_V = Pattern.compile("\\b([MTS]E)V(A|ES)\\b",
+      Pattern.UNICODE_CASE);
+
+  @Override
+  public String adaptSuggestion(String s) {
+    // Exceptions: Digues-me alguna cosa, urbi et orbi, Guns N' Roses
+    boolean capitalized = StringTools.isCapitalizedWord(s);
+    Matcher m = CA_CONTRACTIONS.matcher(s);
+    s = m.replaceAll("$1$2");
+    Matcher m1 = CA_APOSTROPHES1.matcher(s);
+    s = m1.replaceAll("$1");
+    Matcher m2 = CA_APOSTROPHES2.matcher(s);
+    s = m2.replaceAll("e$1 $2");
+    Matcher m3 = CA_APOSTROPHES3.matcher(s);
+    s = m3.replaceAll("$1'$2");
+    Matcher m4 = CA_APOSTROPHES4.matcher(s);
+    s = m4.replaceAll("$1'$2");
+    Matcher m5 = CA_APOSTROPHES5.matcher(s);
+    s = m5.replaceAll("$1$2");
+    Matcher m6 = CA_APOSTROPHES6.matcher(s);
+    s = m6.replaceAll("se'$1");
+    if (capitalized) {
+      s = StringTools.uppercaseFirstChar(s);
+    }
+    s = s.replace(" ,", ",");
+    return s;
+  }
+
+  private List<String> spellerExceptions = Arrays.asList("San Juan", "Copa América", "Colección Jumex", "Banco Santander");
+  @Override
+  public String prepareLineForSpeller(String line) {
+    String parts[] = line.split("#");
+    if (parts.length == 0) {
+      return line;
+    }
+    String[] formTag = parts[0].split("[\t;]");
+    String form = formTag[0].trim();
+    if (spellerExceptions.contains(form)) {
+      return "";
+    }
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (!tag.startsWith("N")) {
+        return "";
+      } else {
+        return form;
+      }
+    }
+    return line;
+  }
+
+  public MultitokenSpeller getMultitokenSpeller() {
+    return CatalanMultitokenSpeller.INSTANCE;
   }
 }
