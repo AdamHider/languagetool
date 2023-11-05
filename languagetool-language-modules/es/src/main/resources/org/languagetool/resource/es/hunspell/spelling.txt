@@ -6,6 +6,8 @@ Abacus
 Adara
 Adasil
 Adri
+Al-Shifa
+Alborán
 Aledit
 Amaru
 Anadia
@@ -1837,6 +1839,7 @@ afrozambiana
 afrozambianas
 afrozambiano
 afrozambianos
+al-Mansur
 alfentanilo
 alfentanilos
 amague
