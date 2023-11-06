@@ -14216,6 +14216,69 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>buen</token>
                 <token>hambre</token>
             </antipattern>
+            <pattern>
+                <token>a</token>
+                <token>alrededor</token>
+            </pattern>
+            <message>Expresión preferible sin la preposición 'a'.</message>
+            <suggestion>alrededor</suggestion>
+            <suggestion>al rededor</suggestion>
+            <suggestion>en rededor</suggestion>
+            <example correction="alrededor|al rededor|en rededor">Vino <marker>a alrededor</marker> de las cinco.</example>
+            <example>Asciende a alrededor de 3000 €.</example>
+        </rule>
+        <rule id="LLEVAR_ACABO" name="llevar *acabo/a cabo">
+            <pattern>
+                <token inflected="yes" regexp="yes">llevar|echar</token>
+                <marker>
+                    <token>acabo</token>
+                </marker>
+            </pattern>
+            <message>Se escribe separado.</message>
+            <suggestion>a cabo</suggestion>
+            <suggestion>al cabo</suggestion>
+            <example correction="a cabo|al cabo">Lo llevó <marker>acabo</marker> con solvencia.</example>
+            <example correction="a cabo|al cabo">Hay que llevarlo <marker>acabo</marker> con solvencia.</example>
+        </rule>
+        <rule id="DAR_ABASTO" name="dar *a basto/abasto">
+            <pattern>
+                <token inflected="yes" skip="2">dar</token>
+                <marker>
+                    <token>a</token>
+                    <token>basto</token>
+                </marker>
+            </pattern>
+            <message>Se escribe junto.</message>
+            <suggestion>abasto</suggestion>
+            <example correction="abasto">No dábamos nunca <marker>a basto</marker>.</example>
+        </rule>
+        <rule id="DAR_A_LUGAR" name="dar *(a) lugar" default="on">
+            <pattern>
+                <token inflected="yes">dar</token>
+                <marker>
+                    <token>a</token>
+                    <token>lugar</token>
+                </marker>
+            </pattern>
+            <message>Expresión incorrecta.</message>
+            <suggestion>lugar</suggestion>
+            <example correction="lugar">Lo cual daría <marker>a lugar</marker> a varios cambios.</example>
+        </rule>
+        <rule id="SOBRETODO" name="sobretodo/sobre todo">
+            <!-- A lot of true positives expected! But the rule is right. -->
+            <pattern>
+                <token>sobretodo<exception scope="previous" regexp="yes">el|un|al|del</exception></token>
+            </pattern>
+            <message>Se escribe separado si es una loc. adverbial (=especialmente), junto si es un sustantivo (=prenda de vestir).</message>
+            <suggestion>sobre todo</suggestion>
+            <url>https://languagetool.org/insights/es/publicacion/diferencia-entre-sobretodo-y-sobre-todo/</url>
+            <example correction="sobre todo">Me gusta <marker>sobretodo</marker> el verde.</example>
+            <example>Se compró un sobretodo</example>
+            <example>El sobretodo de Céspedes.</example>
+            <example>En alusión al sobretodo del sargento.</example>
+        </rule>
+        <rulegroup id="HAIGA" name="haiga -> haya">
+            <url>https://languagetool.org/insights/es/publicacion/diferencia-haya-halla-alla-o-aya/</url>
             <rule>
                 <pattern>
                     <token>buen</token>
