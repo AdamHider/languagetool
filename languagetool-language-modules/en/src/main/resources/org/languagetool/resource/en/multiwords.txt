@@ -7316,3 +7316,6 @@ Mount Saint Helens	NNP
 Mount St. Helens	NNP
 Pineda de Mar	NNP
 Punta Cana	NNP
+Auld Lang Syne	NNP
+Feliz Navidad	_multiword_
+Kaiser Permanente	NNP
