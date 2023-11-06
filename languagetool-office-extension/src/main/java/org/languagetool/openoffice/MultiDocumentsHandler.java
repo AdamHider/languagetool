@@ -93,6 +93,9 @@ public class MultiDocumentsHandler {
   private boolean docReset = false;
 
   private static boolean debugMode = false;   //  should be false except for testing
+  private static boolean debugModeTm = false;   //  should be false except for testing
+
+  public final boolean isOpenOffice;
   
   private SwJLanguageTool lt = null;
   private Language docLanguage = null;
@@ -143,7 +146,15 @@ public class MultiDocumentsHandler {
     this.xEventListener = xEventListener;
     this.xProofreader = xProofreader;
     xEventListeners = new ArrayList<>();
-    configFile = OfficeTools.CONFIG_FILE;
+    OfficeProductInfo officeInfo = OfficeTools.getOfficeProductInfo(xContext);
+    if (officeInfo == null || officeInfo.ooName.equals("OpenOffice")) {
+      isOpenOffice = true;
+      useOrginalCheckDialog = true;
+      configFile = OfficeTools.OOO_CONFIG_FILE;
+    } else {
+      isOpenOffice = false;
+      configFile = OfficeTools.CONFIG_FILE;
+    }
     configDir = OfficeTools.getLOConfigDir(xContext);
     oldConfigFile = OfficeTools.getOldConfigFile();
     MessageHandler.init(xContext);
@@ -211,9 +222,9 @@ public class MultiDocumentsHandler {
           this.locale = locale;
           extraRemoteRules.clear();
         }
-        if (lt == null) {
-          testFootnotes(propertyValues);
-        }
+//        if (lt == null) {
+//          testFootnotes(propertyValues);
+//        }
         lt = initLanguageTool(!isSameLanguage);
         initCheck(lt);
         if (initDocs) {
@@ -554,9 +565,12 @@ public class MultiDocumentsHandler {
   public LinguisticServices getLinguisticServices() {
     if (linguServices == null) {
       linguServices = new LinguisticServices(xContext);
+      MessageHandler.printToLogFile("MultiDocumentsHandler: getLinguisticServices: linguServices set: is " 
+            + (linguServices == null ? "" : "NOT ") + "null");
       OfficeProductInfo officeProductInfo = OfficeTools.getOfficeProductInfo(xContext);
       if (officeProductInfo != null && officeProductInfo.osArch.equals("x86")) {
         Tools.setLinguisticServices(linguServices);
+        MessageHandler.printToLogFile("MultiDocumentsHandler: getLinguisticServices: linguServices set to tools");
       }
     }
     return linguServices;
@@ -861,11 +875,7 @@ public class MultiDocumentsHandler {
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, true);
       noBackgroundCheck = config.noBackgroundCheck();
       if (linguServices == null) {
-        linguServices = new LinguisticServices(xContext);
-        OfficeProductInfo officeProductInfo = OfficeTools.getOfficeProductInfo(xContext);
-        if (officeProductInfo != null && officeProductInfo.osArch.equals("x86")) {
-          Tools.setLinguisticServices(linguServices);
-        }
+        linguServices = getLinguisticServices();
       }
       linguServices.setNoSynonymsAsSuggestions(config.noSynonymsAsSuggestions() || testMode);
       if (this.lt == null) {
@@ -1087,7 +1097,7 @@ public class MultiDocumentsHandler {
   
   /**
    * Is true if footnotes exist (tests if OO or very old LO) 
-   */
+   *//*
   private void testFootnotes(PropertyValue[] propertyValues) {
     for (PropertyValue propertyValue : propertyValues) {
       if ("FootnotePositions".equals(propertyValue.Name)) {
@@ -1116,7 +1126,7 @@ public class MultiDocumentsHandler {
     configFile = OfficeTools.OOO_CONFIG_FILE;
     MessageHandler.printToLogFile("No support of Footnotes: Open Office assumed - Single paragraph check mode set!");
   }
-
+*/
   /**
    * Call method ignoreOnce for concerned document 
    */
@@ -1509,6 +1519,10 @@ public class MultiDocumentsHandler {
           MessageHandler.showMessage(messages.getString("loExtSwitchOffMessage"));
           return;
         }
+        if (useOrginalCheckDialog) {
+          OfficeTools.dispatchCmd(".uno:SpellingAndGrammarDialog", xContext);
+          return;
+        }
         SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext, this, docLanguage, null);
         checkDialog.nextError();
       } else if ("refreshCheck".equals(sEvent)) {
@@ -1544,7 +1558,7 @@ public class MultiDocumentsHandler {
   boolean testDocLanguage(boolean showMessage) {
     if (docLanguage == null) {
       if (linguServices == null) {
-        linguServices = new LinguisticServices(xContext);
+        linguServices = getLinguisticServices();
       }
       if (!linguServices.spellCheckerIsActive()) {
         if (showMessage) {
