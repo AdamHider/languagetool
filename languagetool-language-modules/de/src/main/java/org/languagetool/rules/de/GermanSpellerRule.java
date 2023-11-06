@@ -114,8 +114,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kruks", "Krux");
     put("Filterbubble", "Filterblase");
     put("Filterbubbles", "Filterblasen");
-    put("gunsten", "Gunsten");
-    put("ungunsten", "Ungunsten");
     putRepl("Analgen.*", "Analgen", "Anlagen");
     putRepl("wiedersteh(en|st|t)", "wieder", "wider");
     putRepl("wiederstan(d|den|dest)", "wieder", "wider");
@@ -3263,6 +3261,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       case "Strebergarten": return topMatch("Schrebergarten");
       case "Strebergartens": return topMatch("Schrebergartens");
       case "Strebergärten": return topMatch("Schrebergärten");
+      case "gunsten": return topMatch("Gunsten");
+      case "ungunsten": return topMatch("Ungunsten");
     }
     return Collections.emptyList();
   }
