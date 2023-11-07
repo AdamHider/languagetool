@@ -294,6 +294,7 @@ Sterne
 Steuben
 Sviatoslav
 TAD
+Taro
 Tarteso
 Tartesos
 Tartéside
@@ -1842,6 +1843,10 @@ afrozambianas
 afrozambiano
 afrozambianos
 al-Mansur
+ala-pívots
+alapívot
+alapívots
+alero-pívots
 alfentanilo
 alfentanilos
 amague
