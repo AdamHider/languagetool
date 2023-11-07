@@ -8485,6 +8485,8 @@ Fürstentürmer/NS
 .*fürstentürmer/NS
 Diskusion
 Diskusionen
+Saitensprung/S
+Saitensprünge/N
 Motivaton
 Regalpanel
 Leserhose/N
