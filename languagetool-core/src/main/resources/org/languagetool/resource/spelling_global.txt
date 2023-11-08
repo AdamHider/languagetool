@@ -5742,6 +5742,7 @@ Mercyhurst University
 Myrtle Beach
 Grand Theft Auto
 Grand Slam
+Grand Slams
 Boxing Day
 Tesla Cybertruck
 Woodland Hills
@@ -11740,3 +11741,7 @@ Siemens Healthineers
 Siemens AG
 Siemens Energy
 Harlan Coben
+Stacy Adams Shoe Company
+Stacy Adams
+Claire Denis
+John Lennox
