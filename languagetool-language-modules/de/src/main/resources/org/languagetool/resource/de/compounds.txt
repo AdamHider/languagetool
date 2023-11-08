@@ -11158,3 +11158,4 @@ Laser-Drucker$
 Laser-Druckers$
 Laser-Druckern$
 Mobile-First-Ansatz*
+Mobile-First-Indexierung*
