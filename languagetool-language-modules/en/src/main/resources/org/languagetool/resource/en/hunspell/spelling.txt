@@ -37185,5 +37185,4 @@ referenda
 polenta
 touristed
 pseudoscientific
-word2vec
 bigram
