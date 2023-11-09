@@ -109,8 +109,9 @@ class ResultCache implements Serializable {
    * Remove all cache entries between firstPara (included) and lastPara (excluded)
    * shift all numberOfParagraph by 'shift'
    */
-  void removeAndShift(int firstParagraph, int lastParagraph, int shift) {
-    if (lastParagraph < firstParagraph || shift == 0) {
+  void removeAndShift(int firstParagraph, int lastParagraph, int oldSize, int newSize) {
+    int shift = newSize - oldSize;
+    if (firstParagraph < 0 || shift == 0) {
       return;
     }
     rwLock.writeLock().lock();
@@ -127,7 +128,7 @@ class ResultCache implements Serializable {
         }
       } else {
         for (int i : tmpEntries.keySet()) {
-          if (i >= lastParagraph && i + shift >= 0) {
+          if (i >= firstParagraph) {
             entries.put(i + shift, tmpEntries.get(i));
           } else if (i < firstParagraph) {
             entries.put(i, tmpEntries.get(i));
