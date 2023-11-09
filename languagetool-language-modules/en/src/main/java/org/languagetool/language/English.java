@@ -575,7 +575,23 @@ public class English extends Language implements AutoCloseable {
       case "MORFOLOGIK_RULE_EN_NZ":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MORFOLOGIK_RULE_EN_AU":     return -10;  // more specific rules (e.g. L2 rules) have priority
       case "MD_PRP_QUESTION_MARK":   return -11;  // speller needs higher priority
-      case "BE_WITH_WRONG_VERB_FORM":   return -11;  // prefer HYDRA_LEO, BEEN_PART_AGREEMENT and other rules
+      case "EN_UPPER_CASE_NGRAM":       return -12;  // prefer other more specific rules (e.g. AI models)
+      case "MD_JJ":                     return -12;  // prefer other rules (e.g. NOUN_VERB_CONFUSION)
+      case "HE_VERB_AGR":               return -12;  // prefer other more specific rules (e.g. AI models, PRP_VBG)
+      case "MD_BASEFORM":               return -12;  // prefer other more specific rules (e.g. AI models)
+      case "IT_VBZ":                    return -12;  // prefer other more specific rules (e.g. AI models)
+      case "PRP_THE":                   return -12;  // prefer other rules (e.g. AI models, I_A, PRP_JJ, IF_YOU_ANY, I_AN)
+      case "PRP_JJ":                    return -12;  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
+      case "SINGULAR_NOUN_VERB_AGREEMENT": return -12;  // prefer other rules (e.g. AI models, PRP_VBG, IT_IT and ADJECTIVE_ADVERB, PRP_ABLE, PRP_NEW, MD_IT_JJ)
+      case "SINGULAR_AGREEMENT_SENT_START": return -12;    // prefer AI
+      case "SUBJECTVERBAGREEMENT_2": return -12;    // prefer AI
+      case "THE_SENT_END": return -12;    // prefer AI
+      case "DT_NN_ARE_AME": return -12;    // prefer AI
+      case "COLLECTIVE_NOUN_VERB_AGREEMENT_VBP": return -12;    // prefer AI
+      case "SUBJECT_VERB_AGREEMENT":   return -12;    // prefer AI
+      case "SENT_START_PRPS_JJ_NN_VBP": return -12;  // prefer AI
+      case "SINGULAR_NOUN_ADV_AGREEMENT": return -12;  // prefer AI
+      case "BE_VBP_IN":                 return -12;  // prefer over BEEN_PART_AGREEMENT but not over AI_EN_LECTOR
       case "BE_VBG_NN":                 return -12;  // prefer other more specific rules and speller
       case "THE_NNS_NN_IS":             return -12;  // prefer HYDRA_LEO
       case "PRP_MD_NN":                 return -12;  // prefer other more specific rules (e.g. MD_ABLE, WONT_WANT)
