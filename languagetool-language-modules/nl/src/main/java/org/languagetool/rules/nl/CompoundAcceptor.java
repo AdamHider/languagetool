@@ -323,28 +323,12 @@ public class CompoundAcceptor {
     return false;
   }
 
-  public List<String> getParts(String word) {
-    if (word.length() > MAX_WORD_SIZE) {  // prevent long runtime
-      return Collections.emptyList();
-    }
-    for (int i = 3; i < word.length() - 3; i++) {
-      String part1 = word.substring(0, i);
-      String part2 = word.substring(i);
-      if (acceptCompound(part1, part2)) {
-        return Arrays.asList(part1, part2);
-      }
-    }
-    return Collections.emptyList();
-  }
-
-  boolean acceptCompound(String part1, String part2) {
-    try {
-      String part1lc = part1.toLowerCase();
-      if (part1.endsWith("s")) {
-        for (String suffix : alwaysNeedsS) {
-          if (part1lc.endsWith(suffix)) {
-            return isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
-          }
+  boolean acceptCompound(String part1, String part2) throws IOException {
+    String part1lc = part1.toLowerCase();
+    if (part1.endsWith("s")) {
+      for (String suffix : alwaysNeedsS) {
+        if (part1lc.endsWith(suffix)) {
+          return isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
         }
         return needsS.contains(part1lc) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
       } else if (part1.endsWith("-")) { // abbreviations
@@ -355,14 +339,14 @@ public class CompoundAcceptor {
       } else {
         return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
       }
-      return needsS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
+      return needsS.contains(part1lc) && isNoun(part2) && spellingOk(part1.substring(0, part1.length() - 1)) && spellingOk(part2);
     } else if (part1.endsWith("-")) { // abbreviations
       return abbrevOk(part1) && spellingOk(part2);
     } else if (part2.startsWith("-")) { // vowel collision
       part2 = part2.substring(1);
-      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels(part1, part2);
+      return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && hasCollidingVowels(part1, part2);
     } else {
-      return noS.contains(part1.toLowerCase()) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
+      return noS.contains(part1lc) && isNoun(part2) && spellingOk(part1) && spellingOk(part2) && !hasCollidingVowels(part1, part2);
     }
   }
 
