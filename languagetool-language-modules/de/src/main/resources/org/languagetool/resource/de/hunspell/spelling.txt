@@ -61104,3 +61104,10 @@ Zwiemilch
 Krabbelmatte/N
 Beikost #komp
 Reifezeichen/S
+Fréchet/S #name
+Fertigteig/S #komp
+Fertigteigmischung
+Fertigteigmischungen
+punkig/A
+chimärisch/A
+Schaden-Kosten-Quote/N
