@@ -37221,3 +37221,17 @@ investee
 investees
 compounder
 compounders
+Fréchet
+Glagolitic
+Monophysite
+Monophysites
+Monophysitic
+Monophysitism
+amylolytic
+compresence
+compresences
+Dyophysite
+Dyophysites
+Dyophysitic
+compressure
+compressures
