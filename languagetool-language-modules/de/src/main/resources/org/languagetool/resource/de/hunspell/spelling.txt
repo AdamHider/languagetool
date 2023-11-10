@@ -61086,6 +61086,7 @@ Yufka-Teigblätter/N
 Yufkateigblätter/N
 Teiggericht/S
 Teiggerichte/N
+zugeschustert/A
 Nomenform
 Nomenformen
 Interessenausgleiches
