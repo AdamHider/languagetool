@@ -552,6 +552,8 @@ public class CaseRule extends Rule {
     "Ihres",
     "Infrarot",
     "Jenseits",
+    "Jugendliche",
+    "Jugendlichen",
     "Jugendlicher",
     "Jünger",
     "Kant", //Immanuel
@@ -686,7 +688,9 @@ public class CaseRule extends Rule {
     "Eueren",
     "Euerem",
     "Eueres",
-    "Euerer"
+    "Euerer",
+    "Eurerseits",
+    "Euerseits"
   };
   
   private static final Set<StringMatcher[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
