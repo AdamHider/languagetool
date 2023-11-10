@@ -8515,3 +8515,13 @@ Leserhose/N
 Lagecyan
 Storybora
 Gefahrdung
+.*landschaf
+.*landschafen
+Divisionsmeisterschaf
+Floorballmeisterschaf
+Gittereigenschaf
+Netzwerkeigenschaf
+Netzwerkpartnerschaf
+Teichwirtschaf
+Teigeigenschaf
+Volleyballweltmeisterschaf
