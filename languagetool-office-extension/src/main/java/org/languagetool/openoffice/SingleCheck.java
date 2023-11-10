@@ -220,9 +220,11 @@ class SingleCheck {
       List<Integer> nextSentencePositions = null;
       //  NOTE: lt == null if language is not supported by LT
       //        but empty proof reading errors have added to cache to satisfy text level queue
-      if (lt != null && !docCache.isAutomaticGenerated(nFPara) && mDocHandler.isSortedRuleForIndex(cacheNum)) {
-        paragraphMatches = lt.check(textToCheck, true, 
-            cacheNum == 0 ? JLanguageTool.ParagraphHandling.NORMAL : JLanguageTool.ParagraphHandling.ONLYPARA);
+      if (lt != null && mDocHandler.isSortedRuleForIndex(cacheNum)) {
+        if (!docCache.isAutomaticGenerated(nFPara)) {
+          paragraphMatches = lt.check(textToCheck, true, 
+              cacheNum == 0 ? JLanguageTool.ParagraphHandling.NORMAL : JLanguageTool.ParagraphHandling.ONLYPARA);
+        }
         if (cacheNum == 0) {
           nextSentencePositions = getNextSentencePositions(textToCheck, lt);
         }
@@ -572,7 +574,7 @@ class SingleCheck {
         return pErrors;
       }
       
-      //  One paragraph check (set by options or proof of footnote, etc.)
+      //  One paragraph check
       if (!isTextParagraph || parasToCheck == 0) {
         Locale primaryLocale = isMultiLingual ? docCache.getFlatParagraphLocale(nFPara) : locale;
         SwJLanguageTool mLt;
@@ -584,7 +586,7 @@ class SingleCheck {
         }
         List<Integer> nextSentencePositions = getNextSentencePositions(paraText, mLt);
         List<Integer> deletedChars = isTextParagraph ? docCache.getFlatParagraphDeletedCharacters(nFPara): null;
-        if (mLt == null || (isTextParagraph && docCache.isAutomaticGenerated(nFPara))) {
+        if (mLt == null || (nFPara >= 0 && docCache != null && docCache.isAutomaticGenerated(nFPara))) {
           paragraphMatches = null;
         } else {
           paraText = removeFootnotes(paraText, footnotePos, deletedChars);
@@ -634,8 +636,8 @@ class SingleCheck {
       if (isDisposed()) {
         return null;
       }
-      addParaErrorsToCache(nFPara, lt, cacheNum, parasToCheck, textIsChanged, textIsChanged, isIntern, (footnotePos != null));
-      return paragraphsCache.get(cacheNum).getFromPara(nFPara, startSentencePos, endSentencePos);
+      addParaErrorsToCache(nFPara, lt, cacheNum, parasToCheck, (cacheNum == 0), textIsChanged, isIntern, (footnotePos != null));
+      return paragraphsCache.get(cacheNum).getFromPara(nFPara, startSentencePos, endSentencePos, errType);
 
     } catch (Throwable t) {
       MessageHandler.showError(t);

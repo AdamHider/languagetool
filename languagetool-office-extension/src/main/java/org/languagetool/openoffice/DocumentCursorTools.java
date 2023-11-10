@@ -339,11 +339,26 @@ class DocumentCursorTools {
     } catch (Throwable e) {
       //  if there is an exception go on with analysis - TextType is not automatic
     }
-    if (paraStyleName != null && (paraStyleName.startsWith("Heading") || paraStyleName.equals("Title") || paraStyleName.equals("Subtitle"))) {
-      return TextType.HEADING;
+    if (paraStyleName == null) {
+      return TEXT_TYPE_NORMAL;
     }
-    else if (paraStyleName != null && paraStyleName.startsWith("Contents")) {
-      return TextType.AUTOMATIC;
+    if (paraStyleName.equals("Title") || paraStyleName.equals("Subtitle")|| paraStyleName.equals("Heading")) {
+      return 0;
+    } else if (paraStyleName.startsWith("Heading")) {
+      String numberString = paraStyleName.substring(7).trim();
+      if (numberString.isEmpty()) { 
+        return 0;
+      }
+      int ret = 0;
+      try {
+        ret = Integer.parseInt(numberString);
+      } catch (Throwable e) {
+//        MessageHandler.printToLogFile("DocumentCursorTools: getTextType: paraStyleName: " + paraStyleName);
+//        MessageHandler.printException(e);
+      }
+      return ret;
+    } else if (paraStyleName.startsWith("Contents")) {
+      return TEXT_TYPE_AUTOMATIC;
     } else {
       return TextType.NORMAL;
     }
