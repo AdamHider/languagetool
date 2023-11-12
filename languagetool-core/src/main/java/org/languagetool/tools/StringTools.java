@@ -629,4 +629,86 @@ public final class StringTools {
     }
     return s + "-";
   }
+
+  /**
+    * Return <code>str</code> without tashkeel characters
+    * @param str input str
+    */
+   public static String removeTashkeel(String str) {
+     String striped = str.replaceAll("["
+       + "\u064B"  // Fathatan
+       + "\u064C"  // Dammatan
+       + "\u064D"  // Kasratan
+       + "\u064E"  // Fatha
+       + "\u064F"  // Damma
+       + "\u0650"  // Kasra
+       + "\u0651"  // Shadda
+       + "\u0652"  // Sukun
+       + "\u0653"  // Maddah Above
+       + "\u0654"  // Hamza Above
+       + "\u0655"  // Hamza Below
+       + "\u0656"  // Subscript Alef
+       + "\u0640"  // Tatweel
+       + "]", "");
+      return striped;
+    }
+
+  public static boolean isNotWordString(String input) {
+    return NOT_WORD_STR.matcher(input).matches();
+  }
+
+  /*
+   * Number of ocurreces of string t inside string s
+   */
+  public static int numberOf(String s, String t) {
+    return s.length() - s.replaceAll(t, "").length();
+  }
+
+  public static String convertToTitleCaseIteratingChars(String text) {
+    if (text == null || text.isEmpty()) {
+      return text;
+    }
+    StringBuilder converted = new StringBuilder();
+    boolean convertNext = true;
+    for (char ch : text.toCharArray()) {
+      if (Character.isSpaceChar(ch)) {
+        convertNext = true;
+      } else if (convertNext) {
+        ch = Character.toTitleCase(ch);
+        convertNext = false;
+      } else {
+        ch = Character.toLowerCase(ch);
+      }
+      converted.append(ch);
+    }
+    return converted.toString();
+  }
+
+  public static String[] splitCamelCase(String input) {
+    StringBuilder word = new StringBuilder();
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < input.length(); i++) {
+      char currentChar = input.charAt(i);
+      if (Character.isUpperCase(currentChar)) {
+        result.append(word).append(" ");
+        word.setLength(0);
+      }
+      word.append(currentChar);
+    }
+    result.append(word);
+    return result.toString().trim().split(" ");
+  }
+
+  public static String[] splitDigitsAtEnd(String input) {
+    int lastIndex = input.length() - 1;
+    while (lastIndex >= 0 && Character.isDigit(input.charAt(lastIndex))) {
+      lastIndex--;
+    }
+    String nonDigitPart = input.substring(0, lastIndex + 1);
+    String digitPart = input.substring(lastIndex + 1);
+    if (!nonDigitPart.isEmpty() && !digitPart.isEmpty()) {
+      return new String[]{nonDigitPart, digitPart};
+    }
+    return new String[]{input};
+  }
 }
