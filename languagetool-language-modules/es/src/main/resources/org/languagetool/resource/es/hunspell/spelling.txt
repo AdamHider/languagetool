@@ -205,6 +205,7 @@ Lescaut
 Ligeti
 Lizondo
 Lluís
+Losantos
 Luftwaffe
 MacLeod
 Magnit
@@ -6177,6 +6178,7 @@ austrozambiano
 austrozambianos
 autobloqueo
 autobloqueos
+avda
 bacterial
 bacteriales
 bahreiní
