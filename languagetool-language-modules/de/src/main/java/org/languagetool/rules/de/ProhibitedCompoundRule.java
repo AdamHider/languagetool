@@ -48,8 +48,12 @@ public class ProhibitedCompoundRule extends Rule {
   public static final String RULE_ID = "DE_PROHIBITED_COMPOUNDS";
   // have objects static for better performance (rule gets initialized for every check)
   private static final List<Pair> lowercasePairs = Arrays.asList(
-          // NOTE: words here must be all-lowercase
-          // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          // NOTES:
+          // * words here must be all-lowercase
+          // * no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          // * please test using ProhibitedCompoundRuleTest.testListOfWords() before pushing a change with a new pair
+          new Pair("schaf", "Tier", "schaft", "'-schaft' (Element zur Wortbildung, z. B. 'Freundschaft')"),
+          new Pair("schafen", "Dativ Plural von 'Schaf'", "schaften", "'-schaften' (Element zur Wortbildung, z. B. 'Freundschaften')"),
           new Pair("leser", "eine Person, die liest", "leder", "aus Tierhaut gewonnenes Material"),
           new Pair("alpen", "Hochgebirge in Mittel- und Südeuropa", "alben", "Plural von 'Album'"),
           new Pair("pillen", "Tabletten", "pullen", "Plural für 'Pulle' (Flasche)"),
