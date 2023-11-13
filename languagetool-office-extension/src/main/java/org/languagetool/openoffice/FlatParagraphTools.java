@@ -457,10 +457,25 @@ public class FlatParagraphTools {
   /** 
    * Returns positions of properties by name 
    */
-  private int[] getPropertyValues(String propName, XFlatParagraph xFlatPara) {
-    if (xFlatPara == null) {
-      if (debugMode) {
-        MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValues: FlatParagraph == null");
+  public int[] getFootnotePosition(XFlatParagraph xFlatPara) {
+    return getIntArrayPropertyValue("FootnotePositions", xFlatPara);
+  }
+
+  /** 
+   * Returns positions of properties by name 
+   */
+  private Object getPropertyValueAsObject(String propName, XFlatParagraph xFlatPara) {
+    try {
+      if (xFlatPara == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValueAsObject: FlatParagraph == null");
+        }
+        return  null;
+      }
+      XPropertySet paraProps = UnoRuntime.queryInterface(XPropertySet.class, xFlatPara);
+      if (paraProps == null) {
+        MessageHandler.printToLogFile("FlatParagraphTools: getPropertyValueAsObject: XPropertySet == null");
+        return  null;
       }
       return  new int[]{};
     }
