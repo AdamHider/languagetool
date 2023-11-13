@@ -685,6 +685,9 @@ public final class StringTools {
   }
 
   public static String[] splitCamelCase(String input) {
+    if (isAllUppercase(input)) {
+      return new String[]{input};
+    }
     StringBuilder word = new StringBuilder();
     StringBuilder result = new StringBuilder();
     for (int i = 0; i < input.length(); i++) {
