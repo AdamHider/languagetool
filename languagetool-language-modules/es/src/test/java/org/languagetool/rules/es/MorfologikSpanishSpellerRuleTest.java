@@ -124,8 +124,11 @@ public class MorfologikSpanishSpellerRuleTest {
     
     matches = rule.match(lt.getAnalyzedSentence("BretañaItinerante"));
     assertEquals("Bretaña Itinerante", matches[0].getSuggestedReplacements().get(0));
-    
-    //currencies
+
+    matches = rule.match(lt.getAnalyzedSentence("sigloXXI"));
+    assertEquals("siglo XXI", matches[0].getSuggestedReplacements().get(0));
+
+    // currencies
     matches = rule.match(lt.getAnalyzedSentence("$100"));
     assertEquals(0, matches.length);
     matches = rule.match(lt.getAnalyzedSentence("$10,000"));
