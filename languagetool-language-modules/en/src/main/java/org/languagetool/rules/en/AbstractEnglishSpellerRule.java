@@ -491,6 +491,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           !rep.endsWith(" sphere") &&
           !rep.endsWith(" ell") &&
           !rep.endsWith(" con") &&
+          !rep.endsWith(" com") &&
           !rep.endsWith(" sis") &&
           !rep.endsWith(" like") && // "ribbonlike"
           !rep.endsWith(" full") && // do not suggest "use full" for "useful"
@@ -720,6 +721,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Handable", Arrays.asList("Handleable"));
     s.put("Tuffed", Arrays.asList("Toughed"));
     s.put("tuffed", Arrays.asList("toughed"));
+    s.put("biosim", Arrays.asList("biosimilar"));
+    s.put("biosims", Arrays.asList("biosimilars"));
     s.put("Tuffest", Arrays.asList("Toughest"));
     s.put("tuffest", Arrays.asList("toughest"));
     s.put("Tuffer", Arrays.asList("Tougher"));
