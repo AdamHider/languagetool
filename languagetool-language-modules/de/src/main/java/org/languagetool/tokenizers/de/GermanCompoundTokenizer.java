@@ -84,6 +84,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("vollstreckbarkeit");
       words.add("vollziehung");
       words.add("kasko");
+      words.add("blitzableiter");
+      words.add("abschattungen");
       words.trim();
       return words;
     }
