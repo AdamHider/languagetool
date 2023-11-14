@@ -462,6 +462,8 @@ abacterianos
 acid
 adicionalidad
 adicionalidades
+afgani
+afganis
 afro-abudabí
 afro-abudabíes
 afro-abudabís
@@ -3893,6 +3895,8 @@ apertúreteme
 apertúretenos
 apocalipticismo
 apocalipticismos
+apsar
+apsars
 aquafaba
 arcocosecante
 arcocosecantes
@@ -3902,6 +3906,8 @@ arcosecante
 arcosecantes
 arcotangente
 arcotangentes
+ariary
+ariarys
 arrasca
 arrascaba
 arrascabais
@@ -8918,6 +8924,8 @@ danozambiana
 danozambianas
 danozambiano
 danozambianos
+denar
+denares
 desambiguador
 desambiguadores
 desbancarice
@@ -10063,6 +10071,8 @@ dinamizador
 dinamizadora
 dinamizadoras
 dinamizadores
+dobra
+dobras
 docuficciones
 docuficción
 edadismo
@@ -22312,10 +22322,14 @@ lampedusiano
 lampedusianos
 laptop
 laptops
+lari
+laris
 lecorbusierana
 lecorbusieranas
 lecorbusierano
 lecorbusieranos
+lek
+leks
 linkea
 linkeaba
 linkeabais
@@ -25760,6 +25774,8 @@ mutéetelo
 mutéetelos
 mutéeteme
 mutéetenos
+nafka
+nafkas
 nanosatélite
 nanosatélites
 narratividad
@@ -33733,6 +33749,9 @@ sobreprotéjateme
 sobreprotéjatenos
 socimi
 socimis
+som
+somoni
+somonis
 sonrojante
 sonrojantes
 sororidad
@@ -35288,6 +35307,8 @@ séquel
 séqueles
 tamizaje
 tamizajes
+tangka
+tangkas
 tanzana
 tanzanas
 tanzano
@@ -35301,6 +35322,8 @@ tetrapartidismo
 tetrapartidismos
 tetrapartito
 tetrapartitos
+tical
+ticales
 trabajoadicta
 trabajoadictas
 trabajoadicto
@@ -38367,6 +38390,10 @@ wasapéetelo
 wasapéetelos
 wasapéeteme
 wasapéetenos
+won
+wones
+zloty
+zlotys
 zoofitosanitaria
 zoofitosanitarias
 zoofitosanitario
