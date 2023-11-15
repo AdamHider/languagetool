@@ -60723,3 +60723,5 @@ Schifa-Klinik
 Schifa-Spital/S
 Schifa-Krankenhaus
 Schifa-Krankenhauses
+Abteufung
+Abteufungen
