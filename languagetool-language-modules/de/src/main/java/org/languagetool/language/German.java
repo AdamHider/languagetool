@@ -447,6 +447,10 @@ public class German extends Language implements AutoCloseable {
       case "ANGLIZISMUS_PA_MIT_ED" : return -2;   // overwrite spell checker
       case "ZAHL_IM_WORT": return -2; //should not override rules like H2O
       case "ICH_LIEBS": return -2;  // higher prio than spell checker
+      case "WENNS_UND_ABERS": return -2;  // higher prio than spell checker
+      case "ABERS_SATZANFANG": return -2;  // higher prio than spell checker
+      case "VERNEB": return -2;  // higher prio than spell checker
+      case "ZAHL_IM_WORT_SPELLING_RULE": return -2; // higher prio than spell checker
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
