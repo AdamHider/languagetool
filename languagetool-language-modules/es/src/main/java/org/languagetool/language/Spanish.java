@@ -64,7 +64,8 @@ public class Spanish extends Language implements AutoCloseable {
             "BO", "SV", "HN", "NI", "PR", "US", "CU"
     };
   }
-  
+
+  @Override
   public Language getDefaultLanguageVariant() {
     return DEFAULT_VARIANT;
   }
@@ -274,15 +275,25 @@ public class Spanish extends Language implements AutoCloseable {
   private static final Pattern ES_CONTRACTIONS = Pattern.compile("\\b([Aa]|[Dd]e) e(l)\\b");
   
   @Override
-  public List<RuleMatch> adaptSuggestions(List<RuleMatch> ruleMatches, Set<String> enabledRules) {
-    List<RuleMatch> newRuleMatches = new ArrayList<>();
-    for (RuleMatch rm : ruleMatches) {
-      List<String> replacements = rm.getSuggestedReplacements();
-      List<String> newReplacements = new ArrayList<>();
-      for (String s : replacements) {
-        Matcher m = ES_CONTRACTIONS.matcher(s);
-        s= m.replaceAll("$1$2");
-        newReplacements.add(s);
+  public String adaptSuggestion(String replacement) {
+    Matcher m = ES_CONTRACTIONS.matcher(replacement);
+    String newReplacement = m.replaceAll("$1$2");
+    return newReplacement;
+  }
+
+  @Override
+  public String prepareLineForSpeller(String line) {
+    String[] parts = line.split("#");
+    if (parts.length == 0) {
+      return line;
+    }
+    String[] formTag = parts[0].split("[\t;]");
+    if (formTag.length > 1) {
+      String tag = formTag[1].trim();
+      if (!tag.startsWith("N")) {
+        return "";
+      } else {
+        return formTag[0].trim();
       }
       RuleMatch newMatch = new RuleMatch(rm, newReplacements);
       newRuleMatches.add(newMatch);
