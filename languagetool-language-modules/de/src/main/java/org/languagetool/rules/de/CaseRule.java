@@ -31,7 +31,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.StringMatcher;
 import org.languagetool.tagging.de.GermanTagger;
-import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
@@ -57,6 +56,7 @@ public class CaseRule extends Rule {
 
   private static final Pattern NUMERALS_EN =
           Pattern.compile("[a-z]|[0-9]+|(m{0,4}(c[md]|d?c{0,3})(x[cl]|l?x{0,3})(i[xv]|v?i{0,3}))$");
+  private static final Pattern TWO_UPPERCASE_CHARS = Pattern.compile("[A-ZÖÄÜ][A-ZÖÄÜ][a-zöäüß-]+");
 
   // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
   // muss also groß geschrieben werden:
@@ -65,6 +65,9 @@ public class CaseRule extends Rule {
   private static final String UPPERCASE_MESSAGE = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben.";
   private static final String LOWERCASE_MESSAGE = "Falls es sich um ein substantiviertes Verb handelt, wird es großgeschrieben.";
   private static final String COLON_MESSAGE = "Folgt dem Doppelpunkt weder ein Substantiv noch eine wörtliche Rede oder ein vollständiger Hauptsatz, schreibt man klein weiter.";
+  private static final Pattern VERHALTEN = Pattern.compile(".+verhalten");
+  private static final Pattern SOFT_HYPHEN = Pattern.compile("\\u00AD");
+  private static final Pattern IRGEND_ETC = Pattern.compile("irgendwelche|irgendwas|irgendein|weniger?|einiger?|mehr|aufs");
 
   static {
     nounIndicators.add("das");
@@ -552,6 +555,8 @@ public class CaseRule extends Rule {
     "Ihres",
     "Infrarot",
     "Jenseits",
+    "Jugendliche",
+    "Jugendlichen",
     "Jugendlicher",
     "Jünger",
     "Kant", //Immanuel
@@ -686,7 +691,9 @@ public class CaseRule extends Rule {
     "Eueren",
     "Euerem",
     "Eueres",
-    "Euerer"
+    "Euerer",
+    "Eurerseits",
+    "Euerseits"
   };
   
   private static final Set<StringMatcher[]> exceptionPatterns = CaseRuleExceptions.getExceptionPatterns();
@@ -794,7 +801,7 @@ public class CaseRule extends Rule {
       String token = analyzedToken.getToken();
 
       boolean isBaseform = analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token);
-      if ((analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.VERB))
+      if ((analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, POSType.VERB))
           && isBaseform) {
         boolean nextTokenIsPersonalOrReflexivePronoun = false;
         if (i < tokens.length - 1) {
@@ -855,7 +862,7 @@ public class CaseRule extends Rule {
     return Arrays.stream(tokens).filter(token -> token.hasPosTagStartingWith(partialPosTag)).mapToInt(e -> 1).sum();
   }
 
-  private boolean isPotentialUpperCaseError (int pos, AnalyzedTokenReadings[] tokens,
+  private boolean isPotentialUpperCaseError(int pos, AnalyzedTokenReadings[] tokens,
       AnalyzedTokenReadings lowercaseReadings, boolean isPrecededByModalOrAuxiliary) {
     if (pos <= 1) {
       return false;
@@ -868,7 +875,7 @@ public class CaseRule extends Rule {
       lowercaseReadings.hasPosTagStartingWith("VER:INF")) {
       return true;
     }
-    if (tokens[pos].getToken().matches(".+verhalten")) {
+    if (VERHALTEN.matcher(tokens[pos].getToken()).matches()) {
       return false;
     }
     // find error in: "Man müsse Überlegen, wie man das Problem löst."
@@ -928,7 +935,7 @@ public class CaseRule extends Rule {
         return true;
       }
       // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:
-      AnalyzedTokenReadings allReadings = lookup(readings.getToken().replaceAll("\\u00AD", ""));  // unification in disambiguation.xml removes reading, so look up again, removing soft hyphens
+      AnalyzedTokenReadings allReadings = lookup(SOFT_HYPHEN.matcher(readings.getToken()).replaceAll(""));  // unification in disambiguation.xml removes reading, so look up again, removing soft hyphens
       if (allReadings != null) {
         for (AnalyzedToken reading : allReadings) {
           String posTag = reading.getPOSTag();
@@ -1004,7 +1011,7 @@ public class CaseRule extends Rule {
   }
 
   private boolean isCaseTypo(String token) {
-    return token.matches("[A-ZÖÄÜ][A-ZÖÄÜ][a-zöäüß-]+");   // e.g. "WUrzeln"
+    return TWO_UPPERCASE_CHARS.matcher(token).matches();   // e.g. "WUrzeln"
   }
 
   private boolean isSingularImperative(AnalyzedTokenReadings lowercaseReadings, AnalyzedTokenReadings token) {
@@ -1078,7 +1085,7 @@ public class CaseRule extends Rule {
         // "aus sechs Überwiegend muslimischen Ländern"
         return false;
       }
-      return ((prevToken != null && prevTokenStr.matches("irgendwelche|irgendwas|irgendein|weniger?|einiger?|mehr|aufs") && tokens[i].hasPartialPosTag("SUB"))
+      return ((prevToken != null && IRGEND_ETC.matcher(prevTokenStr).matches() && tokens[i].hasPartialPosTag("SUB"))
               || isNumber(prevTokenStr)) ||
          (hasPartialTag(prevToken, "ART", "PRO:") && !(((i < 4 && tokens.length > 4) || prevToken.getReadings().size() == 1 || prevPrevToken.hasLemma("sein")) && prevToken.hasPosTagStartingWith("PRO:PER:NOM:"))  && !prevToken.hasPartialPosTag(":STD")) ||  // "die Verurteilten", "etwas Verrücktes", "ihr Bestes"
          (hasPartialTag(prevPrevPrevToken, "ART") && hasPartialTag(prevPrevToken, "PRP") && hasPartialTag(prevToken, "SUB")) || // "die zum Tode Verurteilten"

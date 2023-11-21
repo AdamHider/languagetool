@@ -151,6 +151,9 @@ class SingleDocument {
     if (xComponent != null) {
       setFlatParagraphTools();
     }
+    if (!mDocHandler.isOpenOffice && docType == DocumentType.IMPRESS && ltMenus == null) {
+      ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
+    }
   }
   
   /**  get the result for a check of a single document 
@@ -210,14 +213,15 @@ class SingleDocument {
       mDocHandler.setUseOriginalCheckDialog();
     }
 
-    if (proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT 
+    if (!hasSortedTextId && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT 
         && (DocumentCursorTools.isBusy() || ViewCursorTools.isBusy() || FlatParagraphTools.isBusy() || docCache.isResetRunning())) {
       //  NOTE: LO blocks the read of information by document or view cursor tools till a PROOFINFO_GET_PROOFRESULT request is done
       //        This causes a hanging of LO when the request isn't answered immediately by a 0 matches result
-//      MessageHandler.printToLogFile("SingleDocument: getCheckResults: docCache Reset is running: return 0 errors");
-      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, fixedLanguage,
-          docLanguage, ignoredMatches, numParasToCheck, true, isMouseRequest, false);
-      paRes.aErrors = singleCheck.checkParaRules(paraText, locale, footnotePositions, -1, paRes.nStartOfSentencePosition, lt, 0, 0, false, false);
+      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage,
+          docLanguage, numParasToCheck, true, isMouseRequest, false);
+      paRes.aErrors = singleCheck.checkParaRules(paraText, locale, 
+                                    footnotePositions, -1, paRes.nStartOfSentencePosition, lt, 0, 0, false, false, errType);
+      closeDocumentCursor();
       return paRes;
     }
     if (debugMode > 0 && proofInfo == OfficeTools.PROOFINFO_GET_PROOFRESULT) {
@@ -296,10 +300,15 @@ class SingleDocument {
       if (debugModeTm) {
         startTime = System.currentTimeMillis();
       }
-      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, docCursor, flatPara, fixedLanguage,
-          docLanguage, ignoredMatches, numParasToCheck, isDialogRequest, isMouseRequest, isIntern);
+//      MessageHandler.printToLogFile("Single document: Check Paragraph: " + paraNum);
+      SingleCheck singleCheck = new SingleCheck(this, paragraphsCache, fixedLanguage,
+          docLanguage, numParasToCheck, isDialogRequest, isMouseRequest, isIntern);
       paRes.aErrors = singleCheck.getCheckResults(paraText, footnotePositions, locale, lt, paraNum, 
-          paRes.nStartOfSentencePosition, textIsChanged, changeFrom, changeTo, lastSinglePara, lastChangedPara);
+          paRes.nStartOfSentencePosition, textIsChanged, changeFrom, changeTo, lastSinglePara, lastChangedPara, errType);
+//    MessageHandler.printToLogFile("Single document: Check Paragraph: " + paraNum + " done");
+//      MessageHandler.printToLogFile("Single document: Check Paragraph: resultCache for Para " + paraNum + ": "
+//          + (paragraphsCache.get(0).getCacheEntry(paraNum) == null 
+//          ? "null" : paragraphsCache.get(0).getCacheEntry(paraNum).errorArray.length));
       lastSinglePara = singleCheck.getLastSingleParagraph();
       paRes.nStartOfSentencePosition = paragraphsCache.get(0).getStartSentencePosition(paraNum, paRes.nStartOfSentencePosition);
       paRes.nStartOfNextSentencePosition = paragraphsCache.get(0).getNextSentencePosition(paraNum, paRes.nStartOfSentencePosition);
@@ -317,7 +326,7 @@ class SingleDocument {
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
-    if (docType == DocumentType.WRITER && ltMenus == null && paraText.length() > 0) {
+    if (ltMenus == null && !mDocHandler.isOpenOffice && docType == DocumentType.WRITER && paraText.length() > 0) {
       ltMenus = new LanguageToolMenus(xContext, xComponent, this, config);
     }
     return paRes;
@@ -511,7 +520,7 @@ class SingleDocument {
    * read caches from file
    */
   void readCaches() {
-    if (numParasToCheck != 0) {
+    if (numParasToCheck != 0 && docType != DocumentType.CALC) {
       cacheIO = new CacheIO(xComponent);
       boolean cacheExist = cacheIO.readAllCaches(config, mDocHandler);
       if (cacheExist) {
@@ -529,7 +538,8 @@ class SingleDocument {
    * write caches to file
    */
   void writeCaches() {
-    if (numParasToCheck != 0 && !config.noBackgroundCheck()) {
+    if (numParasToCheck != 0 && !config.noBackgroundCheck() && docType != DocumentType.CALC) {
+      MessageHandler.printToLogFile("SingleDocument: writeCaches: Copy DocumentCache");
       DocumentCache docCache = new DocumentCache(this.docCache);
       List<ResultCache> paragraphsCache = new ArrayList<ResultCache>();
       for (int i = 0; i < this.paragraphsCache.size(); i++) {
@@ -601,7 +611,7 @@ class SingleDocument {
    * create a queue entry 
    * used by getNextQueueEntry
    */
-  private QueueEntry createQueueEntry(TextParagraph nPara, int nCache) {
+  QueueEntry createQueueEntry(TextParagraph nPara, int nCache) {
     int nCheck = mDocHandler.getNumMinToCheckParas().get(nCache);
     int nStart = docCache.getStartOfParaCheck(nPara, nCheck, false, true, false);
     int nEnd = docCache.getEndOfParaCheck(nPara, nCheck, false, true, false);
@@ -796,6 +806,21 @@ class SingleDocument {
         }
       }
       ignoredMatches = tmpIgnoredMatches;
+    }
+    if (!permanentIgnoredMatches.isEmpty()) {
+      IgnoredMatches tmpIgnoredMatches = new IgnoredMatches();
+      for (int i = 0; i < from; i++) {
+        if (permanentIgnoredMatches.containsParagraph(i)) {
+          tmpIgnoredMatches.put(i, permanentIgnoredMatches.get(i));
+        }
+      }
+      for (int i = to + 1; i < oldSize; i++) {
+        int n = i + newSize - oldSize;
+        if (permanentIgnoredMatches.containsParagraph(i)) {
+          tmpIgnoredMatches.put(n, permanentIgnoredMatches.get(i));
+        }
+      }
+      permanentIgnoredMatches = tmpIgnoredMatches;
     }
   }
   
@@ -1065,6 +1090,111 @@ class SingleDocument {
     }
   }
   
+  /**
+   * get all synonyms as array
+   */
+  public String[] getSynonymArray(SingleProofreadingError error, String para, Locale locale, SwJLanguageTool lt) {
+    Map<String, List<String>> synonymMap = getSynonymMap(error, para, locale, lt);
+    if (synonymMap.isEmpty()) {
+      return new String[0];
+    }
+    List<String> suggestions = new ArrayList<>();
+    for (String lemma : synonymMap.keySet()) {
+      suggestions.addAll(synonymMap.get(lemma));
+    }
+    return suggestions.toArray(new String[suggestions.size()]);
+  }
+  
+  /**
+   * get all synonyms as map
+   */
+  public Map<String, List<String>> getSynonymMap(SingleProofreadingError error, String para, Locale locale, SwJLanguageTool lt) {
+    Map<String, List<String>> suggestionMap = new HashMap<>();
+    try {
+      String word = para.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
+      boolean startUpperCase = Character.isUpperCase(word.charAt(0));
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("SingleDocument: getSynonymMap: Find Synonyms for word:" + word);
+      }
+//      List<String> lemmas = lt.getLemmasOfWord(word);
+      List<String> lemmas = lt.getLemmasOfParagraph(para, error.nErrorStart);
+      for (String lemma : lemmas) {
+        if (debugMode > 1) {
+          MessageHandler.printToLogFile("SingleDocument: getSynonymMap: Find Synonyms for lemma:" + lemma);
+        }
+        List<String> suggestions = new ArrayList<>();
+        List<String> synonyms = mDocHandler.getLinguisticServices().getSynonyms(lemma, locale);
+        for (String synonym : synonyms) {
+          synonym = synonym.replaceAll("\\(.*\\)", "").trim();
+          if (debugMode > 1) {
+            MessageHandler.printToLogFile("SingleDocument: getSynonymMap: Synonym:" + synonym);
+          }
+          if (!synonym.isEmpty() && !suggestions.contains(synonym)
+              && ( (startUpperCase && Character.isUpperCase(synonym.charAt(0))) 
+                  || (!startUpperCase && Character.isLowerCase(synonym.charAt(0))))) {
+            suggestions.add(synonym);
+          }
+        }
+        if (!suggestions.isEmpty()) {
+          suggestionMap.put(lemma, suggestions);
+        }
+      }
+    } catch (Throwable t) {
+      MessageHandler.printException(t);
+    }
+    return suggestionMap;
+  }
+
+  private void addSynonyms(ProofreadingResult paRes, String para, Locale locale, SwJLanguageTool lt) throws IOException {
+    LinguisticServices linguServices = mDocHandler.getLinguisticServices();
+    if (linguServices != null) {
+      for (SingleProofreadingError error : paRes.aErrors) {
+        if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
+            && linguServices.isThesaurusRelevantRule(error.aRuleIdentifier)) {
+          error.aSuggestions = getSynonymArray(error, para, locale, lt);
+        }
+      }
+    }
+  }
+
+/*    !!!  remove after tests   !!!
+  private void addSynonyms(ProofreadingResult paRes, String para, Locale locale, SwJLanguageTool lt) throws IOException {
+    LinguisticServices linguServices = mDocHandler.getLinguisticServices();
+    if (linguServices != null) {
+      for (SingleProofreadingError error : paRes.aErrors) {
+        if ((error.aSuggestions == null || error.aSuggestions.length == 0) 
+            && linguServices.isThesaurusRelevantRule(error.aRuleIdentifier)) {
+          String word = para.substring(error.nErrorStart, error.nErrorStart + error.nErrorLength);
+          List<String> suggestions = new ArrayList<>();
+          List<String> lemmas = lt.getLemmasOfWord(word);
+          int num = 0;
+          for (String lemma : lemmas) {
+            if (debugMode > 0) {
+              MessageHandler.printToLogFile("SingleDocument: addSynonyms: Find Synonyms for lemma:" + lemma);
+            }
+            List<String> synonyms = linguServices.getSynonyms(lemma, locale);
+            for (String synonym : synonyms) {
+              synonym = synonym.replaceAll("\\(.*\\)", "").trim();
+              if (!synonym.isEmpty() && !suggestions.contains(synonym)) {
+                suggestions.add(synonym);
+                num++;
+              }
+              if (num >= OfficeTools.MAX_SUGGESTIONS) {
+                break;
+              }
+            }
+            if (num >= OfficeTools.MAX_SUGGESTIONS) {
+              break;
+            }
+          }
+          if (!suggestions.isEmpty()) {
+            error.aSuggestions = suggestions.toArray(new String[suggestions.size()]);
+          }
+        }
+      }
+    }
+  }
+*/
   private void setDokumentListener(XComponent xComponent) {
     if (xComponent != null && eventListener == null) {
       eventListener = new LTDokumentEventListener();

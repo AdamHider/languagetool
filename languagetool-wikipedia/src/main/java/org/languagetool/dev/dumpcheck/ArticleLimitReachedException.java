@@ -29,9 +29,9 @@ public class ArticleLimitReachedException extends RuntimeException {
     this.limit = limit;
   }
 
-  @Override
-  public String getMessage() {
-    return "Maximum number of articles (" + limit + ") reached";
+  protected SpanishMultitokenSpeller() {
+    super(Languages.getLanguageForShortCode("es"),
+      Arrays.asList("/es/multiwords.txt", "/spelling_global.txt", "/es/hyphenated_words.txt"));
   }
 
 }

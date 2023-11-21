@@ -52,6 +52,8 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.*;
+
 /**
  * Base class for any supported language (English, German, etc). Language classes
  * are detected at runtime by searching the classpath for files named
@@ -70,14 +72,31 @@ public abstract class Language {
   private static final Tagger DEMO_TAGGER = new DemoTagger();
   private static final SentenceTokenizer SENTENCE_TOKENIZER = new SimpleSentenceTokenizer();
   private static final WordTokenizer WORD_TOKENIZER = new WordTokenizer();
-  private static final Pattern INSIDE_SUGGESTION = Pattern.compile("<suggestion>(.+?)</suggestion>");
-  private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
-    Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern INSIDE_SUGGESTION = compile("<suggestion>(.+?)</suggestion>");
+  private static final Pattern APOSTROPHE = compile("([\\p{L}\\d-])'([\\p{L}«])",
+    CASE_INSENSITIVE | UNICODE_CASE);
+
+  private static final Pattern SUGGESTION_OPEN_TAG = compile("<suggestion>");
+  private static final Pattern SUGGESTION_CLOSE_TAG = compile("</suggestion>");
+
+  private static final Pattern ELLIPSIS = compile("\\.\\.\\.");
+  private static final Pattern NBSPACE1 = compile("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)");
+  private static final Pattern NBSPACE2 = compile("\\b([a-zA-Z]\\.) ");
+
+  private static final Map<Class<Language>, JLanguageTool> languagetoolInstances = new ConcurrentHashMap<>();
+  private static final Pattern SINGLE_QUOTE_PATTERN = compile("'");
+  private static final Pattern QUOTED_CHAR_PATTERN = compile(" '(.)'");
+  private static final Pattern TYPOGRAPHY_PATTERN_1 = compile("([\\u202f\\u00a0 «\"\\(])'");
+  private static final Pattern TYPOGRAPHY_PATTERN_2 = compile("'([\u202f\u00a0 !\\?,\\.;:\"\\)])");
+  private static final Pattern TYPOGRAPHY_PATTERN_3 = compile("‘s\\b([^’])");
+  private static final Pattern DOUBLE_QUOTE_PATTERN = compile("\"");
+  private static final Pattern TYPOGRAPHY_PATTERN_4 = compile("([ \\(])\"");
+  private static final Pattern TYPOGRAPHY_PATTERN_5 = compile("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])");
 
   private final UnifierConfiguration unifierConfig = new UnifierConfiguration();
   private final UnifierConfiguration disambiguationUnifierConfig = new UnifierConfiguration();
 
-  private final Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
+  private final Pattern ignoredCharactersRegex = compile("[\u00AD]");  // soft hyphen
   
   private List<AbstractPatternRule> patternRules;
   private final AtomicBoolean noLmWarningPrinted = new AtomicBoolean();
@@ -89,6 +108,11 @@ public abstract class Language {
   private Chunker chunker;
   private Chunker postDisambiguationChunker;
   private Synthesizer synthesizer;
+
+  private String shortCodeWithCountryAndVariant;
+
+  protected Language() {
+  }
 
   /**
    * Get this language's character code, e.g. <code>en</code> for English.
@@ -213,7 +237,7 @@ public abstract class Language {
 
 
   /**
-   * For rules that depend on a remote server; based on {@link org.languagetool.rules.RemoteRule}
+   * For rules that depend on a remote server; based on {@link RemoteRule}
    * will be executed asynchronously, with timeout, retries, etc.  as configured
    * Can return non-remote rules (e.g. if configuration missing, or for A/B tests), will be executed normally
    */
@@ -235,7 +259,7 @@ public abstract class Language {
   }
 
   /**
-   * For rules whose results are extended using some remote service, e.g. {@link org.languagetool.rules.BERTSuggestionRanking}
+   * For rules whose results are extended using some remote service, e.g. {@link BERTSuggestionRanking}
    * @return function that transforms old rule into remote-enhanced rule
    * @since 4.8
    */
@@ -542,6 +566,23 @@ public abstract class Language {
   }
 
   /**
+   * Create a shared instance of JLanguageTool to use in rules for further processing
+   * Instances are shared by Language
+   * As this is a shared instance, do not modify (add or remove) any rules or filters.
+   * The alternative to disabling/enabling rules is to select the desired rules from getAllActiveRules(), and run them separately with rule.match(analizedSentence).
+   *
+   * Do not call this in a static block or to initialize a static JLanguageTool field in rules or filters classes, this could lead to a deadlock during initialization.
+   *
+   * @since 6.1
+   * @return a shared JLanguageTool instance for this language
+   */
+  public JLanguageTool createDefaultJLanguageTool() {
+    Language self = this;
+    Class clazz = this.getClass();
+    return languagetoolInstances.computeIfAbsent(clazz, _class -> new JLanguageTool(self));
+  }
+
+  /**
    * Creates language specific part-of-speech synthesizer. This function will be called
    * each time in {@link #getSynthesizer()} if synthesizer is not set.
    */
@@ -622,6 +663,17 @@ public abstract class Language {
    * @since 3.6
    */
   public final String getShortCodeWithCountryAndVariant() {
+    if (shortCodeWithCountryAndVariant == null) {
+      synchronized (this) {
+        if (shortCodeWithCountryAndVariant == null) {
+          shortCodeWithCountryAndVariant = buildShortCodeWithCountryAndVariant();
+        }
+      }
+    }
+    return shortCodeWithCountryAndVariant;
+  }
+
+  private String buildShortCodeWithCountryAndVariant() {
     String name = getShortCode();
     if (getCountries().length == 1 && !name.contains("-x-")) {   // e.g. "de-DE-x-simple-language"
       name += "-" + getCountries()[0];
@@ -847,7 +899,9 @@ public abstract class Language {
   /** @since 5.1 */
   public String toAdvancedTypography(String input) {
     if (!isAdvancedTypographyEnabled()) {
-      return input.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
+      return SUGGESTION_CLOSE_TAG.matcher(
+        SUGGESTION_OPEN_TAG.matcher(input).replaceAll(getOpeningDoubleQuote())
+      ).replaceAll(getClosingDoubleQuote());
     }
     String output = input;
    
@@ -859,49 +913,51 @@ public abstract class Language {
     while (m.find(offset)) {
       String group = m.group(1);
       preservedStrings.add(group);
-      output = output.replaceFirst("<suggestion>" + Pattern.quote(group) + "</suggestion>", "\\\\" + String.valueOf(countPreserved));
+      output = output.replaceFirst("<suggestion>" + quote(group) + "</suggestion>", "\\\\" + countPreserved);
       countPreserved++;
       offset = m.end();
     }
     
     // Ellipsis (for all languages?)
-    output = output.replaceAll("\\.\\.\\.", "…");
+    output = ELLIPSIS.matcher(output).replaceAll("…");
     
     // non-breaking space
-    output = output.replaceAll("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)", "$1\u00a0$2");
-    output = output.replaceAll("\\b([a-zA-Z]\\.) ", "$1\u00a0");
+    output = NBSPACE1.matcher(output).replaceAll("$1\u00a0$2");
+    output = NBSPACE2.matcher(output).replaceAll("$1\u00a0");
     
     Matcher matcher = APOSTROPHE.matcher(output);
     output = matcher.replaceAll("$1’$2");
     
     // single quotes
     if (output.startsWith("'")) { 
-      output = output.replaceFirst("'", getOpeningSingleQuote());
+      output = SINGLE_QUOTE_PATTERN.matcher(output).replaceFirst(getOpeningSingleQuote());
     }
     if (output.endsWith("'")) { 
       output = output.substring(0, output.length() - 1 ) + getClosingSingleQuote();
     }
-    output = output.replaceAll(" '(.)'", " " + getOpeningSingleQuote()+"$1"+getClosingSingleQuote()); //exception single character
-    output = output.replaceAll("([\\u202f\\u00a0 «\"\\(])'", "$1" + getOpeningSingleQuote());
-    output = output.replaceAll("'([\u202f\u00a0 !\\?,\\.;:\"\\)])", getClosingSingleQuote() + "$1");
-    output = output.replaceAll("‘s\\b([^’])", "’s$1"); // exception genitive
+    output = QUOTED_CHAR_PATTERN.matcher(output).replaceAll(" " + getOpeningSingleQuote() + "$1" + getClosingSingleQuote()); //exception single character
+    output = TYPOGRAPHY_PATTERN_1.matcher(output).replaceAll("$1" + getOpeningSingleQuote());
+    output = TYPOGRAPHY_PATTERN_2.matcher(output).replaceAll(getClosingSingleQuote() + "$1");
+    output = TYPOGRAPHY_PATTERN_3.matcher(output).replaceAll("’s$1"); // exception genitive
     
     // double quotes
     if (output.startsWith("\"")) { 
-      output = output.replaceFirst("\"", getOpeningDoubleQuote());
+      output = DOUBLE_QUOTE_PATTERN.matcher(output).replaceFirst(getOpeningDoubleQuote());
     }
     if (output.endsWith("\"")) { 
       output = output.substring(0, output.length() - 1 ) + getClosingDoubleQuote();
     }
-    output = output.replaceAll("([ \\(])\"", "$1" + getOpeningDoubleQuote());
-    output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])", getClosingDoubleQuote() + "$1");   
+    output = TYPOGRAPHY_PATTERN_4.matcher(output).replaceAll("$1" + getOpeningDoubleQuote());
+    output = TYPOGRAPHY_PATTERN_5.matcher(output).replaceAll(getClosingDoubleQuote() + "$1");
     
     //restore suggestions
     for (int i = 0; i < preservedStrings.size(); i++) {
       output = output.replaceFirst("\\\\" + i, getOpeningDoubleQuote() + Matcher.quoteReplacement(preservedStrings.get(i)) + getClosingDoubleQuote() );
     }
-    
-    return output.replaceAll("<suggestion>", getOpeningDoubleQuote()).replaceAll("</suggestion>", getClosingDoubleQuote());
+
+    return SUGGESTION_CLOSE_TAG.matcher(
+      SUGGESTION_OPEN_TAG.matcher(output).replaceAll(getOpeningDoubleQuote())
+    ).replaceAll(getClosingDoubleQuote());
   }
 
   /**

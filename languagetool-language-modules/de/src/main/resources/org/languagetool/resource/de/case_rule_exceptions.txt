@@ -635,7 +635,7 @@ Nordamerikanischen? Platte
 Nordatlantischen? Allianz
 Nahe[nrm]? Ostens?
 Nassauischen? (Sparkassen?|Stra(ß|ss)e|Heimstätte|Neue)
-National (Institute|Library|Center|Account|Park|Academy|Bank|Forest|Monument|Theatre|Airline|Museum|Crime|Speaker|Stock|Party|Laboratory)s?
+National (Institute|Library|Center|Account|Park|Academy|Bank|Forest|Monument|Theatre|Airline|Museum|Crime|Speaker|Stock|Party|Laboratory|Accounting|Governance|Cookie|Date|Alternative|Region|Media|Instrument|Association|Settlement|Grid)s?
 Nationale[nrm]? Sicherheitsrat(e?s)?|Volksarmee|Volkskongress(es)?|Aufsichtskommission|Front
 Nationales? (Zentrum|Institute?s) für
 Nationale[rnm]? Gedenktag(e?s)? für
@@ -1029,3 +1029,270 @@ V12 Absolute
 V10 Slim Absolute
 V12 Slim Absolute
 Eisernen? Lady
+Insolvenzrechtliche[nr]? Vergütungsverordnung
+Sozialpsychiatrische[nrm]? Dienst(e|es)?
+Respiratorischen? Synzytial-Virus
+Humane[snm]? Respiratorische Synzytial-Virus
+Sozialpädagogische[nsm]? Institute?s?
+Denn[’']s
+Westfälischen? Straße
+Europäischen? Versicherungskarten?
+Blauen? (Brücke|Sees?)
+Bin Hammams?
+Man (City|United).*
+Internationale[nr]? Gewerkschaftsbunds?
+Großen? Bleichen?
+Asiatischen? Tigermücken?
+Roten? Stummelaffens?
+Rote[nr]? (Oktobers?|Drachens?)
+Russisch Brot
+Westeuropäischen? Union
+Letzten? Generation
+Oliver Welkes?
+Märkische[ns]? Viertel
+Internationale[rnm]? Tag de[rs]
+Internationale[nms]? Jahr de[rs]
+Internationale[nms]? Übereinkommen zum Schutz des menschlichen Lebens auf See
+Nordamerikanische[nms]? Freihandelsabkommens?
+Norwegische[rn]? Hummer[ns]?
+Städtische[ns]? Orchesters?
+Morbid Angels?
+Lehrstuhl für [A-Z].*
+Internationale Föderation de[sr]
+Bremische[ns]? Beamtengesetz(es)?
+Kritischen? Theorie
+Alliierten? Hohen? Kommission
+Deutsche[nrm]? Evangelische[rnm]? Kirchentag(e?s?)
+Ergo Direkt
+ERGO Direkt
+Große[rn]? Palast(e?s?)
+Große[rn]? Senat[se]s?
+Norddeutschen? Mission(sgesellschaft)?
+Staatlichen? Realschule
+Groß Salzes?
+Erste[snm]? Zeitalters?
+Verborgenen? Fleckenbienen?
+Hyundai Rotem
+Dick und Doofs?
+Zürchers? Geschnetzelte[nms]?
+Japanische[rn]? Gartens?
+Study Smarters?
+Hallesche[nr]? FC
+Märkischen? Revision
+Hochschule für [A-ZÄÖÜ].*
+Statistische[nsm]? Amt für
+Internationalen? Gemeinschaft für [A-ZÄÖÜ].*
+Internationalen? Verbund (für|de[sr]) [A-ZÄÖÜ].*
+Schwarze[rn]? September
+Kasernierte[rn]? Einheiten
+Brandenburgische[ns]? Polizeigesetz(es)?
+Blondes? Blau
+Gesellschaft für Internationale[sn]?
+Wetzlarer Neuen? Zeitung
+Geistliche[ns]? Zentrums?
+Neuen? Bühne Senftenbergs?
+Inneren? Mission
+Trans Am
+Philosophischen? Fakultät
+Subject Matter
+Volkswirtschaftliche[sn]? Institut(e?s)?
+Transatlantische[sn]? Freihandelsabkommens?
+Goodbye Deutschland/S
+Johnny Urban
+Rapper Massiv
+Fonds National
+Cosmos Direkt
+Hungrige[nr]? Wolfs?
+Spanischen? Hofreitschule
+Dick Braves?
+Partei Die Linke
+Europäischen? Chemikalienverordnung|Chemikalienagentur
+Adaptive Syncs?
+Untere[ns]? Niederamte?s?
+Obere[ns]? Bühlertals?
+Gelbe[rn]? Berge?s?
+Landwirtschaftlichen? Kreisverbande?s?
+Walt Krachts?
+Polnischen? Presseagentur
+Staatliche[ns]? Schulamts?
+Akademische[ns]? Gymnasium
+Edel (AG|SE)
+Vital Shops?
+Deutsche[ns]? Studentenwerke?s?
+Sächsischen? Agentur für
+Progressive Web-Apps?
+Heiligen? Drei Könige
+Mir Akbars?
+Maxibrief International
+Neu Wulmstorfs?
+Augsburger Allgemeinen?
+Deutschen? Allgemeinen? Versicherung
+Ständige[rn]? Rate?s?
+Saarländische[rn]? Rundfunks?
+Landesverbande?s? Baye?rische[nr]?
+An Ansoms
+Generative AI
+Gestört aber [Gg]eil
+Liebscher & Brachts?
+Liebscher und Brachts?
+Fränkische[ns]? Weinlands?
+Süddeutsche[nr]? Zeitungsdienste?s?
+Technischen? Gymnasiums?
+Niederen? Scheinbeeren?
+Nasser [aAeE]l.*
+Via Claudia Augustas?
+Kommunistische[ns]? Manifest(e?s)?|Jugend
+Hart aber Fairs?
+Ha (Jung.*|Woo.*)
+Wirtschaftspolitischen? Gesellschaft
+Matter Standards?
+(Ascotop|Zomig) Nasal
+Raquel Welch
+Wissenschaftlichen? Institut(e?s)? für
+Festen? Fehmarnbeltquerung
+Tasmanische[rn]? (See|Tiger[sn]?|Teufel[sn]?)
+Neuseeländischen? Alpen
+Taiwanesische[nr]? Dollars?
+Thailändische[nr]? Bahts?
+Tate Modern
+(Erste|Zweite)[sn]? Bulgarische[sn]? Reichs?
+Grimmsche[sn]? Märchens?
+RTL Aktuell
+Zweiten? Spanischen? Republik
+Zweiten? Republik
+Verbands? Österreichischer Nachwuchsleistungssportmodellen?
+Blaue Sofa
+Kahle[rn]? Astens?
+(Untere|Obere)n? (Naturschutzbehörde|Jagdbehörde|Verkehrsbehörde)
+Obersten? Rats?
+Joan Mir
+Landwirtschaftlichen? Fachschule
+Mittleren? Grabens?
+Nationalen? Sicherheitsberaters?
+Nationalen? Sicherheitsberaterin
+Selber Wölfen?
+Ersten? Sklavenkriegs?
+Römischen? Senats?
+Weil im Schönbuch
+Assistive Touch|Technology
+Blauen? Karte EU
+Brandenburgische[ns]? Viertels?
+Total Tankstellen?
+Rote[nr]? Bergfrieds?
+Groß Düngens?
+Archäologische[ns]? (Freilicht|National)museums?
+Instituts? Neue (Schweiz|Wirtschaft)
+Ostfriesische[nr]? Kuriers?
+Mental (Coachs?|Coahings?)
+SV Glatten
+Allgemeine[nr]? Deutsche[rn]? [A-ZÄÖÜ].*
+External Communications?
+Amerikanische[ns]? Institute?s? für [A-ZÄÖÜ].*
+Große[rn]? Pandas?
+Emotional Bonding/S
+Frontotemporalen? Demenz
+Digitalen? Wörterbuchs? der [Dd]eutschen Sprache
+Kalabrische[rn]? Kiefern?
+Türkische[rn]? Bunde?s?
+Interdisziplinären[ns]? Institut(e?s)? für
+Bolivarianischen? (Revolution|Republik)
+Demokratischen? Arabischen? Republik
+Plurinationale[nrm]? Staat(e?s)? Bolivien
+Vereinigten? Mexikanischen? Staaten
+(Zweite|Erste)[snm]? Deutsche[nm]? Fernsehens?
+Bolivarianischen? Bewegung
+Globale[rnm]? (Norden|Süden)s?
+Jordanischen? Universität für
+Libyschen? Wüste
+Libysche[snm]? Zentrums? für
+Südhessischen? Energie AG
+Tunesischen? Republik
+Tunesische[nr]? Dinars?
+Kölnische[rn]? Kriege?s?
+Bayerische[rn]? Maximilians-Ordens?
+Blauen? Elefant(en)?
+Europäischen? Rettungsfonds
+Neue[snm]? Palais
+Serbische[nsm]? Erzgebirges?
+Souveräne[nrm]? Malteserordens?
+Souveräne[nrm]? Malteser-Ordens?
+Sächsische[smn]? Palais
+Große[mn]? Verdienstkreuz(es)?
+Große[mn]? Deutsche[snm]? Verdienstkreuz(es)?
+Australische[nr]? Dollars?
+Vereinigten? Stadtwerken?
+Indischen? Flohsamens?
+Indischen? Flohsamenschalen?
+Unabhängige[rn]? Bundesasylsenats?
+Amtliche[snm]? Regelwerks?
+Königlichen? Porzellan-Manufaktur
+Königlichen? Porzellanmanufaktur
+Sensitive Networkings?
+Absolut Radios?
+Golden Sands
+Gemeinsamen? Deutschen? Arbeitsschutzstrategie
+Großen? Ungarischen? Tiefebene
+Großen? Ungarischen? Tiefland(e?s)?
+Kleinen? Ungarischen? Tiefebene
+Kleinen? Ungarischen? Tiefland(e?s)?
+Sächsische[nsm]? Landes(amt|anstalt)
+Borstigen? Glockenblumen?
+Intelligent Ranges?|Solutions?|Assistants?|Drivings?|Personal
+Niedersächsische[nmr]? Skiverband(e?s)?
+Betreute[nms]? Wohnen
+Wüst
+Yolyn Am
+Schweinchen Dick
+BAföG Digital
+Internationales Literaturfestivals?
+Faule[rnm]? Sees?
+Maritim Airport Hotels?
+Maritim (Flughafen|Airport)-Hotels?
+Nordische[ns]? Modells?
+Hin Wong (Bay|Beach)s?
+Ao Hin Wongs?
+Koordinierende[rn]? Kinderschutzstelle/N
+Europäischer? Ethnologie
+Klassische[nms]? Weimar
+Instagram Live
+Europäischen? Grünen?
+Europäischen? Austern?
+Mc Doof
+National Tennis (Centre|Center)s?
+Universelle du
+Westlichen? Wäldern?
+Gelnhäuser Neuen? Zeitung
+Norddeutsche[ns]? Tieflande?s?
+Böhmische[rn]? Brüdern?
+Cosmos Direkt
+Schwäbische[nsm]? Tage?blatts?
+Fail Fast
+Untere[mns]? Odertals?
+Prima Ballerinas?
+Jüdische[rnm]? Weltkongress(es)?
+Hip Bags?
+Statistischen? Zentralamt(e?s)?
+Hallesche[rn]? Krankenversicherung
+Stoppelberger Hohl
+Oviva Direkt
+Bavaria Direkt
+Königlich (Württembergisch(e[rsnm]?)?|Bayrisch(e[rsnm]?)?)
+Südafrikanische[rn]? Union
+Internationale[rn]? Funkausstellung
+Rheinischen? Mission(sgesellschaft)?
+Arktische[nr]? Ziesels?
+Arabische[nr]? Maus?
+Buddhistische[nrm]? Kanons?
+Sebastian Lege
+Suresse Direkt Bank
+Großen? Dhünntalsperre
+Heilig Kreuz
+Charlotte Würdig
+Paul Hartmut Würdig
+Paul Würdig
+Transatlantischen? Wirtschaftsabkommens?
+Königlichen? Bibliothek
+Geologischen? Bundesanstalt
+Hessische[sn]? Staatsorchesters?
+FSV Wacker
+PBB Direkt

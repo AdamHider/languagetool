@@ -1283,8 +1283,20 @@ class CaseRuleAntiPatterns {
       csRegex("[a-zäöü…\\.!:;,\\?…\\)].*")
     ),
     Arrays.asList( // Ich habe noch Dringendes mitzuteilen
-      csRegex("Dringendes|Bares|Vertrautes|Positives|Negatives|Gelerntes|Neues|Altes|Besseres|Schlechteres|Schönes|Schöneres|Schlimmeres|Zutreffendes|Gesehenes|Abgerissenes|Versoffenes|Entnommenes|Sü(ß|ss)es|Saures|Gegenteiliges|Wegweisendes|Hochprozentiges|Erlerntes|Vergangenes|Unglaubliches|Schlimmes|Eingemachtes|Rares|Brauchbares|Unbrauchbares|Gesehenes|Erlebtes|Privates|Berufliches|Ungeheuerliches|Veganes|Vegetarisches|Eingemachtes|Erwünschtes|Innerstes|Äußerstes|Inhaltliches|Vernichtendes|Salziges|Sü(ß|ss)es|Selbstgemachtes|Inhaltliches|Au(ß|ss)erordentliches|Säuerliches|Göttliches||Hochprozentige[sm]|Erbrochene[ms]|Innere[mns]|Vorhandenes|Relevantes|Geübtes|Unmögliches|Mögliches"),
-      csRegex("(?!(und|oder))[a-zäöü…\\.!,\\?…\\)“„\"»«–\\-].*")
+      csRegex("Dringende[ms]|Bare[ms]|Vertraute[ms]|Positive[sm]|Negative[sm]|Gelernte[ms]|Neue[ms]|Alte[ms]|Bessere[ms]|Störende[ms]|Schlechteres|Schlechte[ms]|Schöne[ms]|Schönere[ms]|Schlimmere[ms]|Zutreffendes|Unzutreffende[ms]|Gesehene[ms]|Ungesehene[ms]|Abgerissene[ms]|Versoffenes|Empfehlenswerte[ms]|Entnommene[ms]|Sü(ß|ss)e[ms]|Saure[ms]|Wesentliche[ms]|Gegenteilige[ms]|Wegweisende[ms]|Hochprozentige[ms]|Erlernte[ms]|Vergangene[ms]|Unglaubliche[ms]|Schlimme[ms]|Eingemachte[ms]|Rare[ms]|Brauchbare[ms]|Unbrauchbare[ms]|Gesehene[ms]|Erlebte[ms]|Private[ms]|Berufliche[ms]|Ungeheuerliche[ms]|Vegane[ms]|Vegetarische[ms]|Eingemachte[ms]|Erwünschte[ms]|Äu(ß|ss)erste[ms]|Äu(ß|ss)ere[ms]|Inhaltliche[ms]|Vernichtende[ms]|Salzige[ms]|Sü(ß|ss)e[ms]|Selbstgemachte[ms]|Inhaltliche[ms]|Au(ß|ss)erordentliche[ms]|Säuerliche[ms]|Göttliche[ms]||Hochprozentige[sm]|Erbrochene[ms]|Innere[mns]|Vorhandene[ms]|Relevante[ms]|Geübte[ms]|Unmögliche[ms]|Mögliche[ms]|Näheres|Wissenswerte[ms]|Fundamentale[ms]|Interessante[ms]|Uninteressante[ms]|Entsetzliche[ms]|Hartnäckige[ms]|Ersparte[ms]|Halbgare[ms]|Universale[ms]|Finanzielle[ms]|Überraschendes|Grundlegendes|Gesunde[ms]|Ungesunde[ms]|Tagesaktuelle[ms]|Aktuelle[ms]|Geschehene[ms]|Ungeschehene[ms]|Böse[ms]|Gesagte[ms]|Aufregende[sm]|Ausgestelltes|Verschiedenes|Verborgenes|Soziale[ms]|Erfundenes|Gro(ß|ss)es|Neueres|Au(ß|ss)ergewöhnliche[ms]|Zukunftsfähige[sm]|Administrative[ms]|Beunruhigendes|Naturverträgliches|Nachhaltiges|Verderbliche[ms]|Sinnstiftendes|Unüberlegtes|Alltägliche[sm]|Geartetes?|Allgemeines?|Übernatürliches?|Juristisches?|Rechtliches?|Vielfältiges?|Kommunales|Wundervolles?|Abgelaufenes|Erstere[ms]|Zweitere[ms]|Letztere[ms]|Unvermeidliches?|Fressbares?|Essbares?|Erbrochene[sm]|Politische[sm]|Regionale[sm]|Recherchiertes|Höheres|Kleineres|Deftiges|Liebes|Grünes|Diverses|Machbare[ms]|Nachweisbare[ms]|Zerstörtes|Öffentliches|Produktives|Entbehrliches|Notwendiges|Sinnvolle[ms]|Bewährte[ms]|Nötiges|Erfreuliches|Frustrierendes|Vorübergehendes|Untaugliches|Rohes|Nettes|Blödes|Unerwartetes|Lesenswerte[ms]|Geplantes|Ungeplantes|Redaktionelles|Spezielle[ms]|Spezifische[ms]|Staatstragendes|Organisatorisches|Übersehenes|Altbewährte[ms]|Erstaunliches|Verdächtiges|Au(ß|ss)ergewöhnliches|Ungewöhnliches|Unerreichbare[ms]|Bezahltes|Unbezahltes|Beschämendes|Grundsätzliche[sm]|Freiheitliches|Übrige[ms]|Ähnliche[ms]|Letztgenannte[ms]|Echtes|Unechtes|Gro(ß|ss)artige[ms]|Esoterisches|Qualifizierte[ms]|Unqualifizierte[ms]|Grö(ß|ss)eres|Postmodernes|Unklares|Bezahlbares|Unbezahlbares|Gemischte[ms]|Gebündelte[ms]|Lebendige[ms]|Angenommenes|Zeitgenössisches|Geistliches|Elementare[ms]|Bitteres|Äu(ß|ss)erliches|Spannendes|Kurioses|Digitale[ms]|Hervorgebrachte[ms]|Gewirktes|Altbekannte[ms]|Gehackte[sm]|Gewordenes|Erkennbares|Verstörende[sm]|Versaute[ms]|Nachdenkliches|Bestehendes|Beobachtetes|Originelle[ms]|Derartige[sm]|Schriftliches|Mündliches|Verblühte[ms]|Faszinierende[ms]|Christliches|Gute[ms]|Böse[ms]||Folgende[ms]|Letztere[ms]|Erstere[ms]|Schreckliche[ms]|Falsche[sm]|Richtige[ms]|Hässliche[sm]|Auswärtige[ms]|Nervige[ms]|Ätzende[ms]|Kleines|Gro(ß|ss)es"),
+      csRegex("(?!(und|oder))[a-zäöü…\\.!,\\?…\\)“„\"»«–\\-:;\\[\\]].*")
+    ),
+    Arrays.asList(
+      // Er sucht Neues und macht …
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("(?!(Dieses|Alles|Eines|Jenes|[DMSK]eines|Anderes|Eures|Unse?res|Sonstiges|Einiges|Manches|Welches|Vieles|Solches|Studies|Eyes))[A-ZÄÖÜ].+es").build(),
+      csRegex("und|oder"),
+      csRegex("(?!([a-zäöüA-ZÄÖÜ].+es)).+")
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("(?!(Diesem|Allem|Einem|Jenem|[DMSK]einem|Anderem|Eurem|Unse?rem|Sonstigem|Einigem|Manchem|Welchem|Vielem|Solchem))[A-ZÄÖÜ].+em").build(),
+      csRegex("und|oder"),
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*ADJ|(ADJ|PA[12]).*SIN.*|UNKNOWN").csTokenRegex("(?!(Diesem|Allem|Einem|Jenem|[DMSK]einem|Anderem|Eurem|Unse?rem|Sonstigem|Einigem|Manchem|Welchem|Vielem|Solchem))[A-ZÄÖÜ].+em").build(),
+      csRegex("[a-zäöü…\\.!,\\?…\\)“„\"»«–\\-:;].*")
     ),
     Arrays.asList(
       // Already caught by SEIT_LAENGEREN
@@ -1296,6 +1308,11 @@ class CaseRuleAntiPatterns {
       token(".")
     ),
     Arrays.asList( // Immer mehr Ältere erkranken daran
+      csRegex("Ältere[rn]?|Jüngere[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Referierende[rn]?|Schlafenden?|Moderierende[rn]?|Dunkelhäutige[rn]?|Verantwortliche[rn]?|Alleinlebende[rn]?|Verdammten?|Alleinstehende[rn]?|Ungeübte[rn]?|Au(ß|ss)erirdische[rn]?|Berittene[rn]?|Heranwachsende[rn]?|Ganze[sn]?|Gefangene[rn]?|Steuerpflichtige[rn]?|Geschädigte[rn]?|Heimatvertriebenen?|Schwerverletzte[rn]?|Werbenden?|Au(ß|ss)enstehenden?|Forschenden?|Prominenten?|Pflegenden?|Beklagten?|Geistlichen?|Pflegebedürftigen?|(Teil|Voll)zeitbeschäftigten?|Fortgeschrittenen?|Promovierenden?|Schreibenden?|Ungeimpfte[nr]?|Geimpfte[nr]?|Tatverdächtige[nr]?|Pubertären?|Flüchtende[nr]?|Vortragende[nr]?|Besuchenden?|Vortragenden?|Verantwortliche[rn]?|Geflohene[rn]?|Sterbende[nr]?|Werbende[nr]?|Vortragende[nr]?|Alliierte[nr]?|Bedürftige[rn]?|Praktizierenden?|Geisteskranke[nr]?|Religiöse[rn]?|Kleinsten?|Dauerarbeitslose[rn]|Angesteckten?|Ortskundigen?|Steuerpflichtige[rn]?|Vorbehandelnden?|Gefährdeten?|Eingemachte|Geübten?|Schwimmenden?|Tauchenden?|Anständigen?|Liebenden?|Volljährigen?|Minderjährigen?|Zeichnungsberechtigte[rn]?|Zeichnungsbefugte[rn]?|Altbekannte[nmr]?|Hartnäckigen?|Unerfahrenen?|Arbeitenden?|Vortragende[nr]?|Dummen?|Fragenden?|Antwortenden?|Kriegs[gb]eschädigten?|Begünstigten?|Verfolgten?|Verwitweten?|Geschiedenen?|Asexuellen?|Liebsten?|(Rechts|Links)extremen?|(Aus|Ein)geschlossenen?|Betuchten?|Anteilnehmende[rn]?|Anbietenden?|Hochbetagten?|Seelenverwandte[nr]?|Gleichgestellten?|Gottlosen?|Inhaftierten?|Protestierenden?|Wohnungssuchenden?|Lesenden?|Schreibenden?|Beitragenden?|Superreichen?|Au(ß|ss)enstehenden?|Juryvorsitzende[rn]?|Introvertierten?|Extrovertierten?|.+begeisterten?|(Schwer|Seh)behinderten?|Unbekannten?|Anwesenden?|Personalverantwortlichen?|[NF]rühgeborenen?|Hörgeschädigten?|Gehorsamen?|Ungehorsamen?|Suchtkranken?|Bildbetrachtenden?|Uniformierten?|Bediensteten?|Gesetzlosen?|Vermummten?|(Schwer|Leicht)verletzten?|Untoten?|Hübschen?|Reisende[rn]?|Abtrünnigen?|Liebende[nr]?|Befehlenden?|Pubertierende[rn]?|Lebenden?|Geistliche[rn]?|Klassenbeste[rn]?|Totgesagte[rn]?|Zivildienstleistende[rn]?|Nutzenden?|Kunstinteressierte[rn]?|Nachtaktive[nr]?|Bewerbenden?|Geliebter?|Unsterblichen?|Sterblichen?|Evangelikalen?|Gewaltbereiten?|Dozierenden?|Autofahenden?|Impfgeschädigten?|[A-ZÄÖÜ].+stämmigen?|Auszubildende[rn]?|Unnahbaren?|Arbeitgebenden?|Nutzungsberechtigte[nr]?|Interviewte[rn]?|Bewohnenden?|Zugewanderte[rn]?|Eingeweihte[rn]?|Heimatvertriebene[nr]?|Asylberechtigte[rn]?|Erwachte[rn]?|Kulturschaffende[rn]?|Gebärenden?|Beschenkte[rn]?|Ungelernten?|Verbrauchende[rn]?|Schwule[rn]?|Partywütige[rn]?|(Homo|Hetero|Metro|Trans)sexuelle[rn]?|Geduldige[rn]?|Ungeduldige[rn]?|Schneebegeisterte[rn]?|Befindlichen?|Gebietsansässigen?|Erneuerbaren?|Militärinternierte[rn]?|Steuerpflichtige[nr]?|Ungläubige[rn]?|Geduldigen?|Ungeduldigen?|Unerreichbaren?|Schuldige[rn]?|Alleinschuldige[rn]?|Getreuen?|Mitschuldige[rn]?|Auswärtige[rn]?|[A-ZÄÖÜ].+schaffende[rn]|Übergewichtige[rn]"),
+      csRegex("(?!(und|oder))[a-zäöü…\\.!:;,\\?…\\)\\*\\(“„\"»«–\\-\\[\\]].*")
+    ),
+    Arrays.asList(
+      // wie oben, nur können die Adjektive auch als Verben gebraucht werden
       csRegex("[a-zäöü…\\.,:;0-9\\/$%].*"),
       csRegex("Ältere[rn]?|Jüngere[rn]?|Verwirrte[rn]?|Zuschauende[rn]?|Angeklagte[rn]?|Befragte[rn]?|Beschuldigte[rn]?|Referierende[rn]?|Moderierende[rn]?|Dunkelhäutige[rn]?|Verantwortliche[rn]?|Alleinlebende[rn]?|Alleinstehende[rn]?|Ungeübte[rn]?|Au(ß|ss)erirdische[rn]?|Berittene[rn]?|Heranwachsende[rn]?|Ganze[sn]?|Gefangene[rn]?|Steuerpflichtige[rn]?|Geschädigte[rn]?|Heimatvertriebenen?|Schwerverletzte[rn]?|Werbenden?|Au(ß|ss)enstehenden?|Forschenden?|Prominenten?|Pflegenden?|Beklagten?|Geistlichen?|Pflegebedürftigen?|(Teil|Voll)zeitbeschäftigten?|Fortgeschrittenen?|Promovierenden?|Schreibenden?|Ungeimpfte[nr]?|Geimpfte[nr]?|Tatverdächtige[nr]?|Pubertären?|Flüchtende[nr]?|Vortragende[nr]?|Besuchenden?|Vortragenden?|Verantwortliche[rn]?|Vertraute[rn]?|Verurteilte[rn]?|Geflohene[rn]?|Sterbende[nr]?|Werbende[nr]?|Vortragende[nr]?|Alliierte[nr]?|Bedürftige[rn]?|Praktizierenden?|Geisteskranke[nr]?|Religiöse[rn]?|Kleinsten?|Dauerarbeitslose[rn]|Angesteckten?|Ortskundigen?|Steuerpflichtige[rn]?|Vorbehandelnden?|Gefährdeten?|Eingemachte|Geübten?|Schwimmenden?|Tauchenden?|Anständigen?|Liebenden?|Volljährigen?|Minderjährigen?"),
       csRegex("(?!(und|oder))[a-zäöü…\\.!:;,\\?…\\)\\*\\(“„\"»«–\\-].*")
@@ -1426,6 +1443,102 @@ class CaseRuleAntiPatterns {
       // Hashtags
       token("#"),
       new PatternTokenBuilder().tokenRegex("[A-Z].*").setIsWhiteSpaceBefore(false).build()
+    ),
+    Arrays.asList(
+      // Jetzt, wo Protestierende und Politiker sich streiten
+      new PatternTokenBuilder().posRegex("SUB.*SIN.*NEU.*ADJ|(ADJ|PA[12]).*SIN.*NEU.*|UNKNOWN").csTokenRegex("(?!(Die|Diese|Alle|Eine|Jene|[DMSK]eine|Andere|Eure|Unse?re|Sonstige|Einige|Manche|Ohne|Welche|Viele|Solche))[A-ZÄÖÜ].+e").build(),
+      csRegex("und|oder|&"),
+      posRegex("SUB.*NOM.*PLU.*(MAS|FEM|NEU|NOG)")
+    ),
+    Arrays.asList(
+      // Hier ist Text. (Und dann schreibe ich etwas in Klammern.) Nach der Klammer möchte LT klein weiterschreiben.
+      csToken("."),
+      csToken(")"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // Wenn Sie Strg+Umschalt+I drücken
+      csRegex("Strg|STRG|Alt|ALT"),
+      csRegex("und|&|oder|\\+"),
+      csToken("Umschalt")
+    ),
+    Arrays.asList(
+      // Wenn Sie Strg+Umschalt+I drücken
+      csToken("Umschalt"),
+      csRegex("und|&|oder|\\+")
+    ),
+    Arrays.asList(
+      csRegex("[Ii]m"),
+      csRegex("Inneren|Äu(ss|ß)eren")
+    ),
+    Arrays.asList(
+      // denke aber, dass die das machen werden.
+      csRegex("ob|dass|weswegen|damit|sofern|wie|wann|wo|wozu|warum"),
+      csRegex("wir|[Ss]ie|ich|er|die|der|es|du|ihr"),
+      csToken("das"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
+      posRegex("KON.*"),
+      csRegex("wir|[Ss]ie|ich|er|die|der|es|du|ihr"),
+      csToken("das"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
+      csRegex("ob|dass|weswegen|damit|sofern|wie|wann|wo|wozu|warum"),
+      posRegex("EIG.*|UNKNOWN"),
+      csToken("das"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
+      posRegex("KON.*"),
+      posRegex("EIG.*|UNKNOWN"),
+      csToken("das"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
+      // Filme drehen muss mir Spaß machen, und das machen Organisation, Finanzierung, Logistik nicht, deswegen sind meine Filme nicht aufwändig.
+      csRegex("und|oder|&"),
+      csToken("das"),
+      posRegex("VER:INF.*"),
+      posRegex("SUB.*")
+    ),
+    Arrays.asList(
+      // Majid ergänzte: ”Vorläufigen Analysen der Terrakottaröhren aus Ardais liegen ...
+      csToken(":"),
+      csRegex("[\"”„»«]"),
+      csRegex("[A-ZÄÖÜ].+")
+    ),
+    Arrays.asList(
+      // "gibt ja auch viele Nutzer, die sich das wünschen"
+      csRegex("die|welche"),
+      csToken("sich"),
+      csToken("das"),
+      posRegex("VER:INF.*")
+    ),
+    Arrays.asList(
+      csRegex("Bolivarische[mnrs]?"),
+      csRegex("Republik(en)?|Verfassung(en)?|Revolution(en)?")
+    ),
+    Arrays.asList(
+      csRegex("Harmonisierte[mnr]?"),
+      csRegex("Verbraucherpreisindex(e[sn]?)?")
+    ),
+    Arrays.asList(
+      csRegex("Gro(ss|ß)e[n]?"),
+      csRegex("Koalition(en?)?")
+    ),
+    Arrays.asList(
+      csToken("Oval"),
+      csRegex("Offices?")
+    ),
+    Arrays.asList(
+      // "Er studierte an der Hebräischen Universität Jerusalem."
+      csRegex("Hebräischen?"),
+      csRegex("Universität|Bibel")
+    ),
+    Arrays.asList(
+      csRegex("[A-ZÄÖÜ].+stereotypen?")
     )
   );
 }

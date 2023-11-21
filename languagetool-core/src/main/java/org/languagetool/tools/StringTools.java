@@ -30,6 +30,8 @@ import java.text.Normalizer;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.*;
+
 /**
  * Tools for working with strings.
  * 
@@ -61,11 +63,16 @@ public final class StringTools {
     CONTINUE_API
   }
 
-  private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
-  private static final Pattern XML_PATTERN = Pattern.compile("(?<!<)<[^<>]+>", Pattern.DOTALL);
   public static final Set<String> UPPERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Α","Β","Γ","Δ","Ε","Ζ","Η","Θ","Ι","Κ","Λ","Μ","Ν","Ξ","Ο","Π","Ρ","Σ","Τ","Υ","Φ","Χ","Ψ","Ω")));
   public static final Set<String> LOWERCASE_GREEK_LETTERS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("α","β","γ","δ","ε","ζ","η","θ","ι","κ","λ","μ","ν","ξ","ο","π","ρ","σ","τ","υ","φ","χ","ψ","ω")));
-  private static final Pattern PUNCTUATION_PATTERN = Pattern.compile("[\\p{IsPunctuation}']", Pattern.DOTALL);
+
+  private static final Pattern XML_COMMENT_PATTERN = compile("<!--.*?-->", DOTALL);
+  private static final Pattern XML_PATTERN = compile("(?<!<)<[^<>]+>", DOTALL);
+  private static final Pattern PUNCTUATION_PATTERN = compile("[\\p{IsPunctuation}']", DOTALL);
+  private static final Pattern NOT_WORD_CHARACTER = compile("[^\\p{L}]", DOTALL);
+  private static final Pattern NOT_WORD_STR = compile("[^\\p{L}]+", DOTALL);
+  private static final Pattern PATTERN = compile("(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]");
+  private static final Pattern DIACRIT_MARKS = compile("[\\p{InCombiningDiacriticalMarks}]");
 
   private StringTools() {
     // only static stuff
@@ -378,7 +385,7 @@ public final class StringTools {
   public static String trimSpecialCharacters(String s) {
     // need unicode character classes -> (?U)
     // lists all allowed character classes, replace everything else
-    return s.replaceAll("(?U)[^\\p{Space}\\p{Alnum}\\p{Punct}]", "");
+    return PATTERN.matcher(s).replaceAll("");
   }
 
   /**
@@ -489,7 +496,7 @@ public final class StringTools {
   
   public static String removeDiacritics(String str) {
     String s = Normalizer.normalize(str, Normalizer.Form.NFD);
-    return s.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+    return DIACRIT_MARKS.matcher(s).replaceAll("");
   }
   
   public static String normalizeNFKC(String str) {
@@ -628,5 +635,96 @@ public final class StringTools {
       return s.replace("ü", "ù");
     }
     return s + "-";
+  }
+
+  /**
+    * Return <code>str</code> without tashkeel characters
+    * @param str input str
+    */
+   public static String removeTashkeel(String str) {
+     String striped = str.replaceAll("["
+       + "\u064B"  // Fathatan
+       + "\u064C"  // Dammatan
+       + "\u064D"  // Kasratan
+       + "\u064E"  // Fatha
+       + "\u064F"  // Damma
+       + "\u0650"  // Kasra
+       + "\u0651"  // Shadda
+       + "\u0652"  // Sukun
+       + "\u0653"  // Maddah Above
+       + "\u0654"  // Hamza Above
+       + "\u0655"  // Hamza Below
+       + "\u0656"  // Subscript Alef
+       + "\u0640"  // Tatweel
+       + "]", "");
+      return striped;
+    }
+
+  public static boolean isNotWordString(String input) {
+    return NOT_WORD_STR.matcher(input).matches();
+  }
+
+  /*
+   * Number of ocurreces of string t inside string s
+   */
+  public static int numberOf(String s, String t) {
+    return s.length() - s.replaceAll(t, "").length();
+  }
+
+  public static String convertToTitleCaseIteratingChars(String text) {
+    if (text == null || text.isEmpty()) {
+      return text;
+    }
+    StringBuilder converted = new StringBuilder();
+    boolean convertNext = true;
+    for (char ch : text.toCharArray()) {
+      if (Character.isSpaceChar(ch)) {
+        convertNext = true;
+      } else if (convertNext) {
+        ch = Character.toTitleCase(ch);
+        convertNext = false;
+      } else {
+        ch = Character.toLowerCase(ch);
+      }
+      converted.append(ch);
+    }
+    return converted.toString();
+  }
+
+  public static String[] splitCamelCase(String input) {
+    if (isAllUppercase(input)) {
+      return new String[]{input};
+    }
+    StringBuilder word = new StringBuilder();
+    StringBuilder result = new StringBuilder();
+    boolean previousIsUppercase = false;
+    for (int i = 0; i < input.length(); i++) {
+      char currentChar = input.charAt(i);
+      if (Character.isUpperCase(currentChar)) {
+        if (!previousIsUppercase) {
+          result.append(word).append(" ");
+          word.setLength(0);
+        }
+        previousIsUppercase = true;
+      } else {
+        previousIsUppercase = false;
+      }
+      word.append(currentChar);
+    }
+    result.append(word);
+    return result.toString().trim().split(" ");
+  }
+
+  public static String[] splitDigitsAtEnd(String input) {
+    int lastIndex = input.length() - 1;
+    while (lastIndex >= 0 && Character.isDigit(input.charAt(lastIndex))) {
+      lastIndex--;
+    }
+    String nonDigitPart = input.substring(0, lastIndex + 1);
+    String digitPart = input.substring(lastIndex + 1);
+    if (!nonDigitPart.isEmpty() && !digitPart.isEmpty()) {
+      return new String[]{nonDigitPart, digitPart};
+    }
+    return new String[]{input};
   }
 }

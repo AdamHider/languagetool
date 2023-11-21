@@ -509,6 +509,7 @@ public class JLanguageTool {
    */
   public void setOutput(PrintStream printStream) {
     this.printStream = printStream;
+    GlobalConfig.setVerbose(printStream != null);
   }
 
   /**
@@ -1422,12 +1423,12 @@ public class JLanguageTool {
         }
         if (maxErrorsPerWordRate > 0 && errorsPerWord > maxErrorsPerWordRate && wordCounter > 25) {
           errorRateLog.forEach(e -> logger.info(LoggingTools.BAD_REQUEST, e));
-          logger.info(LoggingTools.BAD_REQUEST, "ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
-            " the whole text contains " + wordCounter + " words " +
-            " this sentence has " + sentenceMatches.size() + " matches");
-          throw new ErrorRateTooHighException("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() +
-            " the whole text contains " + wordCounter + " words" +
-            " this sentence has " + sentenceMatches.size() + " matches");
+          logger.info(LoggingTools.BAD_REQUEST, "ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() + ". " +
+            "The whole text contains " + wordCounter + " words " +
+            " and this sentence has " + sentenceMatches.size() + " matches.");
+          throw new ErrorRateTooHighException("ErrorRateTooHigh is reached by a single sentence after rule: " + rule.getFullId() + ". " +
+            "The whole text contains " + wordCounter + " words" +
+            "and this sentence has " + sentenceMatches.size() + " matches.");
         }
       }
     }
@@ -1934,15 +1935,21 @@ public class JLanguageTool {
           RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences, annotatedText);
           List<RuleMatch> adaptedMatches = new ArrayList<>();
           for (RuleMatch match : matches) {
-            LineColumnPosition from = findLineColumn(match.getFromPos());
-            LineColumnPosition to = findLineColumn(match.getToPos());
+            LineColumnPosition from;
+            LineColumnPosition to;
+            try {
+              from = findLineColumn(match.getFromPos());
+              to = findLineColumn(match.getToPos());
+            } catch (RuntimeException e) {
+              throw new RuntimeException("Getting line/column positions failed for match " + match + " Sentence: " + match.getSentence().getText(), e);
+            }
             int newFromPos;
             int newToPos;
             try {
               newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos(), false);
               newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1, true) + 1;
             } catch (RuntimeException e) {
-              throw new RuntimeException("Getting positions failed for match " + match, e);
+              throw new RuntimeException("Getting positions failed for match " + match + " Sentence: " + match.getSentence().getText(), e);
             }
             RuleMatch newMatch = new RuleMatch(match);
             newMatch.setOffsetPosition(newFromPos, newToPos);

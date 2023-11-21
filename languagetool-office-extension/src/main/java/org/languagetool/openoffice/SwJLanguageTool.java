@@ -263,6 +263,67 @@ public class SwJLanguageTool {
   }
 
   /**
+   * Analyze text
+   * This Method may be used only for local checks
+   * use local lt for remote checks
+   */
+  public List<AnalyzedSentence> analyzeText(String text) throws IOException {
+    if (isRemote) {
+      return lt.analyzeText(text);
+    } else if (isMultiThread) {
+        return mlt.analyzeText(text); 
+    } else {
+      return lt.analyzeText(text); 
+    }
+  }
+
+  /**
+   * get the lemmas of a word
+   * @throws IOException 
+   */
+  public List<String> getLemmasOfWord(String word) throws IOException {
+    List<String> lemmas = new ArrayList<String>();
+    Language language = getLanguage();
+    List<String> words = new ArrayList<>();
+    words.add(word);
+    List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(words);
+    for (AnalyzedTokenReadings aToken : aTokens) {
+      List<AnalyzedToken> readings = aToken.getReadings();
+      for (AnalyzedToken reading : readings) {
+        String lemma = reading.getLemma();
+        if (lemma != null) {
+          lemmas.add(lemma);
+        }
+      }
+    }
+    return lemmas;
+  }
+
+  /**
+   * get the lemmas of a word
+   * @throws IOException 
+   */
+  public List<String> getLemmasOfParagraph(String para, int startPos) throws IOException {
+    List<String> lemmas = new ArrayList<String>();
+    List<AnalyzedSentence> sentences = analyzeText(para);
+    int pos = 0;
+    for (AnalyzedSentence sentence : sentences) {
+      for (AnalyzedTokenReadings token : sentence.getTokens()) {
+        if (pos + token.getStartPos() == startPos) {
+          for (AnalyzedToken reading : token) {
+            String lemma = reading.getLemma();
+            if (lemma != null) {
+              lemmas.add(lemma);
+            }
+          }
+        }
+      }
+      pos += sentence.getCorrectedTextLength();
+    }
+    return lemmas;
+  }
+
+  /**
    * Get the language from LT
    */
   public Language getLanguage() {

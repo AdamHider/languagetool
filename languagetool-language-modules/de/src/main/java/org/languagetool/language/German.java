@@ -52,6 +52,8 @@ import java.util.*;
  */
 public class German extends Language implements AutoCloseable {
 
+  private static final Pattern TYPOGRAPHY_PATTERN = Pattern.compile("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)");
+
   private LanguageModel languageModel;
   private List<Rule> nnRules;
   private Word2VecModel word2VecModel;
@@ -291,8 +293,8 @@ public class German extends Language implements AutoCloseable {
   public String toAdvancedTypography(String input) {
     String output = super.toAdvancedTypography(input);
     //non-breaking space
-    output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
-    output = output.replaceAll("\\b([a-zA-Z]\\.)([a-zA-Z]\\.)", "$1\u00a0$2");
+    output = TYPOGRAPHY_PATTERN.matcher(output).replaceAll("$1\u00a0$2");
+    output = TYPOGRAPHY_PATTERN.matcher(output).replaceAll("$1\u00a0$2");
     return output;
   }
   
@@ -314,6 +316,9 @@ public class German extends Language implements AutoCloseable {
       case "DA_DURCH": return 2; // prefer over SUBSTANTIVIERUNG_NACH_DURCH and DURCH_SCHAUEN and DURCH_WACHSEN
       case "BEI_GOOGLE" : return 2;   // prefer over agreement rules and VOR_BEI
       case "EINE_ORIGINAL_RECHNUNG_TEST" : return 2;   // prefer over agreement rules
+      case "VON_SEITEN_RECOMMENDATION" : return 2;   // prefer over AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE
+      case "AUFFORDERUNG_SIE" : return 2;   // prefer over AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE
+      case "WEIS_ICH" : return 2;   // prefer over AI_DE_GGEC_*
       case "VONSTATTEN_GEHEN" : return 2;   // prefer over EINE_ORIGINAL_RECHNUNG
       case "VERWECHSLUNG_MIR_DIR_MIR_DIE": return 1; // prefer over MIR_DIR
       case "ERNEUERBARE_ENERGIEN": return 1; // prefer over VEREINBAREN
@@ -399,6 +404,8 @@ public class German extends Language implements AutoCloseable {
       case "OK": return 1; // higher prio than KOMMA_NACH_PARTIKEL_SENT_START[3]
       case "EINE_ORIGINAL_RECHNUNG": return 1; // higher prio than DE_CASE, DE_AGREEMENT and MEIN_KLEIN_HAUS
       case "VALENZ_TEST": return 1; // see if this generates more corpus matches
+      case "WAEHRUNGSANGABEN_CHF": return 1; // higher prio than WAEHRUNGSANGABEN_KOMMA
+      case "UM_SATZANFANG_KLEIN": return 1; // TEST higher prio than UPPERCASE_SENTENCE_START
       // default is 0
       case "FALSCHES_ANFUEHRUNGSZEICHEN": return -1; // less prio than most grammar rules but higher prio than UNPAIRED_BRACKETS
       case "VER_KOMMA_PRO_RIN": return -1; // prefer WENN_WEN
@@ -440,6 +447,10 @@ public class German extends Language implements AutoCloseable {
       case "ANGLIZISMUS_PA_MIT_ED" : return -2;   // overwrite spell checker
       case "ZAHL_IM_WORT": return -2; //should not override rules like H2O
       case "ICH_LIEBS": return -2;  // higher prio than spell checker
+      case "WENNS_UND_ABERS": return -2;  // higher prio than spell checker
+      case "ABERS_SATZANFANG": return -2;  // higher prio than spell checker
+      case "VERNEB": return -2;  // higher prio than spell checker
+      case "ZAHL_IM_WORT_SPELLING_RULE": return -2; // higher prio than spell checker
       case "GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "AUSTRIAN_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
       case "SWISS_GERMAN_SPELLER_RULE": return -3;  // assume most other rules are more specific and helpful than the spelling rule
@@ -519,6 +530,50 @@ public class German extends Language implements AutoCloseable {
     }
     if (id.startsWith("AI_DE_KOMMA")) {
       return -52; // prefer comma style rules and AI_DE_HYDRA_LEO_MISSING_COMMA
+    }
+    if (id.startsWith("AI_DE_GGEC")) {
+      if (id.startsWith("AI_DE_GGEC_MISSING_PUNCTUATION_PERIOD")) {
+        // less prio than spell checker
+        return -4;
+      }
+      if (id.startsWith("AI_DE_GGEC_UNNECESSARY_PUNCTUATION")) {
+        // less prio than FALSCHES_ANFUEHRUNGSZEICHEN
+        return -2;
+      }
+
+      // gGEC IDs that should have less prio than rules with default prio
+      // e. g. ABKUERZUNG_FEHLENDE_PUNKTE
+      String[] ggecIds = {
+        "AI_DE_GGEC_REPLACEMENT_ADJECTIVE",
+        "AI_DE_GGEC_REPLACEMENT_ADVERB",
+        "AI_DE_GGEC_REPLACEMENT_NOUN",
+        "AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_LOWERCASE",
+        "AI_DE_GGEC_REPLACEMENT_ORTHOGRAPHY_SPELL",
+        "AI_DE_GGEC_REPLACEMENT_OTHER",
+        "AI_DE_GGEC_REPLACEMENT_VERB",
+        "AI_DE_GGEC_REPLACEMENT_VERB_FORM",
+        "AI_DE_GGEC_UNNECESSARY_ORTHOGRAPHY_SPACE",
+        "AI_DE_GGEC_UNNECESSARY_OTHER",
+        "AI_DE_GGEC_UNNECESSARY_SPACE"
+      };
+
+      for (String gId: ggecIds) {
+        if (id == gId) {
+          return -1;
+        }
+      }
+
+      Pattern pattern = Pattern.compile("AI_DE_GGEC_MISSING_PUNCTUATION_\\d+_DASH_J(_|AE)HRIG|" +
+        "AI_DE_GGEC_REPLACEMENT_CONFUSION", Pattern.CASE_INSENSITIVE);
+      if (pattern.matcher(id).find()) {
+        return -1;
+      }
+
+      if (id == "AI_DE_GGEC_MISSING_PUNCTUATION_E_DASH_MAIL") {
+        // less prio than EMAIL
+        return 0;
+      }
+      return 1;
     }
     return super.getPriorityForId(id);
   }

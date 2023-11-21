@@ -2077,6 +2077,183 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
 
     <!-- ============================================================================================================== -->
     <!-- IGNORE SPELLING -->
+
+    <rule name="ätsch bätsch" id="IGNORE_AETSCH_BAETSCH">
+        <pattern>
+            <token case_sensitive="yes" regexp="yes">[Ää]tsch</token>
+            <token min="0">,</token>
+            <token case_sensitive="yes">bätsch</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="bla bla bla" id="IGNORE_BLA_BLA_BLA">
+        <pattern>
+            <token>bla</token>
+            <token min="0">,</token>
+            <token>bla</token>
+            <token min="0">,</token>
+            <token>bla</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="mords was los" id="IGNORE_MORDS_WAS_LOS">
+        <pattern>
+            <token case_sensitive="yes">mords</token>
+            <token>was</token>
+            <token regexp="yes">los|ab</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="mords mäßig" id="IGNORE_MORDS_MAESSIG">
+        <pattern>
+            <token case_sensitive="yes">mords</token>
+            <token postag="ADJ.*" postag_regexp="yes" spacebefore="yes"/>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="mordsklein" id="IGNORE_SPELLING_MORDSKLEIN">
+        <pattern>
+            <token postag="ADJ.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">mords.+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Morgenstund hat Gold im Mund" id="IGNORE_MORGENSTUND">
+        <pattern case_sensitive="yes">
+            <token>Morgenstund</token>
+            <token>hat</token>
+            <token>Gold</token>
+            <token>im</token>
+            <token>Mund</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="bei Hempels unterm Sofa" id="IGNORE_HEMPELS">
+        <pattern case_sensitive="yes">
+            <token>bei</token>
+            <token>Hempels</token>
+            <token>unterm</token>
+            <token>Sofa</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rulegroup name="Ofenbach Duo" id="OFENBACH"><!--Ofenbach ist ein französisches House-Duo aus Paris.-->
+        <rule><!--1-->
+            <pattern>
+                <token regexp="yes" skip="-1">Ofenbachs?</token>
+                <token regexp="yes">Duo|Musik.*|französisch(e[smnr]?)?|House.*|Paris|DJs?|Produzent(en)?|César|Laurent|Rummel|Dorian|Lauduique|Songs?|Be|Elektropop.*|Remix(er)?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule><!--2-->
+            <pattern>
+                <token skip="-1" regexp="yes">Duo|Musik.*|französisch(e[smnr]?)?|House.*|Paris|DJs?|Produzent(en)?|César|Laurent|Rummel|Dorian|Lauduique|Songs?|Be|Elektropop.*|Remix(er)?</token>
+                <token regexp="yes">Ofenbachs?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
+    <rule name="Acoustic (engl.)" id="IGNORE_ACOUSTIC"><!--Das sogenannte Acoustic Surface sorgt für klaren Sound.-->
+        <pattern case_sensitive="yes">
+            <token>Acoustic</token>
+            <token postag="UNKNOWN" regexp="yes">[A-Z].*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Acoustic (engl.) 2" id="IGNORE_ACOUSTIC2"><!--Wir nutzen eine Acoustic Software dafür.-->
+        <pattern case_sensitive="yes">
+            <token>Acoustic</token>
+            <token regexp="yes">Grand|Groove|Party|(Software|Combo|Tour|Festival|Album)s?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Acoustic (engl.) 3" id="IGNORE_ACOUSTIC3"><!--Für die musikalische Unterhaltung sorgt Modern Acoustic Four.-->
+        <pattern case_sensitive="yes">
+            <token postag="UNKNOWN" regexp="yes">[A-Z].*</token>
+            <token>Acoustic</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Acoustic (engl.) 3" id="IGNORE_ACOUSTIC4"><!--Für die musikalische Unterhaltung sorgt die Band Acoustic Four.-->
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Bands?|Impact</token>
+            <token>Acoustic</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="des Machens" id="IGNORE_DES_MACHENS"><!--Das ist alles eine Frage des (simplen) Machens.-->
+        <pattern case_sensitive="yes">
+            <token skip="1">des</token>
+            <token>Machens</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Telecommunications" id="TELECOMMUNICATIONS">
+        <pattern>
+            <token regexp="yes">International|Personal|FlexDSL</token>
+            <token regexp="yes">Telecommunications?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="x-Sitzer" id="X-SITZER">
+        <pattern>
+            <token regexp="yes">\d+-Sitzer[ns]?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Herr Müller senior" id="NAME_SENIOR">
+        <pattern>
+            <token postag="EIG.*" postag_regexp="yes"/>
+            <token case_sensitive="yes">senior</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Telecommunications_2" id="TELECOMMUNICATIONS_2">
+        <pattern>
+            <token regexp="yes">Telecommunications?</token>
+            <token min="0" regexp="yes">compan(y|ies)|standardization|services?|development|Orbiters?|AG</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Chai latte" id="CHAI_LATTE">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Chai|Fior</token>
+            <token min="0">di</token>
+            <token>latte</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Café crème" id="CAFÉ_CRÈME">
+        <pattern>
+            <token regexp="yes">Caff?[èéêe]</token>
+            <token min="0">con</token>
+            <token regexp="yes">crème|mélange|cortado|cheio|leche|latte|lungo|americano</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Espresso doppio" id="ESPRESSO_DOPPIO">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Espresso|Latte</token>
+            <token>doppio</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
         <pattern><!-- chrome://, ftp://, file:// -->
             <token regexp="yes">[a-z\-]+</token>
@@ -7292,5 +7469,430 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token spacebefore="no" regexp="yes">de|net|biz|eu|ru|be|co|uk|us|info|at|ch|nl|lu|org|&filename_extensions;</token>
         </pattern>
         <disambig action="remove" postag="VER.*|ADV.*|PRP.*"/>
+    </rule>
+    <rulegroup id="ROMAN_HERZOG_KEIN_SUB" name="'Roman Herzog' kein Substantiv">
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>Roman</token>
+                </marker>
+                <token regexp="yes">Herzogs?</token>
+            </pattern>
+            <disambig action="remove" postag="SUB.*"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>Roman</token>
+                <marker>
+                    <token regexp="yes">Herzogs?</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="SUB.*"/>
+        </rule>
+    </rulegroup>
+    <rule id="UNIVERSAL_UNKNOWN" name="'Universal' als englisches Wort/Eigenname">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes">Universals?</token>
+            </marker>
+            <token regexp="yes">[A-ZÄÖÜ].*|records?|music|studios|analytics|edition|serial|design|mobile|plug|orlando</token>
+        </pattern>
+        <disambig action="remove" postag="(SUB|ADJ).*"/>
+    </rule>
+    <rule id="PATRIOT_ACT" name="'Patriot' als englisches Wort/Eigenname">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Patriot</token>
+            </marker>
+            <token regexp="yes">Acts?|Movements?|Rails?|Days?|Games?|Hills?|Leagues?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="REAL_KEIN_SUB" name="'Real' als Eigenname">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Real</token>
+            </marker>
+            <token regexp="yes">Madrids?|Mallorcas?|Murcias?|Valladolids?|Sitio|Sociedads?|Universidad|Oviedos?|Times?|Lifes?|People|Racings?|Estates?|Academia|Bras[ií]lias?|BIP|Betis|Cartagenas?|Canoes?|de|Espa[nñ]a|Hospicios?|Hospitals?|Irish|Jard[ií]n|Kakamoras?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.*"/>
+    </rule>
+    <rule id="WEISE_KEIN_ADJ" name="Wörter, die mit 'weise' enden sind kein Adjektiv">
+        <pattern>
+                <token regexp="yes" postag="ADJ.*" postag_regexp="yes">.+weise</token>
+        </pattern>
+        <disambig action="remove" postag="ADJ.*"/>
+    </rule>
+    <rulegroup id="LANGE_UND_NAHE_KEIN_VER" name="'lang' kein Verb">
+        <antipattern>
+            <token regexp="yes">lange?|nahe?</token>
+            <token>ich</token>
+            <token>zu</token>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token regexp="yes">wie|so</token>
+                <marker>
+                    <token regexp="yes" postag="VER.*" postag_regexp="yes">lange?|nahe?</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <antipattern>
+                <token>ich</token>
+                <token min="0">zu</token>
+                <token regexp="yes">lange?</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes" postag="VER.*" postag_regexp="yes">lange?</token>
+                </marker>
+                <token>her</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="VER:(MOD|AUX).*" postag_regexp="yes" skip="-1" />
+                <marker>
+                    <token regexp="yes" postag="VER.*" postag_regexp="yes">nahe?</token>
+                </marker>
+                <token inflected="yes">kommen</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*"/>
+        </rule>
+    </rulegroup>
+
+    <rule id="ÄUSSERST_KEIN_VERB" name="'äußerst' kein Verb">
+        <pattern>
+            <token postag="VER.*|PRP.*" postag_regexp="yes">
+                <exception postag="ADV.*" postag_regexp="yes" />
+            </token>
+            <marker>
+                <token case_sensitive="yes" regexp="yes">äu(ss|ß)erst</token>
+            </marker>
+            <token postag="ADJ:PRD:GRU" />
+        </pattern>
+        <disambig action="remove" postag="VER.*"/>
+    </rule>
+
+    <rule id="DENN_EIG" name="denn's kein Adverb">
+        <pattern>
+            <marker>
+                <token>denn</token>
+            </marker>
+            <token spacebefore="no" regexp="yes">&apostrophe;</token>
+            <token spacebefore="no">s</token>
+        </pattern>
+        <disambig action="remove" postag="ADV.*|KON.*"/>
+    </rule>
+
+    <rule id="SMART_SPEAKER" name="'Smart' kein Adjektiv">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Smart</token>
+            </marker>
+            <token regexp="yes">Speaker[sn]?|Homes?|For.*|Citys?|Roadster[sn]?|Meter[sn]?</token>
+        </pattern>
+        <disambig action="remove" postag="ADJ.*"/>
+    </rule>
+
+    <rule name="Gruner und Jahr" id="GRUNER_UND_JAHR">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Gruner|GRUNER</token>
+            <token regexp="yes">UND|und|&amp;|\+</token>
+            <token regexp="yes">Jahr|JAHR</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="KU_DAMM" name="Ku'damm">
+        <pattern case_sensitive="yes">
+            <token>Ku</token>
+            <token regexp="yes">['’]</token>
+            <token>damm</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="NACH_WIE_VOR" name="nach wie vor ('vor' keine Präposition)">
+        <pattern>
+            <token>nach</token>
+            <token>wie</token>
+            <marker>
+                <token>vor</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(PRP|ZUS).*" />
+    </rule>
+
+    <rulegroup id="SEGELT_EINHAND" name="Er segelt einhand (ignore spelling)">
+        <!-- https://de.wikipedia.org/wiki/Einhandsegeln -->
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes" skip="-1">(um)?segeln</token>
+                <marker>
+                    <token case_sensitive="yes">einhand</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes" skip="-1">einhand</token>
+                </marker>
+                <token inflected="yes" regexp="yes">(um)?segeln</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
+    <rule id="EINE_KEIN_VERB" name="'eine' kein Verb in 'eine der besten'">
+        <pattern>
+            <marker>
+                <token regexp="yes">einen?</token>
+            </marker>
+            <token>der</token>
+            <token min="0">am</token>
+            <token regexp="yes" postag="ADJ.*SUP.*" postag_regexp="yes">.+sten</token>
+        </pattern>
+        <disambig action="remove" postag="VER.*" />
+    </rule>
+    <rule id="RECHT_KEIN_VERB" name="'eine' kein Verb in 'eine der besten'">
+        <antipattern>
+            <token skip="6" regexp="yes">er|sie|ihr|bitte</token>
+            <token>recht</token>
+        </antipattern>
+        <antipattern>
+            <token skip="6">recht</token>
+            <token regexp="yes">er|sie|ihr</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">recht</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER.*" />
+    </rule>
+
+    <rule id="IN_UND_AUSWENDIG" name="ignore spelling of 'in-'">
+        <pattern>
+            <marker>
+                <token>in-</token>
+            </marker>
+            <token regexp="yes">und|&amp;</token>
+            <token regexp="yes">auswendig.*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="DICHTE_KEIN_ADJ" name="Nomen mit 'Dichte' am ende">
+        <pattern>
+            <token case_sensitive="yes" regexp="yes" postag="SUB.+ADJ" postag_regexp="yes">[A-ZÄÖÜ].+dichten?</token>
+        </pattern>
+        <disambig action="remove" postag="SUB.+ADJ" />
+    </rule>
+
+     <rule id="IN_VITRO_NO_PREPOSITION" name="in vitro (in = keine Präposition)">
+        <pattern>
+            <marker>
+                <token>in</token>
+            </marker>
+            <token>vitro</token>
+        </pattern>
+        <disambig action="remove" postag="PRP.*" />
+    </rule>
+
+    <rule id="PRAIA_DA" name="ignore spelling of 'Praia da Luz'">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Praia</token>
+                <token regexp="yes">d[oa]</token>
+                <token regexp="yes">[A-Z].+</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="RÄTSEL-" name="ignore spelling of '(Rätsel-)Spaß'"> <!--TEST - LT marks 'Rätsel-' as a typo when in brackets-->
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>(</token>
+                <token>Rätsel-</token>
+                <token>)</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="NUMMER_TLG" name="ignore spelling of '2-tlg.'">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">\d+-(tlg|TLG)</token>
+            <token>.</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rulegroup id="OCH_IGNORE_SPELLING" name="ignore spelling of 'och'">
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Oo]ch</token>
+                </marker>
+                <token>man</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START" />
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Oo]ch</token>
+                </marker>
+                <token>,</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>:</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Oo]ch</token>
+                </marker>
+                <token>,</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">&anfauf;</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes" spacebefore="no">[Oo]ch</token>
+                </marker>
+                <token>,</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
+
+    <rule id="INTER_NATIONAL" name="ignore spelling of (inter)national">
+        <pattern>
+            <token>(</token>
+            <marker>
+                <token regexp="yes">inter|multi</token>
+            </marker>
+            <token>)</token>
+            <token regexp="yes">national.*</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="DEUTSCHE_HAERTE_IGNORE_SPELLING" name="ignore spelling of 'dH'">
+        <!-- https://de.wikipedia.org/wiki/Wasserh%C3%A4rte -->
+        <pattern>
+            <token case_sensitive="yes" regexp="yes">°?dH</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="EIGTL_ABK" name="ignore spelling of 'eigtl'">
+        <pattern>
+            <token postag="SENT_START" />
+            <marker>
+                <token case_sensitive="yes">Eigtl</token>
+            </marker>
+            <token spacebefore="no">.</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="HOLST_KEIN_VERB" name="'Holst' kein Verb">
+        <!-- https://de.wikipedia.org/wiki/Holst_(Familienname) -->
+        <!-- https://de.wikipedia.org/wiki/Holt -->
+        <antipattern>
+            <token>du</token>
+            <token>holst</token>
+        </antipattern>
+        <antipattern>
+            <token>holst</token>
+            <token>du</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">er|sie|es|das|dieses</token>
+            <token>holt</token>
+        </antipattern>
+        <antipattern>
+            <token>holt</token>
+            <token regexp="yes">er|sie|es|das|dieses</token>
+        </antipattern>
+        <antipattern>
+            <token postag="SENT_START" />
+            <token regexp="yes">hols?t</token>
+        </antipattern>
+        <antipattern>
+            <token>:</token>
+            <token regexp="yes">hols?t</token>
+        </antipattern>
+        <pattern>
+            <token case_sensitive="yes" regexp="yes">Hols?t</token>
+        </pattern>
+        <disambig action="remove" postag="EIG.*" />
+    </rule>
+
+    <rulegroup id="LAS_KEIN_VERB" name="'Las' kein Verb">
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Las</token>
+                </marker>
+                <token regexp="yes">(Palmas|Vegas|Flores|Juntas|Nieves|Olas|Piedras).*</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Las</token>
+                </marker>
+                <token regexp="yes" case_sensitive="yes" postag="UNKNOWN">[A-Z][a-z].*</token>
+            </pattern>
+            <disambig action="remove" postag="VER.*" />
+        </rule>
+    </rulegroup>
+
+    <rule id="IGNORE_2ND_LEVEL_SUPPORT" name="ignore '2nd-Level-Support'">
+        <pattern>
+            <token regexp="yes" case_sensitive="yes">(1st|First|2nd|Second|3rd|Third)-Level-(Kundensupport|Support)s?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_LEGAL_PARAGRAPHS" name="ignore paragraph numbers 'Absatz 2aa'">
+        <pattern>
+            <token regexp="yes">.*(Absatz|Absätzen?|Paragra(ph|f)(en)?|Artikels?)</token>
+            <marker>
+                <token regexp="yes">\d{1,2}[abcdef]{2}</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_UPPERCASED_UNDERSCORED_WORDS" name="ignore words like ">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">[A-Z0-9]+</token>
+            <token>_</token>
+            <token regexp="yes">[A-Z0-9]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_FUCK" name="ignore spelling of 'fuck'">
+        <!-- "Du fuckst mich ab" -->
+        <pattern>
+            <token regexp="yes" skip="8">fucks?t|fuckte?|fucken</token>
+            <token case_sensitive="yes">ab</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
     </rule>
 </rules>

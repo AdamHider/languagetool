@@ -320,6 +320,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (!isMisspelled(speller1, word) && !isProhibited(word)) {
       return ruleMatches;
     }
+
+    if (ignorePotentiallyMisspelledWord(word)) {
+      return ruleMatches;
+    }
     
     //the current word is already dealt with in the previous match, so do nothing
     if (ruleMatchesSoFar.size() > 0 && ruleMatchesSoFar.get(ruleMatchesSoFar.size() - 1).getToPos() > startPos) {
@@ -485,7 +489,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (!mStartsWithNumbersBulletsExceptions.matches()) {
         firstPart = mStartsWithNumbersBullets.group(1);
         secondPart = mStartsWithNumbersBullets.group(2);
-        if ((!isMisspelled(speller1, secondPart) || isIgnoredNoCase(secondPart)) && !isProhibited(secondPart)) {
+        List<String> secondPartTokens = this.language.getWordTokenizer().tokenize(secondPart);
+        boolean multitokenIsMisspeled = secondPartTokens.stream().anyMatch(str -> isMisspelled(speller1, str));;
+        if ((!multitokenIsMisspeled || isIgnoredNoCase(secondPart)) && !isProhibited(secondPart)) {
           ruleMatch.addSuggestedReplacement(firstPart + " " + secondPart);
           preventFurtherSuggestions = true;
         } else {

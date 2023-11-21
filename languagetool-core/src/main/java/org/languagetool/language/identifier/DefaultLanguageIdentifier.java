@@ -302,7 +302,30 @@ public class DefaultLanguageIdentifier extends LanguageIdentifier {
         source += "+fallbackToPrefLang";
         return new DetectedLanguage(null, Languages.getLanguageForShortCode(preferredLangs.get(0)), 0.1f, source);
       }
-      return null;
+    }
+    if (detectedLanguages.isEmpty() && !preferredLangs.isEmpty() &&
+      preferredLangs.get(0) != null &&
+      !preferredLangs.get(0).trim().isEmpty() &&
+      Languages.isLanguageSupported(preferredLangs.get(0))) {
+      source += "+fallbackToPrefLang";
+      detectedLanguages.add(new DetectedLanguage(null, Languages.getLanguageForShortCode(preferredLangs.get(0)), 0.1f, source));
+    }
+    return detectedLanguages;
+  }
+
+  private void reinitFasttextAfterFailure(Exception e) {
+    if (fastTextDetector != null) {
+      int newCounter = fasttextInitCounter.incrementAndGet();
+        try {
+          boolean wasRestarted = fastTextDetector.restartProcess();
+          if (wasRestarted) {
+            logger.debug("Fasttext was new initialized after failure {}", newCounter);
+          } else {
+            fasttextInitCounter.decrementAndGet();
+          }
+        } catch (IOException ex) {
+          logger.warn("Restarting fasttext failed {}", newCounter);
+        }
     }
   }
 

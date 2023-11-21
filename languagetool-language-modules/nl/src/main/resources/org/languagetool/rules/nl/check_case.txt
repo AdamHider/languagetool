@@ -21,6 +21,8 @@ Ardense hesp
 Ave Maria
 Costa Ricaan
 Costa Ricaans
+creool
+creolen
 Dolle Mina
 Don Juan
 Don Quichot
@@ -252,8 +254,6 @@ Arabische Lente
 schepen van Financiën
 staatssecretaris van Financiën
 ir.
-mr.
-ing.
 drs.
 wifi
 hifi
@@ -428,3 +428,169 @@ Verdrag van Amsterdam
 Verdrag van Nice
 Kralingse Bos
 Beroepsorganisatie Nederlandse Ontwerpers
+Edward van de Vendel
+Vadertje Tijd
+opa=Hier is de hoofdletter niet nodig, behalve aan het begin van de zin.
+oma=Hier is de hoofdletter niet nodig, behalve aan het begin van de zin.
+tante=Hier is de hoofdletter niet nodig, behalve aan het begin van de zin.
+oom=Hier is de hoofdletter niet nodig, behalve aan het begin van de zin.
+mama=Hier is de hoofdletter niet nodig, behalve aan het begin van de zin.
+papa=Hier is de hoofdletter niet nodig, behalve aan het begin van de zin.
+moeder=Hier is de hoofdletter niet nodig, behalve aan het begin van de zin.
+koningin=Hier is de hoofdletter niet nodig, behalve aan het begin van de zin.
+wifi=Dit schrijf je met kleine letters, behalve aan het begin van de zin.
+gemeente=Dit schrijf je met kleine letters, behalve aan het begin van de zin.
+soa=Dit schrijf je met kleine letters, behalve aan het begin van de zin.
+Den Haag
+euro=Munteenheden schrijf je met kleine letters, behalve aan het begin van de zin.
+euro's=Munteenheden schrijf je met kleine letters, behalve aan het begin van de zin.
+algemene voorwaarden
+VvE=Dit is de gebruikelijkste schrijfwijze.
+3D
+Wilde Westen
+Radio 1
+Open Monumentendag
+staatssecretaris
+Van Dale
+Dikke Van Dale
+middeleeuwen
+voortgezet onderwijs
+overheid
+harte gefeliciteerd
+feng shui
+pc=De afkorting van personal computer hoort zonder hoofdletters.
+wc=Het toilet schrijf je zonder hoofdletters.
+apk=Deze afkorting hoort zonder hoofdletters.
+ozb=Deze afkorting hoort zonder hoofdletters.
+ufo=Deze afkorting hoort zonder hoofdletters.
+pd=De plaats delict is zonder hoofdletter, de afkorting ook.
+islam
+hsl=Deze afkorting hoort zonder hoofdletters
+jr=Als je junior afkort is het geen naam, en daarom heeft het geen hoofdletter.
+ov=Deze afkorting hoort zonder hoofdletters
+medewerker (M/V)
+bso=Deze afkorting hoort zonder hoofdletters
+open source
+mdf=Deze afkorting hoort zonder hoofdletters
+earl grey
+hrm=Deze afkorting hoort zonder hoofdletters
+Amerikaans
+Amerikaanse
+havo=Schooltypen hebben geen hoofdletters.
+vwo=Schooltypen hebben geen hoofdletters.
+mbo=Schooltypen hebben geen hoofdletters.
+vmbo=Schooltypen hebben geen hoofdletters.
+mavo=Schooltypen hebben geen hoofdletters.
+lts=Schooltypen hebben geen hoofdletters.
+hbs=Schooltypen hebben geen hoofdletters.
+hts=schooltypen hebben geen hoofdletters.
+lbo=schooltypen hebben geen hoofdletters.
+bbl
+bbl-opleiding
+pdf=Hoofdletters zijn ongebruikelijk bij bestandstypen.
+allium
+pk=Deze afkorting hoort zonder hoofdletters.
+geen christen
+een christen
+januari
+februari
+maart
+juni
+juli
+september
+oktober
+november
+ecg=Deze afkorting hoort zonder hoofdletters.
+een christelijke
+Ronald McDonald Huis
+de kerk
+bluetooth=Dit hoort zonder hoofdletter, behalve aan het begin van de zin.
+Indonesisch
+Indonesische
+gps=Deze afkorting hoort zonder hoofdletters.
+christendom
+gemeentehuis
+intensive care
+De Telegraaf
+katholieke
+katholiek
+gsm=Deze afkorting hoort zonder hoofdletters.
+sms=Deze afkorting hoort zonder hoofdletters.
+pgb=Het persoonsgebonden budget mag zonder hoofdletters.
+zzp=Deze afkorting hoort zonder hoofdletters.
+zzp'ers=Deze afkorting hoort zonder hoofdletters.
+zzp'er=Deze afkorting hoort zonder hoofdletters.
+sp.a
+vrijmetselarij
+renaissance
+sinterklaasfeest
+rijksmonument
+Korps Landelijke Politiediensten
+lcd=Deze afkorting hoort zonder hoofdletters.
+hr-manager
+hr-afdeling
+hr-team
+mkb'er=Deze afkorting hoort zonder hoofdletters.
+naw-gegevens
+hbo-opleiding
+hr-medewerker
+high tea
+csv-bestand
+btw-aangifte
+aloë vera=Plantensoorten hebben geen hoofdletter.
+cv-ketel
+sociale media
+alv
+het ov
+a tot z
+SnowWorld
+KvK
+API
+crème brûlée
+b2b=Deze term hoort zonder hoofdletters.
+vip=Deze afkorting hoort zonder hoofdletters.
+tbs=Deze afkorting hoort zonder hoofdletters.
+mkb=De afkorting voor midden- en kleinbedrijf hoort zonder hoofdletters.
+publieke omroep
+bonte specht
+e-mail
+world wide web
+e-bike
+koninklijk besluit
+de koninklijke familie
+lp
+cd
+dvd
+gsm
+2cv
+moslim
+moslims
+christenen
+carnaval
+new age
+pr=Als dit voor public relations staat, hoort het met kleine letters
+gft=Deze afkorting hoort zonder hoofdletters.
+islamitische
+islamitisch
+kabinet
+mulo
+pabo
+pvc=Deze afkorting hoort zonder hoofdletters.
+kerstbal
+kerstcadeau
+kerstengel
+kerstkaart
+kerstrapport
+kerstspel
+kerstvakantie
+Kerstmis
+oud en nieuw
+open huis
+high tea
+psalm
+dag des oordeels
+paasei
+personal trainer
+pinksterdag
+homo sapiens
+xtc

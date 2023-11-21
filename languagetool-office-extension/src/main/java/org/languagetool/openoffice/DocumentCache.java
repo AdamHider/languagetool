@@ -157,22 +157,19 @@ public class DocumentCache implements Serializable {
       MessageHandler.printToLogFile("DocumentCache:refresh: isReset == true: return");
       return;
     }
-//    MessageHandler.printToLogFile("DocumentCache: refresh: Number waiting: " + rwLock.getQueueLength());
-//    MessageHandler.printToLogFile("DocumentCache: refresh: " + rwLock.getWriteHoldCount() + " writer is writing: "+ Thread.currentThread().getName());
-    rwLock.writeLock().lock();
+    isReset = true;
     try {
-      isReset = true;
       if (debugMode) {
         MessageHandler.printToLogFile("DocumentCache: refresh: Called from: " + fromWhere);
       }
       if (docType != DocumentType.WRITER) {
         refreshImpressCalcCache(xComponent);
       } else {
-        refreshWriterCache(docCursor, flatPara, fixedLocale, docLocale, fromWhere);
+        refreshWriterCache(document, fixedLocale, docLocale, fromWhere);
       }
-      isReset = false;
+      setSingleParagraphsCacheToNull(document.getParagraphsCache());
     } finally {
-      rwLock.writeLock().unlock();
+      isReset = false;
     }
   }
 
@@ -1026,7 +1023,7 @@ public class DocumentCache implements Serializable {
         if (locales.get(n).Language.equals(OfficeTools.IGNORE_LANGUAGE)) {
           return true;
         }
-        TextParagraph tPara = getNumberOfTextParagraph(n);
+        TextParagraph tPara = toTextMapping.get(n);
         if (tPara.type == CURSOR_TYPE_TEXT && automaticParagraphs.contains(tPara.number)) {
           return true;
         }
@@ -1557,6 +1554,126 @@ public class DocumentCache implements Serializable {
 
   public TextParagraph createTextParagraph(int type, int paragraph) {
     return new TextParagraph(type, paragraph);
+  }
+  
+  /**
+   * Refresh the cache and compare with the old
+   * Give back the range of difference and size
+   */
+  public ChangedRange refreshAndCompare(SingleDocument document, Locale fixedLocale, Locale docLocale, XComponent xComponent, int fromWhere) {
+    DocumentCache oldCache = new DocumentCache(this);
+    refresh(document, fixedLocale, docLocale, xComponent, fromWhere);
+    rwLock.readLock().lock();
+    try {
+      if (paragraphs == null || paragraphs.isEmpty() || oldCache.paragraphs == null || oldCache.paragraphs.isEmpty()) {
+        return null;
+      }
+      int from = 0;
+      int to = 1;
+      // to prevent spontaneous recheck of nearly the whole text
+      // the change of text contents has to be checked, if the size of CURSOR_TYPE_HEADER_FOOTER has not changed
+      // ignore headers and footers and the change of function inside of them
+      if (oldCache.toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size() != toParaMapping.get(CURSOR_TYPE_HEADER_FOOTER).size()) {
+        while (from < paragraphs.size() && from < oldCache.paragraphs.size()
+            && (toTextMapping.get(from).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
+            || paragraphs.get(from).equals(oldCache.paragraphs.get(from)))) {
+          from++;
+        }
+        while (to <= paragraphs.size() && to <= oldCache.paragraphs.size()
+            && (toTextMapping.get(paragraphs.size() - to).type != DocumentCache.CURSOR_TYPE_HEADER_FOOTER
+            || paragraphs.get(paragraphs.size() - to).equals(
+                oldCache.paragraphs.get(oldCache.paragraphs.size() - to)))) {
+          to++;
+        }
+      } else {
+        while (from < paragraphs.size() && from < oldCache.paragraphs.size()
+            && (toTextMapping.get(from).type == CURSOR_TYPE_HEADER_FOOTER
+            || paragraphs.get(from).equals(oldCache.paragraphs.get(from)))) {
+          from++;
+        }
+        while (to <= paragraphs.size() && to <= oldCache.paragraphs.size()
+            && (toTextMapping.get(paragraphs.size() - to).type == DocumentCache.CURSOR_TYPE_HEADER_FOOTER
+            || paragraphs.get(paragraphs.size() - to).equals(
+                    oldCache.paragraphs.get(oldCache.paragraphs.size() - to)))) {
+          to++;
+        }
+      }
+      to = paragraphs.size() - to + 1;
+      if (to < from) {
+        to = from;
+      }
+      return new ChangedRange(from, to, oldCache.paragraphs.size(), paragraphs.size());
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+  
+  /**
+   * has nearest paragraph changed
+   *//*
+  public boolean nearestParagraphHasChanged(int numberOfFlatParagraph, FlatParagraphTools flatPara) {
+    if (flatPara == null || numberOfFlatParagraph < 0 || numberOfFlatParagraph > paragraphs.size() - 1) {
+      return true;
+    }
+    if (paragraphs.size() == 1) {
+      return false;
+    }
+    int pNum = numberOfFlatParagraph == paragraphs.size() - 1 ? numberOfFlatParagraph - 1 : numberOfFlatParagraph + 1;
+    if (!flatPara.getFlatParagraphAt(pNum).getText().equals(paragraphs.get(pNum))) {
+      return true;
+    }
+    return false;
+  }
+*/
+  /**
+   * Get Map of Headings (only cursor type text)
+   */
+  public Map<Integer, Integer> getHeadingMap() {
+    return headingMap;
+  }
+  
+  /**
+   * Return nearest sorted text Id
+   */
+  public int getNearestSortedTextId(int sortedTextId) {
+    rwLock.readLock().lock();
+    try {
+      if (sortedTextIds == null) {
+        return -1;
+      }
+      for (int i = 0; i < sortedTextIds.size(); i++) {
+        if (sortedTextIds.get(i) == sortedTextId) {
+          if (i == sortedTextIds.size() - 1) {
+            return sortedTextIds.get(i - 1);
+          } else {
+            return sortedTextIds.get(i + 1);
+          }
+        }
+      }
+      return -1;
+    } finally {
+      rwLock.readLock().unlock();
+    }
+  }
+  
+  /**
+   * Return Number of flat Paragraph from node index
+   */
+  public int getFlatparagraphFromSortedTextId(int sortedTextId) {
+    rwLock.readLock().lock();
+    try {
+      if (sortedTextIds == null) {
+        return -1;
+      }
+      for (int i = 0; i < sortedTextIds.size(); i++) {
+        if (sortedTextIds.get(i) == sortedTextId) {
+          return i;
+        }
+      }
+      return -1;
+    } finally {
+      rwLock.readLock().unlock();
+    }
   }
 
   static class TextParagraph implements Serializable {

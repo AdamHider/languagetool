@@ -103,6 +103,44 @@ class CheckRequestAnalysis {
   }
   
   /**
+   * get number of paragraph from node index
+   */
+  int getNumberOfParagraphFromSortedTextId(int sortedTextId, int documentElementsCount, String paraText, Locale locale, int[] footnotePosition) {
+    //  test if doc cache has changed --> actualize
+    if (proofInfo != OfficeTools.PROOFINFO_GET_PROOFRESULT && !docCache.isActual(documentElementsCount)) {
+//      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
+      handleCacheChanges();
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("CheckRequestAnalyzes: getNumberOfParagraphFromSortedTextId: cache actualized, documentElementsCount: " + documentElementsCount);
+      }
+    }
+    int paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
+    //  if number of paragraph < 0 --> actualize doc cache and try again
+//    if (paraNum < 0 || docCache.nearestParagraphHasChanged(paraNum, singleDocument.getFlatParagraphTools())) {
+    if (paraNum < 0) {
+//      singleDocument.getFlatParagraphTools().resetFlatParagraphsAndGetCurNum(true);
+      handleCacheChanges();
+      paraNum = docCache.getFlatparagraphFromSortedTextId(sortedTextId);
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("CheckRequestAnalyzes: getNumberOfParagraphFromSortedTextId: paraNum < 0 " + 
+              " --> cache actualized, new paraNum: " + paraNum);
+      }
+    }
+    if (proofInfo != OfficeTools.PROOFINFO_GET_PROOFRESULT && paraNum >= 0) {
+      //  test if paragraph has changed --> actualize all caches for single paragraph
+      TextParagraph tPara = docCache.getNumberOfTextParagraph(paraNum);
+      DocumentCursorTools docCursor = singleDocument.getDocumentCursorTools();
+      List<Integer> deletedChars = docCursor.getDeletedCharactersOfTextParagraph(tPara);
+      
+      if (!docCache.isEqual(paraNum, paraText, locale, deletedChars)) {
+//        singleDocument.getFlatParagraphTools().getFlatParagraphAt(paraNum);
+        handleChangedPara(paraNum, paraText, locale, footnotePosition, deletedChars);
+      }
+    }
+    return paraNum;
+  }
+  
+  /**
    * get number of paragraph
    */
   int getNumberOfParagraph(int nPara, String chPara, Locale locale, int startPos, int[] footnotePositions) {
@@ -717,6 +755,62 @@ class CheckRequestAnalysis {
       }
     }
     return -1;
+  }
+
+  /**
+   * Handle the changed document cache
+   * adjust the result cache to changes
+   */
+  private boolean handleCacheChanges() {
+    if (useQueue && mDocHandler.getTextLevelCheckQueue() != null) {
+      mDocHandler.getTextLevelCheckQueue().interruptCheck(docID, true);
+    }
+    ChangedRange changed = docCache.refreshAndCompare(singleDocument, LinguisticServices.getLocale(fixedLanguage), 
+        LinguisticServices.getLocale(docLanguage), xComponent, 5);
+    if (changed == null || isDisposed()) {
+      return false;
+    }
+    changeFrom = changed.from - numParasToChange;
+    changeTo = changed.to + numParasToChange;
+    singleDocument.removeAndShiftIgnoredMatch(changed.from, changed.to, changed.oldSize, changed.newSize);
+    if (debugMode > 0) {
+      MessageHandler.printToLogFile("CheckRequestAnalysis: handleCacheChanges: Changed paragraphs: from:" + changed.from + ", to: " + changed.to);
+    }
+    if(!isDisposed()) {
+      for (ResultCache cache : paragraphsCache) {
+        cache.removeAndShift(changed.from, changed.to, changed.oldSize, changed.newSize);
+      }
+      if (useQueue) {
+        if (debugMode > 0) {
+          MessageHandler.printToLogFile("CheckRequestAnalysis: handleCacheChanges: Number of Paragraphs has changed: new: " + changed.newSize 
+          + ",  old: " + changed.oldSize + ", docID: " + docID);
+          if (changed.to - changed.from > 1) {
+            MessageHandler.printToLogFile("CheckRequestAnalysis: handleCacheChanges: Number of Paragraphs has changed: Difference from " 
+                + changed.from + " to " + changed.to);
+            MessageHandler.printToLogFile("CheckRequestAnalysis: handleCacheChanges: Old Cache size: " + changed.oldSize);
+            MessageHandler.printToLogFile("CheckRequestAnalysis: handleCacheChanges: new docCache(from): '" 
+                + docCache.getFlatParagraph(changed.from) + "'");
+          }
+        }
+        for (int i = 0; i < minToCheckPara.size(); i++) {
+          if (minToCheckPara.get(i) != 0) {
+            if (changed.newSize - changed.oldSize > 0) {
+              for (int n = changed.from; n < changed.to; n++) {
+                docCache.setSingleParagraphsCacheToNull(n, paragraphsCache);
+                singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, true);
+              }
+            } else if (changed.newSize - changed.oldSize < 0) {
+              for (int n = changed.from; n < changed.from + 1; n++) {
+                docCache.setSingleParagraphsCacheToNull(n, paragraphsCache);
+                singleDocument.addQueueEntry(n, i, minToCheckPara.get(i), docID, true);
+              }
+            }
+          }
+        }
+        mDocHandler.getTextLevelCheckQueue().wakeupQueue(docID);;
+      }
+    }
+    return true;
   }
   
   /**
